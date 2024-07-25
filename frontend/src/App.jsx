@@ -7,6 +7,9 @@ import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import SignIn from "./pages/SignIn";
+import StudentProfile from "./pages/studentProfile";
+import TeacherProfile from "./pages/TeacherProfile";
+import AdminProfile from "./pages/AdminProfile";
 
 
 const router = createBrowserRouter([
@@ -67,6 +70,36 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <SignIn />,
+      },
+    ],
+  },
+  {
+    path: "/student_profile",
+    // element: <BaseLayout />,
+    children: [
+      {
+        index: true,
+        element: <StudentProfile />,
+      },
+    ],
+  },
+  {
+    path: "/teacher_profile",
+    // element: <BaseLayout />,
+    children: [
+      {
+        index: true,
+        element: <TeacherProfile />,
+      },
+    ],
+  },
+  {
+    path: "/admin_profile",
+    // element: <BaseLayout />,
+    children: [
+      {
+        index: true,
+        element: <AdminProfile />,
       },
     ],
   },

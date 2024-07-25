@@ -2,10 +2,10 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="bg-pink-500 h-1/2 flex flex-col">
       
       
-      <footer className="bg-pink-500 p-4 text-center text-black">
+      <footer className=" p-4 text-center text-black">
         <div className="mb-4">
           <h2 className="text-xl font-bold text-blue-950">Contact Us</h2>
           <br />

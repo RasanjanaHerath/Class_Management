@@ -1,6 +1,7 @@
 import React from 'react';
 import homePageImage from '../assets/homePageImage.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useNavigate } from 'react-router-dom';
 
 const features = [
   {
@@ -56,6 +57,18 @@ const categories = [
 ];
 
 const Home = () => {
+
+  const navigate  = useNavigate()
+  
+  const handleSignin = ()=>{
+    navigate('/signin')
+  }
+
+  const handleLogin = ()=>{
+    navigate('/login')
+  }
+
+
   return (
     <div className="grid grid-cols-1 bg-gray-100 min-h-screen">
       <main className="flex flex-col items-center justify-center text-center py-16 px-8">
@@ -72,6 +85,7 @@ const Home = () => {
                 <button
                   className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition transform hover:scale-105"
                   style={{ minWidth: '140px', lineHeight: '36px', letterSpacing: '.3px' }}
+                  onClick={handleSignin}
                 >
                   Sign In
                 </button>
@@ -80,6 +94,7 @@ const Home = () => {
                 <button
                   className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition transform hover:scale-105"
                   style={{ minWidth: '140px', lineHeight: '36px', letterSpacing: '.3px' }}
+                  onClick={handleLogin}
                 >
                   Login
                 </button>

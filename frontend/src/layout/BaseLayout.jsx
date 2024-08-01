@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import NavBar from '../component/NavBar';
 import Footer from '../component/Footer';
 import { useLocation } from 'react-router-dom';
-import Sidebar from '../pages/teacher_profile/SideBar';
+// import Sidebar from '../pages/teacher_profile/SideBar';
 
 const BaseLayout = () => {
 
@@ -77,12 +77,12 @@ const BaseLayout = () => {
 
   {/* Main content and sidebar container */}
   <div className="flex flex-1 overflow-hidden">
-    {/* Sidebar - Conditional Rendering */}
+    {/* Sidebar - Conditional Rendering
     {isTeacherProfilePage && (
       <div className="w-64 fixed top-16 left-0 bottom-0 bg-white shadow-xl z-10">
         <Sidebar />
       </div>
-    )}
+    )} */}
 
     {/* Main Content Area */}
     <div

@@ -13,7 +13,7 @@ const Login = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.email) newErrors.email = 'Email is required';
+     if (!formData.email) newErrors.email = 'Email is required';
     if (!formData.password) newErrors.password = 'Password is required';
     if (!formData.termsAccepted) newErrors.termsAccepted = 'You must accept the terms and conditions';
     return newErrors;

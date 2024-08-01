@@ -8,7 +8,7 @@ import Login from "./pages/Login";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import SignIn from "./pages/SignIn";
 import StudentProfile from "./pages/studentProfile";
-import TeacherProfile from "./pages/TeacherProfile";
+import TeacherProfile from "./pages/teacher_profile/TeacherProfile";
 import AdminProfile from "./pages/AdminProfile";
 
 
@@ -85,7 +85,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/teacher_profile",
-    // element: <BaseLayout />,
+    element: <BaseLayout />,
     children: [
       {
         index: true,
@@ -104,6 +104,7 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
 
 function App() {
   return (

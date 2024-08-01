@@ -1,8 +1,16 @@
 import React from 'react'
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+
+  const navigate  = useNavigate()
+  
+  const handleSignup = ()=>{
+    navigate('/signin')
+  }
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -77,10 +85,8 @@ const Login = () => {
             {errors.termsAccepted && <p className="text-red-500 text-sm">{errors.termsAccepted}</p>}
           </div>
           <div className="flex justify-between">
-            <button type="submit" className="w-1/2 bg-blue-800 text-white py-2 rounded-full hover:bg-blue-900">Login</button>
-            <Link to="/signin" className="w-1/2 ml-4">
-              <button type="button" className="w-full bg-pink-600 text-white py-2 rounded-full hover:bg-pink-700">Sign up</button>
-            </Link>
+              <button type="submit" className="w-1/2 bg-blue-800 text-white py-2 rounded-full hover:bg-blue-900">Login</button>
+            <button type="button" className="w-1/2 bg-pink-600 text-white py-2 rounded-full hover:bg-pink-700" onClick={handleSignup}>Sign up</button> 
           </div>
         </form>
       </div>

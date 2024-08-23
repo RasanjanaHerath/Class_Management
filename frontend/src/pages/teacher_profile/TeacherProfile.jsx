@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartBar, faCreditCard, faUser, faEdit } from '@fortawesome/free-solid-svg-icons';
 import profilePicture from '../../assets/teacher.jpeg'; // Replace with the actual image path
-// import Sidebar from './SideBar';
+import Sidebar from './SideBar';
 
 const TeacherProfile = () => {
   return (

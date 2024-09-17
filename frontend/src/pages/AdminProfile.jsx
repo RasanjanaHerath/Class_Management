@@ -1,53 +1,103 @@
 import React from 'react';
 
-const admin = {
-  name: "Alex Johnson",
-  profilePicture: "https://via.placeholder.com/150",
-  email: "alex.johnson@example.com",
-  phone: "+1 (555) 123-4567",
-  role: "Site Administrator",
-  bio: "Experienced administrator overseeing the management of online education platforms, ensuring smooth operation and user satisfaction.",
-  responsibilities: [
-    "Managing user accounts and permissions",
-    "Overseeing platform maintenance and updates",
-    "Ensuring data security and compliance",
-    "Coordinating with instructors and students",
-    "Handling support queries and troubleshooting",
-  ],
-};
-
-const AdminProfile = () => {
+function Dashboard() {
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-4xl">
-        <div className="flex items-center">
-          <img
-            src={admin.profilePicture}
-            alt="Profile"
-            className="w-32 h-32 rounded-full shadow-md"
-          />
-          <div className="ml-6">
-            <h2 className="text-3xl font-bold text-gray-900">{admin.name}</h2>
-            <p className="text-gray-600">{admin.role}</p>
-            <p className="text-gray-600">{admin.email}</p>
-            <p className="text-gray-600">{admin.phone}</p>
-          </div>
+    <div className="min-h-screen bg-gray-100 flex">
+      {/* Sidebar */}
+      <aside className="w-64 bg-white shadow-md">
+        <div className="px-6 py-4">
+          <h2 className="text-xl font-bold text-gray-800">ClassMaster</h2>
         </div>
-        <div className="mt-6">
-          <h3 className="text-xl font-semibold text-gray-800">About</h3>
-          <p className="text-gray-600 mt-2">{admin.bio}</p>
-        </div>
-        <div className="mt-6">
-          <h3 className="text-xl font-semibold text-gray-800">Responsibilities</h3>
-          <ul className="mt-4 list-disc list-inside">
-            {admin.responsibilities.map((responsibility, index) => (
-              <li key={index} className="text-gray-600">{responsibility}</li>
-            ))}
+        <nav className="mt-10">
+          <ul>
+            <li className="mb-2">
+              <a href="#" className="block py-2 px-4 text-gray-700 hover:bg-gray-200">
+                Dashboard
+              </a>
+            </li>
+            <li className="mb-2">
+              <a href="#" className="block py-2 px-4 text-gray-700 hover:bg-gray-200">
+                Class details
+              </a>
+            </li>
+            <li className="mb-2">
+              <a href="#" className="block py-2 px-4 text-gray-700 hover:bg-gray-200">
+                Teacher details
+              </a>
+            </li>
+            <li className="mb-2">
+              <a href="#" className="block py-2 px-4 text-gray-700 hover:bg-gray-200">
+                Student details
+              </a>
+            </li>
+            <li className="mb-2">
+              <a href="#" className="block py-2 px-4 text-gray-700 hover:bg-gray-200">
+                Payment history
+              </a>
+            </li>
+            <li className="mb-2">
+              <a href="#" className="block py-2 px-4 text-gray-700 hover:bg-gray-200">
+                Analytics and Report
+              </a>
+            </li>
+            <li className="mb-2">
+              <a href="#" className="block py-2 px-4 text-gray-700 hover:bg-gray-200">
+                Notification
+              </a>
+            </li>
+            <li className="mb-2">
+              <a href="#" className="block py-2 px-4 text-gray-700 hover:bg-gray-200">
+                Settings
+              </a>
+            </li> 
           </ul>
-        </div>
-      </div>
+        </nav>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 p-6 bg-white">
+        <header className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">Dashboard</h1>
+          <div className="flex items-center space-x-4">
+            <span className="text-sm font-medium">Admin 123</span>
+            <button className="text-gray-600 hover:text-gray-900">
+              <i className="fas fa-bell"></i>
+            </button>
+            <span className="bg-red-500 rounded-full w-4 h-4"></span>
+          </div>
+        </header>
+
+        <section className="grid grid-cols-3 gap-4 mb-6">
+          <div className="p-4 bg-gray-200 rounded-lg shadow">
+            <h2 className="text-lg font-medium">Classes</h2>
+          </div>
+          <div className="p-4 bg-gray-200 rounded-lg shadow">
+            <h2 className="text-lg font-medium">Teachers</h2>
+          </div>
+          <div className="p-4 bg-gray-200 rounded-lg shadow">
+            <h2 className="text-lg font-medium">Students</h2>
+          </div>
+          <div className="p-4 bg-gray-200 rounded-lg shadow">
+            <h2 className="text-lg font-medium">Ratings</h2>
+          </div>
+          <div className="p-4 bg-gray-200 rounded-lg shadow">
+            <h2 className="text-lg font-medium">Today Income</h2>
+          </div>
+          <div className="p-4 bg-gray-200 rounded-lg shadow">
+            <h2 className="text-lg font-medium">Total Users</h2>
+          </div>
+        </section>
+
+        <section className="bg-white p-6 rounded-lg shadow">
+          <h2 className="text-lg font-medium mb-4">Performance Overview</h2>
+          {/* Insert your chart component here */}
+          <div className="h-64 bg-gray-100"></div>
+        </section>
+      </main>
     </div>
   );
-};
+}
 
-export default AdminProfile;
+export default Dashboard;
+
+

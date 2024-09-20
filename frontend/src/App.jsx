@@ -10,6 +10,7 @@ import SignIn from "./pages/SignIn";
 import StudentProfile from "./pages/studentProfile";
 import TeacherProfile from "./pages/teacher_profile/TeacherProfile";
 import AdminProfile from "./pages/AdminProfile";
+import DrawerLayout from "./layout/DrawerLayout";
 
 
 const router = createBrowserRouter([
@@ -75,7 +76,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/student_profile",
-    // element: <BaseLayout />,
+    element: <DrawerLayout/>,
     children: [
       {
         index: true,
@@ -95,7 +96,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin_profile",
-    // element: <BaseLayout />,
+    element: <DrawerLayout/>,
     children: [
       {
         index: true,

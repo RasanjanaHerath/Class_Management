@@ -1,4 +1,7 @@
 import React from 'react';
+import { FaSearch} from "react-icons/fa";
+import { IoNotificationsCircle } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
 
 function Dashboard() {
   return (
@@ -60,14 +63,15 @@ function Dashboard() {
 >>>>>>> 3e16898 (create frontend of the admin profile)
       {/* Main Content */}
       <main className="flex-1 p-6 bg-white">
-        <header className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Dashboard</h1>
-          <div className="flex items-center space-x-4">
-            <span className="text-sm font-medium">Admin 123</span>
-            <button className="text-gray-600 hover:text-gray-900">
-              <i className="fas fa-bell"></i>
-            </button>
-            <span className="bg-red-500 rounded-full w-4 h-4"></span>
+        <header className="flex justify-between items-center mb-6 bg-white h-14 border-b border-gray-200">
+          <div className="relative">
+            <FaSearch fontSize={20} className="text-gray-400 absolute top-1/2 -translate-y-1/2 left-3"/>
+            <input type="text" placeholder="Search..." className="text-sm focus:outline-none active:outline-none h-10 w-[24rem] border border-gray-300 rounded-sm pl-11 px-4"/>
+
+          </div>
+          <div className="flex items-center gap-2 mr-2 ml-10">
+            <IoNotificationsCircle fontSize={24}/>
+            <CgProfile fontSize={24}/>
           </div>
         </header>
 

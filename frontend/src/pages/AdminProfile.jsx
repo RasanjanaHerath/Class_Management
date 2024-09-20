@@ -3,7 +3,6 @@ import React from 'react';
 function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-100 flex md:ml-64 ml-0">
-      
       {/* Main Content */}
       <main className="flex-1 p-6 bg-white">
         <header className="flex justify-between items-center mb-6">

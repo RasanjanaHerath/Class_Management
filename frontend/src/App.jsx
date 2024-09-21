@@ -119,27 +119,67 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/super_admin_profile",
+    path: "/class_details",
     element: <DrawerLayout/>,
     children: [
       {
         index: true,
-        element: 
-        <SuperAdminProfile />,
+        element: <class_details/>,
       },
     ],
   },
   {
-    path: "/institutes",
+    path: "/teacher_details",
     element: <DrawerLayout/>,
     children: [
       {
         index: true,
-        element: 
-        <Institutes />,
+        element: <teacher_details/>,
       },
     ],
   },
+  {
+    path: "/student_details",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <student_details/>,
+      },
+    ],
+  },
+  {
+    path: "/reports",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <reports/>,
+      },
+    ],
+  },
+  {
+    path: "/notification",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <notification/>,
+      },
+    ],
+  },
+  {
+    path: "/payment_details",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <payment_details/>,
+      },
+    ],
+  },
+  
+
 ]);
 
 

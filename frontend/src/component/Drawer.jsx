@@ -71,33 +71,7 @@ const Drawer = () => {
             </li>
             <li>
               <NavLink
-                to="/super_admin_profile"
-                className={({ isActive }) =>
-                  `py-2 px-4 block hover:bg-gray-700 ${
-                    isActive ? "bg-gray-700" : ""
-                  }`
-                }
-                onClick={toggleDrawer}
-              >
-                Super Admin Dashboard
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/institutes"
-                className={({ isActive }) =>
-                  `py-2 px-4 block hover:bg-gray-700 ${
-                    isActive ? "bg-gray-700" : ""
-                  }`
-                }
-                onClick={toggleDrawer}
-              >
-                Institutes
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/student_profile"
+                to="/class_details"
                 className={({ isActive }) =>
                   `py-2 px-4 block hover:bg-gray-700 ${
                     isActive ? "bg-gray-700" : ""
@@ -111,7 +85,7 @@ const Drawer = () => {
 
             <li>
               <NavLink
-                to="/tenants"
+                to="/teacher_details"
                 className={({ isActive }) =>
                   `py-2 px-4 block hover:bg-gray-700 ${
                     isActive ? "bg-gray-700" : ""
@@ -124,7 +98,7 @@ const Drawer = () => {
             </li>
             <li>
               <NavLink
-                to="/add-property"
+                to="/student_details"
                 className={({ isActive }) =>
                   `py-2 px-4 block hover:bg-gray-700 ${
                     isActive ? "bg-gray-700" : ""
@@ -137,7 +111,7 @@ const Drawer = () => {
             </li>
             <li>
               <NavLink
-                to="/add-property"
+                to="/payment_details"
                 className={({ isActive }) =>
                   `py-2 px-4 block hover:bg-gray-700 ${
                     isActive ? "bg-gray-700" : ""
@@ -150,7 +124,7 @@ const Drawer = () => {
             </li>
             <li>
               <NavLink
-                to="/add-property"
+                to="/reports"
                 className={({ isActive }) =>
                   `py-2 px-4 block hover:bg-gray-700 ${
                     isActive ? "bg-gray-700" : ""
@@ -163,7 +137,7 @@ const Drawer = () => {
             </li>
             <li>
               <NavLink
-                to="/add-property"
+                to="/notification"
                 className={({ isActive }) =>
                   `py-2 px-4 block hover:bg-gray-700 ${
                     isActive ? "bg-gray-700" : ""

@@ -58,7 +58,7 @@ const Drawer = () => {
           <ul className="mt-4">
             <li>
               <NavLink
-                to="/admin_profile"
+                to="/dashboard"
                 className={({ isActive }) =>
                   `py-2 px-4 block hover:bg-gray-700 ${
                     isActive ? "bg-gray-700" : ""

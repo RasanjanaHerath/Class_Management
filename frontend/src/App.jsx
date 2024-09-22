@@ -11,10 +11,14 @@ import StudentProfile from "./pages/studentProfile";
 import TeacherProfile from "./pages/teacher_profile/TeacherProfile";
 import AdminProfile from "./pages/AdminProfile";
 import DrawerLayout from "./layout/DrawerLayout";
+<<<<<<< HEAD
 import SuperAdminProfile from "./pages/SuperAdminProfile/SuperAdminProfile";
 import Institutes from "./pages/SuperAdminProfile/Institutes";
 import Drawer from "./component/Drawer";
 import AdminNotices from "./pages/dashboard_buttons/AdminNotices";
+=======
+import Dashboard from "./pages/AdminProfile";
+>>>>>>> ddac3ab (feat:create right bar mobile responsive)
 
 
 const router = createBrowserRouter([
@@ -178,7 +182,16 @@ const router = createBrowserRouter([
       },
     ],
   },
-  
+  {
+    path: "/dashboard",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <dashboard/>,
+      },
+    ],
+  },
 
 ]);
 

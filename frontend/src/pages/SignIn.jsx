@@ -105,6 +105,25 @@ const SignIn = () => {
               />
               {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
             </div>
+
+            <div className="mb-4">
+            <label className="block text-white">Role:</label>
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              className="w-full px-3 py-2 mt-1 border rounded"
+            >
+              <option value="">Select Role</option>
+              <option value="student">Student</option>
+              <option value="teacher">Teacher</option>
+              <option value="institute">Institute</option>
+            </select>
+            {errors.role && <p className="text-red-500 text-sm">{errors.role}</p>}
+          </div>
+
+
+
             <div className="mb-4 flex items-center">
               <input
                 type="checkbox"

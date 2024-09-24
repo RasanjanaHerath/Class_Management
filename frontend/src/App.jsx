@@ -7,7 +7,7 @@ import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import SignIn from "./pages/SignIn";
-import StudentProfile from "./pages/studentProfile";
+import StudentProfile from "./pages/StudentProfile";
 import TeacherProfile from "./pages/teacher_profile/TeacherProfile";
 import AdminProfile from "./pages/AdminProfile";
 

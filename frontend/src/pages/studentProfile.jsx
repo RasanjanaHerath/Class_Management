@@ -54,9 +54,9 @@ const StudentProfile = () => {
 
   // const [date, setDate] = useState(new Date());
   return (
-    <div className="flex min-h-screen bg-zinc-50 gap-10 p-4">
-      {/* Sidebar */}
-      <div className="w-1/8 bg-gray-200 p-4 flex flex-col gap-8 rounded-lg">
+    <div className="flex min-h-screen bg-zinc-50 gap-10 p-4 md:ml-64 ml-0">
+      {/* Sidebar
+      <div className="w-1/8 bg-gray-200 p-4 flex flex-col gap-8 rounded-lg ">
         <h2 className="text-lg font-bold mb-4">Student Dashboard</h2>
         <Link to="/home" className="mb-4">
           <button className="w-full py-2 px-4 bg-blue-400 text-white rounded-md hover:bg-blue-600">
@@ -101,7 +101,7 @@ const StudentProfile = () => {
             Logout
           </button>
         </Link>
-      </div>
+      </div> */}
 
       {/* Middle Section */}
       <div className="w-3/4 bg-gray-200 p-6 rounded-lg shadow-lg">

@@ -192,6 +192,16 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/notices",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <notices/>,
+      },
+    ],
+  },
 
 ]);
 

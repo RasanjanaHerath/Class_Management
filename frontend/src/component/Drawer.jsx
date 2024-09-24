@@ -150,7 +150,7 @@ const Drawer = () => {
             </li>
             <li>
               <NavLink
-                to="/add-property"
+                to="/notices"
                 className={({ isActive }) =>
                   `py-2 px-4 block hover:bg-gray-700 ${
                     isActive ? "bg-gray-700" : ""

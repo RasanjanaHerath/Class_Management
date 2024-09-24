@@ -2,7 +2,11 @@ import React from 'react'
 
 const class_details = () => {
   return (
-    <div>class_details</div>
+    <div className="md:ml-64 md:mr-64">
+      <p>class_details</p>
+
+
+    </div>
   )
 }
 

@@ -89,42 +89,42 @@ export class UserController {
         }
     };
 
-    // Login function
-    static login = async (req: Request, res: Response) => {
-        const { email, password } = req.body;
-        const userRepository = AppDataSource.getRepository(User);
+    // // Login function
+    // static login = async (req: Request, res: Response) => {
+    //     const { email, password } = req.body;
+    //     const userRepository = AppDataSource.getRepository(User);
 
-        try {
-            // Find the user by first name
-            const user = await userRepository.findOne({ where:{email} });
-            //console.log("User found:", user);
-            if (!user) {
-                return res.status(404).json({ message: "User not found" });
-            }
+    //     try {
+    //         // Find the user by first name
+    //         const user = await userRepository.findOne({ where:{email} });
+    //         //console.log("User found:", user);
+    //         if (!user) {
+    //             return res.status(404).json({ message: "User not found" });
+    //         }
             
-            // Check if password matches
-            const isMatch = await bcrypt.compare(password, user.password);
-            if (!isMatch) {
-                res.status(400).json({ message: "Invalid credentials" });
-                return;
-            }
-            console.log("eafdafdasfd0",process.env.JWT_SECRET)
-            // Generate JWT
-            const token = jwt.sign({ userId: user.id }," process.env.JWT_SECRET ");
-            const userResponse = {
-                id:user.id,
-                email:user.email,
-                firstName:user.firstName, 
-                lastName:user.lastName,
-                userName:user.userName
-            };
-            res.json({user:userResponse, token})  
-            res.status(200).json({ token, message: "Login successful" }); 
-        } catch (error) {
-            console.error("Error during login:", error); // Log the error for debugging
-            res.status(500).json({ message: "Error logging in", error: error.toString() });
-        }
-    };
+    //         // Check if password matches
+    //         const isMatch = await bcrypt.compare(password, user.password);
+    //         if (!isMatch) {
+    //             res.status(400).json({ message: "Invalid credentials" });
+    //             return;
+    //         }
+    //         console.log("eafdafdasfd0",process.env.JWT_SECRET)
+    //         // Generate JWT
+    //         const token = jwt.sign({ userId: user.id }," process.env.JWT_SECRET ");
+    //         const userResponse = {
+    //             id:user.id,
+    //             email:user.email,
+    //             firstName:user.firstName, 
+    //             lastName:user.lastName,
+    //             userName:user.userName
+    //         };
+    //         res.json({user:userResponse, token})  
+    //         res.status(200).json({ token, message: "Login successful" }); 
+    //     } catch (error) {
+    //         console.error("Error during login:", error); // Log the error for debugging
+    //         res.status(500).json({ message: "Error logging in", error: error.toString() });
+    //     }
+    // };
 
     
 }

@@ -11,6 +11,7 @@ import StudentProfile from "./pages/StudentProfile";
 import TeacherProfile from "./pages/teacher_profile/TeacherProfile";
 import AdminProfile from "./pages/AdminProfile";
 import DrawerLayout from "./layout/DrawerLayout";
+import SuperAdminProfile from "./pages/SuperAdminProfile";
 
 
 const router = createBrowserRouter([
@@ -101,6 +102,16 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <AdminProfile />,
+      },
+    ],
+  },
+  {
+    path: "/super_admin_profile",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <SuperAdminProfile />,
       },
     ],
   },

@@ -46,6 +46,7 @@ export class UserController {
             );
             res.status(201).json({ message: "User registered successfully" });
         } catch (error) {
+            console.log(error)
             res.status(500).json({ message: "Error registering user", error });
         }
     };
@@ -108,7 +109,7 @@ export class UserController {
                 res.status(400).json({ message: "Invalid credentials" });
                 return;
             }
-            console.log("eafdafdasfd0",process.env.JWT_SECRET)
+            //console.log("eafdafdasfd0",process.env.JWT_SECRET)
             // Generate JWT
             const token = jwt.sign({ userId: user.id }," process.env.JWT_SECRET ");
             const userResponse = {
@@ -116,10 +117,11 @@ export class UserController {
                 email:user.email,
                 firstName:user.firstName, 
                 lastName:user.lastName,
-                userName:user.userName
+                userName:user.userName,
+                role:user.role
             };
-            res.json({user:userResponse, token})  
-            res.status(200).json({ token, message: "Login successful" }); 
+            //res.json({user:userResponse, token})  
+            res.status(200).json({user:userResponse, token, message: "Login successful" }); 
         } catch (error) {
             console.error("Error during login:", error); // Log the error for debugging
             res.status(500).json({ message: "Error logging in", error: error.toString() });

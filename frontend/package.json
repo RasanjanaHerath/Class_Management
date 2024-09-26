@@ -13,19 +13,13 @@
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
-<<<<<<< HEAD
-    "axios": "^1.7.7",
-    "chart.js": "^4.4.4",
-=======
-<<<<<<< HEAD
+
+
     "chart.js": "^4.4.4",
     "axios": "^1.7.7",
     "dotenv": "^16.4.5",
     "formik": "^2.4.6",
-=======
-    "axios": "^1.7.7",
->>>>>>> 74dcdba (develop SuperAdminDashboard)
->>>>>>> 09c792f (develop SuperAdminDashboard)
+
     "react": "^18.3.1",
     "react-calendar": "^5.0.0",
     "react-chartjs-2": "^5.2.0",

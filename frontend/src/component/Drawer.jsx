@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-
+import logo from '../assets/logo.png';
 
 
 const Drawer = () => {
@@ -12,6 +12,7 @@ const Drawer = () => {
 
   return (
     <div>
+      
       <button className="md:hidden p-4" onClick={toggleDrawer}>
         <svg
           className="w-6 h-6"

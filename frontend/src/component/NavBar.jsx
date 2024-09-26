@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from '../assets/1.png';
+import logo from '../assets/logo_2.png';
 import { Link } from 'react-router-dom';
 
 const NavBar = () => {
@@ -9,7 +9,7 @@ const NavBar = () => {
       <nav className="bg-white shadow-md px-24 py-3.5">
       <div className="container mx-auto flex justify-between items-center p-4">
         <div className="flex items-center">
-          <img src={logo} alt="Logo" className="h-8 w-24 mr-4" />
+          <img src={logo} alt="Logo" className="h-15 w-24 mr-4" />
           <span className="font-bold text-2xl text-blue-800 ">Class Master</span>
         </div>
         <div className="flex space-x-6 ">

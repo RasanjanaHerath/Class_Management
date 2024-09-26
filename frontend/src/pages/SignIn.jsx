@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import logo from '../assets/logo.png';
 
 const SignIn = () => {
 
@@ -38,27 +39,27 @@ const SignIn = () => {
       });
     };
 
-    // const handleSubmit = async (e) => {
-    //   e.preventDefault();
-    // console.log(formData)
-    //   try {
-    //     const response = await axios.post(
-    //       "http://localhost:3000/api/users",
-    //       formData
-    //     );
-    //     console.log(response.data);
-    //     navigate("/login");
-    //     // Handle successful registration here
-    //   } catch (error) {
-    //     console.error(error);
-    //     // Handle errors here
-    //   }
-    // };
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+    console.log(formData)
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/api/users",
+          formData
+        );
+        console.log(response.data);
+        navigate("/login");
+        // Handle successful registration here
+      } catch (error) {
+        console.error(error);
+        // Handle errors here
+      }
+    };
 
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-slate-100 ">
-        <img src="logo-url-here" alt="ClassMaster Logo" className="mb-4" />
         <div className="bg-sky-500 p-8 rounded-lg shadow-md w-full max-w-md hover:bg-blue-500 hover:shadow-2xl transform hover:scale-105 transition duration-300">
+          <img src={logo} alt="ClassMaster Logo" className="mb-4 mx-auto w-20" />
           <h2 className="text-3xl mb-6 text-center text-white">ClassMaster</h2>
           <p className="text-center text-white mb-6">Already have an account? <a href="/login" className="underline">Login</a></p>
           <form onSubmit={handleSubmit}>

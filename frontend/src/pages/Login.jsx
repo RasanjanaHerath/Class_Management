@@ -109,6 +109,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import logo from '../assets/logo.png';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -166,7 +167,7 @@ const Login = () => {
       <ToastContainer />
       <div className="bg-blue-500 p-8 rounded-lg shadow-md w-full max-w-md hover:bg-blue-600 hover:shadow-lg transition-all duration-300">
         <img
-          src="logo-url-here"
+          src={logo}
           alt="ClassMaster Logo"
           className="mb-4 mx-auto w-20"
         />

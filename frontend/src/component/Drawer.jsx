@@ -58,7 +58,7 @@ const Drawer = () => {
           <ul className="mt-4">
             <li>
               <NavLink
-                to="/dashboard"
+                to="/Dashboard"
                 className={({ isActive }) =>
                   `py-2 px-4 block hover:bg-gray-700 ${
                     isActive ? "bg-gray-700" : ""
@@ -148,21 +148,10 @@ const Drawer = () => {
                 Notifications
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/notices"
-                className={({ isActive }) =>
-                  `py-2 px-4 block hover:bg-gray-700 ${
-                    isActive ? "bg-gray-700" : ""
-                  }`
-                }
-                onClick={toggleDrawer}
-              >
-                Notices
-              </NavLink>
-            </li>
           </ul>
           </div>
+
+          
           <ul className="mt-56 flex-1 ">
             <li>
               <NavLink

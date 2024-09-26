@@ -1,14 +1,13 @@
 import React from 'react';
 import NewClass from '../../component/model/NewClass';
-
+import EditClass from '../../component/model/EditClass';
+import DeleteClass from '../../component/model/DeleteClass';
 
 const ClassDetails = () => {
-
-  const users = [
-    { id: 1, username: 'Ved Prakash N', email: 'ved@gmail.com', password: '1234569' },
-    { id: 2, username: 'funda', email: 'funda@gmail.com', password: '1234' },
-    { id: 3, username: 'Funda of WEB IT', email: 'gmail@example.com', password: '123456' },
-    { id: 4, username: 'Ved 2', email: 'ved2@gmail.com', password: '1236' },
+  const classes = [
+    { id: 1, subject: 'Mathematics', batch: 'Batch A', dateTime: 'Monday 10:00 AM', numberOfStudents: 30 },
+    { id: 2, subject: 'Physics', batch: 'Batch B', dateTime: 'Wednesday 2:00 PM', numberOfStudents: 25 },
+    // Add more class data here if needed
   ];
 
   return (
@@ -20,50 +19,44 @@ const ClassDetails = () => {
           className="w-1/3 p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
         />
 
-        {/* <button className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600">
-          New+
-        </button> */}
-        <NewClass/>
-
+        {/* Button to trigger new class modal */}
+        <NewClass />
       </div>
 
       <div className="overflow-x-auto p-6">
-      <table className="min-w-full bg-white border border-gray-300">
-        <thead>
-          <tr>
-            <th className="px-4 py-2 border-b">ID</th>
-            <th className="px-4 py-2 border-b">Username</th>
-            <th className="px-4 py-2 border-b">Email</th>
-            <th className="px-4 py-2 border-b">Password</th>
-            <th className="px-4 py-2 border-b">EDIT</th>
-            <th className="px-4 py-2 border-b">DELETE</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td className="px-4 py-2 border-b">{user.id}</td>
-              <td className="px-4 py-2 border-b">{user.username}</td>
-              <td className="px-4 py-2 border-b">{user.email}</td>
-              <td className="px-4 py-2 border-b">{user.password}</td>
-              <td className="px-4 py-2 border-b">
-                <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                  EDIT
-                </button>
-              </td>
-              <td className="px-4 py-2 border-b">
-                <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-                  DELETE
-                </button>
-              </td>
+        <table className="min-w-full bg-white border border-gray-300">
+          <thead>
+            <tr>
+              <th className="px-4 py-2 border-b">ID</th>
+              <th className="px-4 py-2 border-b">Subject</th>
+              <th className="px-4 py-2 border-b">Batch</th>
+              <th className="px-4 py-2 border-b">Date & Time</th>
+              <th className="px-4 py-2 border-b">Number of Students</th>
+              <th className="px-4 py-2 border-b">EDIT</th>
+              <th className="px-4 py-2 border-b">DELETE</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-
+          </thead>
+          <tbody>
+            {classes.map((classItem) => (
+              <tr key={classItem.id}>
+                <td className="px-4 py-2 border-b">{classItem.id}</td>
+                <td className="px-4 py-2 border-b">{classItem.subject}</td>
+                <td className="px-4 py-2 border-b">{classItem.batch}</td>
+                <td className="px-4 py-2 border-b">{classItem.dateTime}</td>
+                <td className="px-4 py-2 border-b">{classItem.numberOfStudents}</td>
+                <td className="px-4 py-2 border-b">
+                  <EditClass />
+                </td>
+                <td className="px-4 py-2 border-b">
+                  <DeleteClass />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
-}
+};
 
-export default ClassDetails;  
+export default ClassDetails;

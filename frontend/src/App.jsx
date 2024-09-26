@@ -86,7 +86,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/teacher_profile",
-    element: <BaseLayout />,
+    element: <DrawerLayout />,
     children: [
       {
         index: true,

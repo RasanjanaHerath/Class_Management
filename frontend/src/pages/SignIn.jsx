@@ -1,13 +1,19 @@
 import React from 'react'
 import { useState } from 'react';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
+
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
       firstName: '',
       lastName: '',
       email: '',
-      username: '',
+      userName: '',
       password: '',
+      role:'',
       captcha: false,
     });
   
@@ -18,12 +24,12 @@ const SignIn = () => {
       if (!formData.firstName) newErrors.firstName = 'First Name is required';
       if (!formData.lastName) newErrors.lastName = 'Last Name is required';
       if (!formData.email) newErrors.email = 'Email is required';
-      if (!formData.username) newErrors.username = 'Username is required';
+      if (!formData.userName) newErrors.username = 'Username is required';
       if (!formData.password) newErrors.password = 'Password is required';
       if (!formData.captcha) newErrors.captcha = 'Captcha is required';
       return newErrors;
     };
-  
+    
     const handleChange = (e) => {
       const { name, value, type, checked } = e.target;
       setFormData({
@@ -31,18 +37,24 @@ const SignIn = () => {
         [name]: type === 'checkbox' ? checked : value,
       });
     };
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      const newErrors = validateForm();
-      setErrors(newErrors);
-  
-      if (Object.keys(newErrors).length === 0) {
-        
-        console.log('Form submitted successfully:', formData);
-      }
-    };
-  
+
+    // const handleSubmit = async (e) => {
+    //   e.preventDefault();
+    // console.log(formData)
+    //   try {
+    //     const response = await axios.post(
+    //       "http://localhost:3000/api/users",
+    //       formData
+    //     );
+    //     console.log(response.data);
+    //     navigate("/login");
+    //     // Handle successful registration here
+    //   } catch (error) {
+    //     console.error(error);
+    //     // Handle errors here
+    //   }
+    // };
+
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-slate-100 ">
         <img src="logo-url-here" alt="ClassMaster Logo" className="mb-4" />
@@ -105,6 +117,25 @@ const SignIn = () => {
               />
               {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
             </div>
+
+            <div className="mb-4">
+            <label className="block text-white">Role:</label>
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              className="w-full px-3 py-2 mt-1 border rounded"
+            >
+              <option value="">Select Role</option>
+              <option value="student">Student</option>
+              <option value="teacher">Teacher</option>
+              <option value="institute">Institute</option>
+            </select>
+            {errors.role && <p className="text-red-500 text-sm">{errors.role}</p>}
+          </div>
+
+
+
             <div className="mb-4 flex items-center">
               <input
                 type="checkbox"
@@ -123,4 +154,4 @@ const SignIn = () => {
     );
   };
   
-  export default SignIn;
+  export default SignIn;

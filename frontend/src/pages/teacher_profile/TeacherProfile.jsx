@@ -2,12 +2,11 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartBar, faCreditCard, faUser, faEdit } from '@fortawesome/free-solid-svg-icons';
 import profilePicture from '../../assets/teacher.jpeg'; // Replace with the actual image path
-import Sidebar from './SideBar';
 
 const TeacherProfile = () => {
   return (
 
-    <div className="flex flex-col lg:flex-row min-h-screen">
+    <div className="flex flex-col lg:flex-row min-h-screen md:ml-64 ml-0">
 
       <div className="flex-grow p-4">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

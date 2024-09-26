@@ -1,13 +1,20 @@
 import React from 'react'
 import { useState } from 'react';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import logo from '../assets/logo.png';
 
 const SignIn = () => {
+
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
       firstName: '',
       lastName: '',
       email: '',
-      username: '',
+      userName: '',
       password: '',
+      role:'',
       captcha: false,
     });
   
@@ -18,12 +25,12 @@ const SignIn = () => {
       if (!formData.firstName) newErrors.firstName = 'First Name is required';
       if (!formData.lastName) newErrors.lastName = 'Last Name is required';
       if (!formData.email) newErrors.email = 'Email is required';
-      if (!formData.username) newErrors.username = 'Username is required';
+      if (!formData.userName) newErrors.username = 'Username is required';
       if (!formData.password) newErrors.password = 'Password is required';
       if (!formData.captcha) newErrors.captcha = 'Captcha is required';
       return newErrors;
     };
-  
+    
     const handleChange = (e) => {
       const { name, value, type, checked } = e.target;
       setFormData({
@@ -31,22 +38,28 @@ const SignIn = () => {
         [name]: type === 'checkbox' ? checked : value,
       });
     };
-  
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
       e.preventDefault();
-      const newErrors = validateForm();
-      setErrors(newErrors);
-  
-      if (Object.keys(newErrors).length === 0) {
-        
-        console.log('Form submitted successfully:', formData);
+    console.log(formData)
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/api/users",
+          formData
+        );
+        console.log(response.data);
+        navigate("/login");
+        // Handle successful registration here
+      } catch (error) {
+        console.error(error);
+        // Handle errors here
       }
     };
-  
+
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-slate-100 ">
-        <img src="logo-url-here" alt="ClassMaster Logo" className="mb-4" />
         <div className="bg-sky-500 p-8 rounded-lg shadow-md w-full max-w-md hover:bg-blue-500 hover:shadow-2xl transform hover:scale-105 transition duration-300">
+          <img src={logo} alt="ClassMaster Logo" className="mb-4 mx-auto w-20" />
           <h2 className="text-3xl mb-6 text-center text-white">ClassMaster</h2>
           <p className="text-center text-white mb-6">Already have an account? <a href="/login" className="underline">Login</a></p>
           <form onSubmit={handleSubmit}>
@@ -142,4 +155,4 @@ const SignIn = () => {
     );
   };
   
-  export default SignIn;
+  export default SignIn;

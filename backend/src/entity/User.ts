@@ -13,6 +13,14 @@ export class User {
     lastName: string
 
     @Column()
-    age: number
+    email: string
 
+    @Column()
+    userName: string
+
+    @Column()
+    role: string
+
+    @Column()
+    password: string
 }

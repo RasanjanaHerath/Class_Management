@@ -58,7 +58,7 @@ const Drawer = () => {
           <ul className="mt-4">
             <li>
               <NavLink
-                to="/admin_profile"
+                to="/Dashboard"
                 className={({ isActive }) =>
                   `py-2 px-4 block hover:bg-gray-700 ${
                     isActive ? "bg-gray-700" : ""
@@ -83,7 +83,7 @@ const Drawer = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink
+            <NavLink
                 to="/institutes"
                 className={({ isActive }) =>
                   `py-2 px-4 block hover:bg-gray-700 ${
@@ -94,10 +94,10 @@ const Drawer = () => {
               >
                 Institutes
               </NavLink>
-            </li>
+              </li>
             <li>
               <NavLink
-                to="/student_profile"
+                to="/class_details"
                 className={({ isActive }) =>
                   `py-2 px-4 block hover:bg-gray-700 ${
                     isActive ? "bg-gray-700" : ""
@@ -111,7 +111,7 @@ const Drawer = () => {
 
             <li>
               <NavLink
-                to="/tenants"
+                to="/teacher_details"
                 className={({ isActive }) =>
                   `py-2 px-4 block hover:bg-gray-700 ${
                     isActive ? "bg-gray-700" : ""
@@ -124,7 +124,7 @@ const Drawer = () => {
             </li>
             <li>
               <NavLink
-                to="/add-property"
+                to="/student_details"
                 className={({ isActive }) =>
                   `py-2 px-4 block hover:bg-gray-700 ${
                     isActive ? "bg-gray-700" : ""
@@ -137,7 +137,20 @@ const Drawer = () => {
             </li>
             <li>
               <NavLink
-                to="/add-property"
+                to="/admin_notice"
+                className={({ isActive }) =>
+                  `py-2 px-4 block hover:bg-gray-700 ${
+                    isActive ? "bg-gray-700" : ""
+                  }`
+                }
+                onClick={toggleDrawer}
+              >
+                Notices
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/payment_details"
                 className={({ isActive }) =>
                   `py-2 px-4 block hover:bg-gray-700 ${
                     isActive ? "bg-gray-700" : ""
@@ -150,7 +163,7 @@ const Drawer = () => {
             </li>
             <li>
               <NavLink
-                to="/add-property"
+                to="/reports"
                 className={({ isActive }) =>
                   `py-2 px-4 block hover:bg-gray-700 ${
                     isActive ? "bg-gray-700" : ""
@@ -163,7 +176,7 @@ const Drawer = () => {
             </li>
             <li>
               <NavLink
-                to="/add-property"
+                to="/notification"
                 className={({ isActive }) =>
                   `py-2 px-4 block hover:bg-gray-700 ${
                     isActive ? "bg-gray-700" : ""
@@ -174,21 +187,10 @@ const Drawer = () => {
                 Notifications
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/add-property"
-                className={({ isActive }) =>
-                  `py-2 px-4 block hover:bg-gray-700 ${
-                    isActive ? "bg-gray-700" : ""
-                  }`
-                }
-                onClick={toggleDrawer}
-              >
-                Notices
-              </NavLink>
-            </li>
           </ul>
           </div>
+
+          
           <ul className="mt-56 flex-1 ">
             <li>
               <NavLink

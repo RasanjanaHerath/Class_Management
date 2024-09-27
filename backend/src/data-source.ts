@@ -3,6 +3,7 @@ import { DataSource } from "typeorm"
 import { User } from "./entity/User"
 import { Institute } from "./entity/Institute"
 import { Notice } from "./entity/Notice"
+import { Class } from "./entity/Class"
 
 export const AppDataSource = new DataSource({
     type: "mysql",
@@ -13,7 +14,8 @@ export const AppDataSource = new DataSource({
     database: "test",
     synchronize: true,
     logging: false,
-    entities: [User,Institute,Notice],
+    entities: [User,Institute,Notice,Class],
     migrations: [],
     subscribers: [],
+    driver: require('mysql2')
 })

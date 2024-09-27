@@ -15,6 +15,9 @@ import SuperAdminProfile from "./pages/SuperAdminProfile/SuperAdminProfile";
 import Institutes from "./pages/SuperAdminProfile/Institutes";
 import Drawer from "./component/Drawer";
 import AdminNotices from "./pages/dashboard_buttons/AdminNotices";
+import Dashboard from "./pages/AdminProfile";
+import ClassDetails from "./pages/admin_profile/ClassDetails";
+
 
 
 const router = createBrowserRouter([
@@ -119,6 +122,76 @@ const router = createBrowserRouter([
     ],
   },
   {
+    path: "/class_details",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <ClassDetails/>,
+      },
+    ],
+  },
+  {
+    path: "/teacher_details",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <teacher_details/>,
+      },
+    ],
+  },
+  {
+    path: "/student_details",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <student_details/>,
+      },
+    ],
+  },
+  {
+    path: "/reports",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <reports/>,
+      },
+    ],
+  },
+  {
+    path: "/notification",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <notification/>,
+      },
+    ],
+  },
+  {
+    path: "/payment_details",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <payment_details/>,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <dashboard/>,
+      },
+    ],
+  },
+  {
     path: "/super_admin_profile",
     element: <DrawerLayout/>,
     children: [
@@ -140,6 +213,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+
 ]);
 
 

@@ -7,6 +7,8 @@ import InstituteRoutes from "./route/InstituteRoutes";
 import cors from 'cors';
 import notice_router from "./route/notice.routes";
 require('dotenv').config();
+import classRoutes from "./route/classRoutes"; 
+
 
 AppDataSource.initialize().then(async () => {
     const app = express();
@@ -21,6 +23,7 @@ AppDataSource.initialize().then(async () => {
     app.use("/api", userRoutes);
     app.use("/api", InstituteRoutes);
     app.use("/api", notice_router);
+    app.use("/api",classRoutes);
 
     app.listen(3000, () => {
         console.log("Server is running on port 3000");

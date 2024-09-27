@@ -9,12 +9,15 @@ require('dotenv').config();
 AppDataSource.initialize().then(async () => {
     const app = express();
 
+    app.use(cors());
+
     app.use(express.json()); // Enable JSON body parsing
 
     app.use(cors());
 
     // Use routes
     app.use("/api", userRoutes);
+    app.use("/api", instituteRoutes);
 
     app.listen(3000, () => {
         console.log("Server is running on port 3000");

@@ -174,6 +174,19 @@ const Drawer = () => {
                 Notifications
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to="/add-property"
+                className={({ isActive }) =>
+                  `py-2 px-4 block hover:bg-gray-700 ${
+                    isActive ? "bg-gray-700" : ""
+                  }`
+                }
+                onClick={toggleDrawer}
+              >
+                Notices
+              </NavLink>
+            </li>
           </ul>
           </div>
           <ul className="mt-56 flex-1 ">

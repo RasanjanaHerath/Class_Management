@@ -87,7 +87,7 @@ const Home = () => {
                   style={{ minWidth: '140px', lineHeight: '36px', letterSpacing: '.3px' }}
                   onClick={handleSignin}
                 >
-                  Sign In
+                  Sign Up
                 </button>
               </div>
               <div className="p-4">

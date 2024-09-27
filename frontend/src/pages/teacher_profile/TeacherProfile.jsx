@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartBar, faCreditCard, faUser, faEdit } from '@fortawesome/free-solid-svg-icons';
-import profilePicture from '../../assets/teacher.jpeg'; // Replace with the actual image path
+import profilePicture from '../../assets/TEACHER.jpg'; // Replace with the actual image path
 
 const TeacherProfile = () => {
   return (
@@ -13,11 +13,11 @@ const TeacherProfile = () => {
           <div className="lg:col-span-2">
             <div className="bg-white shadow-lg rounded-lg p-6 mb-8">
               <h2 className="text-2xl font-bold mb-4">Teacher Profile</h2>
-              <p className="text-gray-500 mb-6">Morning and happy classes, Theresa!</p>
+              <p className="text-gray-500 mb-6">Morning and happy classes, Thushari!</p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div className="p-4 bg-gray-100 rounded-lg text-center">
                   <h3 className="text-lg font-semibold">Revenue</h3>
-                  <p className="text-2xl font-bold">$4,179.00</p>
+                  <p className="text-2xl font-bold">Rs.10,000.00</p>
                   <p className="text-green-500">+5.1%</p>
                 </div>
                 <div className="p-4 bg-gray-100 rounded-lg text-center">
@@ -78,17 +78,17 @@ const TeacherProfile = () => {
             <div className="text-center mb-6">
               <img src={profilePicture} alt="Teacher" className="w-24 h-24 rounded-full mx-auto mb-4" />
               <h4 className="font-bold text-lg">Theresa Flores</h4>
-              <p className="text-gray-500">Senior Teacher at Tiger School</p>
+              <p className="text-gray-500">Senior Teacher at Kingswood College</p>
             </div>
             <div className="mb-6">
               <p className="text-gray-700 mb-2">
-                Hello, my name is Theresa Flores. I come from Australia. I graduated from DoMi and got a PhD degree. My major is Academic Studies. I have 4 years of teaching experience.
+                Hello, my name is Thushari Rajasekara. I come from Gampaha. I graduated from DoMi and got a PhD degree. My major is Academic Studies. I have 6 years of teaching experience.
               </p>
             </div>
             <div className="mb-6">
               <p className="font-bold">Contact Information</p>
-              <p className="text-gray-700">theresaflores@voit.team</p>
-              <p className="text-gray-700">+1 (000) 000 0000</p>
+              <p className="text-gray-700">thushari@gamil.com</p>
+              <p className="text-gray-700">+94 77568769</p>
             </div>
             <div className="flex items-center justify-between mb-6">
               <p className="font-bold">Open to work</p>

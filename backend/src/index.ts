@@ -3,7 +3,9 @@ import "reflect-metadata";
 import express from "express";
 import { AppDataSource } from "./data-source";
 import userRoutes from "./route/userRoutes"; // Import routes
+import InstituteRoutes from "./route/InstituteRoutes";
 import cors from 'cors';
+
 require('dotenv').config();
 
 AppDataSource.initialize().then(async () => {
@@ -17,7 +19,7 @@ AppDataSource.initialize().then(async () => {
 
     // Use routes
     app.use("/api", userRoutes);
-    app.use("/api", instituteRoutes);
+    app.use("/api", InstituteRoutes);
 
     app.listen(3000, () => {
         console.log("Server is running on port 3000");

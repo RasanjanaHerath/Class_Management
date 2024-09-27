@@ -64,52 +64,53 @@ const ClassDetails = () => {
   
   return (
     <div className="min-h-screen bg-gray-100 p-10 md:ml-64 md:mr-64">
-      <div className="mb-8  justify-between items-center">
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-1/3 p-3  border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
-        />
-
-        {/* Button to trigger new class modal */}
-        <NewClass onSubmit={addNewClass} />
-      </div>
-
-      <div className="overflow-x-auto p-6">
-        <table className="min-w-full bg-white border border-gray-300">
-          <thead>
-            <tr>
-              <th className="px-4 py-2 border-b">ID</th>
-              <th className="px-4 py-2 border-b">Subject</th>
-              <th className="px-4 py-2 border-b">Batch</th>
-              <th className="px-4 py-2 border-b">Date & Time</th>
-              <th className="px-4 py-2 border-b">Number of Students</th>
-              <th className="px-4 py-2 border-b">EDIT</th>
-              <th className="px-4 py-2 border-b">DELETE</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredClasses.map((classItem) => (
-              <tr key={classItem.id}>
-                <td className="px-4 py-2 border-b">{classItem.id}</td>
-                <td className="px-4 py-2 border-b">{classItem.subject}</td>
-                <td className="px-4 py-2 border-b">{classItem.batch}</td>
-                <td className="px-4 py-2 border-b">{classItem.dateTime}</td>
-                <td className="px-4 py-2 border-b">{classItem.numberOfStudents}</td>
-                <td className="px-4 py-2 border-b">
-                  <EditClass classData={classItem} onSubmit={updateClass} />
-                </td>
-                <td className="px-4 py-2 border-b">
-                  <DeleteClass className={classItem.subject} onDelete={() => deleteClass(classItem.id)} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+    <div className="mb-8 flex justify-between items-center"> {/* Flex container */}
+      <input
+        type="text"
+        placeholder="Search..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="w-1/3 p-3 border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+      />
+      
+      {/* Button to trigger new class modal */}
+      <NewClass onSubmit={addNewClass} />
     </div>
+  
+    <div className="overflow-x-auto p-6">
+      <table className="min-w-full bg-white border border-gray-300">
+        <thead>
+          <tr>
+            <th className="px-4 py-2 border-b">ID</th>
+            <th className="px-4 py-2 border-b">Subject</th>
+            <th className="px-4 py-2 border-b">Batch</th>
+            <th className="px-4 py-2 border-b">Date & Time</th>
+            <th className="px-4 py-2 border-b">Number of Students</th>
+            <th className="px-4 py-2 border-b">EDIT</th>
+            <th className="px-4 py-2 border-b">DELETE</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredClasses.map((classItem) => (
+            <tr key={classItem.id}>
+              <td className="px-4 py-2 border-b">{classItem.id}</td>
+              <td className="px-4 py-2 border-b">{classItem.subject}</td>
+              <td className="px-4 py-2 border-b">{classItem.batch}</td>
+              <td className="px-4 py-2 border-b">{classItem.dateTime}</td>
+              <td className="px-4 py-2 border-b">{classItem.numberOfStudents}</td>
+              <td className="px-4 py-2 border-b">
+                <EditClass classData={classItem} onSubmit={updateClass} />
+              </td>
+              <td className="px-4 py-2 border-b">
+                <DeleteClass className={classItem.subject} onDelete={() => deleteClass(classItem.id)} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
   );
 };
 

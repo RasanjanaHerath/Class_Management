@@ -44,8 +44,11 @@ const Login = () => {
           case "teacher":
             navigate("/teacher_profile");
             break;
-          case "admin":
+          case "institute":
             navigate("/admin_profile");
+            break;
+          case "admin":
+            navigate("/super_admin_profile");
             break;
           default:
             navigate("/dashboard");

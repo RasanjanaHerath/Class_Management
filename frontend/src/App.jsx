@@ -7,12 +7,14 @@ import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import SignIn from "./pages/SignIn";
-import StudentProfile from "./pages/StudentProfile";
+import StudentProfile from "./pages/studentProfile";
 import TeacherProfile from "./pages/teacher_profile/TeacherProfile";
 import AdminProfile from "./pages/AdminProfile";
 import DrawerLayout from "./layout/DrawerLayout";
 import SuperAdminProfile from "./pages/SuperAdminProfile/SuperAdminProfile";
 import Institutes from "./pages/SuperAdminProfile/Institutes";
+import Drawer from "./component/Drawer";
+import AdminNotices from "./pages/dashboard_buttons/AdminNotices";
 
 
 const router = createBrowserRouter([
@@ -93,6 +95,16 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <TeacherProfile />,
+      },
+    ],
+  },
+  {
+    path: "/admin_notice",
+    //element: <Drawer />,
+    children: [
+      {
+        index: true,
+        element: <AdminNotices />,
       },
     ],
   },

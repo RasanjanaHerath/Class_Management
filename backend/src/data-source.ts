@@ -2,6 +2,7 @@ import "reflect-metadata"
 import { DataSource } from "typeorm"
 import { User } from "./entity/User"
 import { Institute } from "./entity/Institute"
+import { Notice } from "./entity/Notice"
 
 export const AppDataSource = new DataSource({
     type: "mysql",
@@ -12,7 +13,7 @@ export const AppDataSource = new DataSource({
     database: "test",
     synchronize: true,
     logging: false,
-    entities: [User,Institute],
+    entities: [User,Institute,Notice],
     migrations: [],
     subscribers: [],
 })

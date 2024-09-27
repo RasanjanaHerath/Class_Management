@@ -47,7 +47,7 @@ const NewClass = ({ onSubmit }) => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex">
       <button
         onClick={() => setOpen(true)}
         className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"

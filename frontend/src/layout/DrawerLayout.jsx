@@ -12,7 +12,7 @@ const DrawerLayout = () => {
         <Drawer/>
         <Header />
         <Outlet/>
-        <RightBar/>
+        {/* <RightBar/> */}
         
     </div>
   )

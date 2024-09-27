@@ -64,13 +64,13 @@ const ClassDetails = () => {
   
   return (
     <div className="min-h-screen bg-gray-100 p-10 md:ml-64 md:mr-64">
-      <div className="mb-8 flex justify-between items-center">
+      <div className="mb-8  justify-between items-center">
         <input
           type="text"
           placeholder="Search..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-1/3 p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+          className="w-1/3 p-3  border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
         />
 
         {/* Button to trigger new class modal */}

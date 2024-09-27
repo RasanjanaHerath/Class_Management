@@ -117,7 +117,8 @@ export class UserController {
                 email:user.email,
                 firstName:user.firstName, 
                 lastName:user.lastName,
-                userName:user.userName
+                userName:user.userName,
+                role:user.role
             };
             res.json({user:userResponse, token})  
             res.status(200).json({ token, message: "Login successful" }); 

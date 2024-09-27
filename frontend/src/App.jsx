@@ -16,6 +16,8 @@ import Institutes from "./pages/SuperAdminProfile/Institutes";
 import Drawer from "./component/Drawer";
 import AdminNotices from "./pages/dashboard_buttons/AdminNotices";
 import Dashboard from "./pages/AdminProfile";
+import ClassDetails from "./pages/admin_profile/ClassDetails";
+
 
 
 const router = createBrowserRouter([
@@ -125,7 +127,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <class_details/>,
+        element: <ClassDetails/>,
       },
     ],
   },
@@ -186,6 +188,28 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <dashboard/>,
+      },
+    ],
+  },
+  {
+    path: "/super_admin_profile",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: 
+        <SuperAdminProfile />,
+      },
+    ],
+  },
+  {
+    path: "/institutes",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: 
+        <Institutes />,
       },
     ],
   },

@@ -71,6 +71,32 @@ const Drawer = () => {
             </li>
             <li>
               <NavLink
+                to="/super_admin_profile"
+                className={({ isActive }) =>
+                  `py-2 px-4 block hover:bg-gray-700 ${
+                    isActive ? "bg-gray-700" : ""
+                  }`
+                }
+                onClick={toggleDrawer}
+              >
+                Super Admin Dashboard
+              </NavLink>
+            </li>
+            <li>
+            <NavLink
+                to="/institutes"
+                className={({ isActive }) =>
+                  `py-2 px-4 block hover:bg-gray-700 ${
+                    isActive ? "bg-gray-700" : ""
+                  }`
+                }
+                onClick={toggleDrawer}
+              >
+                Institutes
+              </NavLink>
+              </li>
+            <li>
+              <NavLink
                 to="/class_details"
                 className={({ isActive }) =>
                   `py-2 px-4 block hover:bg-gray-700 ${
@@ -107,6 +133,19 @@ const Drawer = () => {
                 onClick={toggleDrawer}
               >
                 Student Details
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/admin_notice"
+                className={({ isActive }) =>
+                  `py-2 px-4 block hover:bg-gray-700 ${
+                    isActive ? "bg-gray-700" : ""
+                  }`
+                }
+                onClick={toggleDrawer}
+              >
+                Notices
               </NavLink>
             </li>
             <li>

@@ -8,6 +8,7 @@ import cors from 'cors';
 import notice_router from "./route/notice.routes";
 require('dotenv').config();
 import classRoutes from "./route/classRoutes"; 
+import cors from "cors";
 
 AppDataSource.initialize().then(async () => {
     const app = express();

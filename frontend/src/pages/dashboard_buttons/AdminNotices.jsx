@@ -94,16 +94,16 @@ useEffect(() => {
         });
     };
 
-    axios
-    .post(`${BASE_URL}notice`, newNotice) // POST request to add a new notice
-    .then((response) => {
-      console.log(JSON.stringify(response.data, null, 2));
-      setNotices((prevNotices) => [...prevNotices, response.data]); // Update the notices list
-      closeModal(); // Close the modal after adding the notice
-    })
-    .catch((error) => {
-      console.error("Error adding notice:", error);
-    });
+    // axios
+    // .post(`${BASE_URL}notice`, newNotice) // POST request to add a new notice
+    // .then((response) => {
+    //   console.log(JSON.stringify(response.data, null, 2));
+    //   setNotices((prevNotices) => [...prevNotices, response.data]); // Update the notices list
+    //   closeModal(); // Close the modal after adding the notice
+    // })
+    // .catch((error) => {
+    //   console.error("Error adding notice:", error);
+    // });
 };
 
   // Function to delete a notice

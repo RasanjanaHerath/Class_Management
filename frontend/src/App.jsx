@@ -11,13 +11,10 @@ import StudentProfile from "./pages/studentProfile";
 import TeacherProfile from "./pages/teacher_profile/TeacherProfile";
 import AdminProfile from "./pages/AdminProfile";
 import DrawerLayout from "./layout/DrawerLayout";
-<<<<<<< HEAD
 import SuperAdminProfile from "./pages/SuperAdminProfile/SuperAdminProfile";
 import Institutes from "./pages/SuperAdminProfile/Institutes";
-=======
 import Drawer from "./component/Drawer";
 import AdminNotices from "./pages/dashboard_buttons/AdminNotices";
->>>>>>> b91a0e7 (admin notice)
 
 
 const router = createBrowserRouter([

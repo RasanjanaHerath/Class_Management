@@ -1,17 +1,17 @@
-// import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
-// import { Assignment } from './Assignment';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import { Assignment } from './Assignment';
 
-// @Entity('results')
-// export class Result {
-//   @PrimaryGeneratedColumn('uuid')
-//   id: string;
+@Entity('results')
+export class Result {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-//   @Column()
-//   score: string;
+  @Column()
+  score: string;
 
-//   @Column()
-//   feedback: string;
+  @Column()
+  feedback: string;
 
-//   @OneToOne(() => Assignment, (assignment) => assignment.result)
-//   assignment: Assignment;
-// }
+  @OneToOne(() => Assignment, (assignment) => assignment.result)
+  assignment: Assignment;
+}

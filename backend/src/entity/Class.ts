@@ -42,40 +42,40 @@
 
 
 
-// import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
-// import { Institute } from './Institute';
-// import { Teacher } from './Teacher';
-// import { Student } from './Student';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Institute } from './Institute';
+import { Teacher } from './Teacher';
+import { Student } from './Student';
 
-// @Entity('classes')
-// export class Class {
-//   @PrimaryGeneratedColumn('uuid')
-//   id: string;
+@Entity('classes')
+export class Class {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-//   @Column()
-//   name: string;
+  @Column()
+  name: string;
 
-//   @Column()
-//   schedule: string;
+  @Column()
+  schedule: string;
 
-//   @Column()
-//   subject: string;
+  @Column()
+  subject: string;
 
-//   @Column()
-//   batch: string;
+  @Column()
+  batch: string;
 
-//   @Column()
-//   grade: string;
+  @Column()
+  grade: string;
 
-//   @Column()
-//   dateTime: string;
+  @Column()
+  dateTime: string;
 
-//   @ManyToOne(() => Teacher, (teacher) => teacher.classes)
-//   teacher: Teacher;
+  @ManyToOne(() => Teacher, (teacher) => teacher.classes)
+  teacher: Teacher;
 
-//   @ManyToOne(() => Institute, (institute) => institute.classes)
-//   institute: Institute;
+  @ManyToOne(() => Institute, (institute) => institute.classes)
+  institute: Institute;
 
-//   @OneToMany(() => Student, (student) => student.class)
-//   students: Student[];
-// }
+  @OneToMany(() => Student, (student) => student.class)
+  students: Student[];
+}

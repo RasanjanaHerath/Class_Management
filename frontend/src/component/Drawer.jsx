@@ -220,6 +220,19 @@ const Drawer = () => {
             </li>
             <li>
               <NavLink
+                to="/t_class_management"
+                className={({ isActive }) =>
+                  `py-2 px-4 block hover:bg-gray-700 ${
+                    isActive ? "bg-gray-700" : ""
+                  }`
+                }
+                onClick={toggleDrawer}
+              >
+                class Management
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
                 to="/"
                 className={({ isActive }) =>
                   `py-2 px-4 block hover:bg-gray-700 ${

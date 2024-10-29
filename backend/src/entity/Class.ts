@@ -1,41 +1,81 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+// import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
-@Entity()
+// @Entity()
+// export class Class {
+
+//     @PrimaryGeneratedColumn()
+//     id: number;
+
+//     @Column()
+//     instituteName: string;
+
+//     @Column()
+//     subject: string;
+
+//     @Column()
+//     batch: string;
+
+//     @Column()
+//     grade: string;
+
+//     @Column({ type: 'timestamp' }) 
+//     dateTime: Date;
+
+//     @Column()
+//     teacherName: string;
+
+//     @Column({ type: 'decimal', precision: 10, scale: 2 }) 
+//     feePerMonth: number;
+
+//     @Column()
+//     teacherExperience: string; 
+
+//     @Column()
+//     numberOfStudents: number;
+
+//     @Column()
+//     teacherContactPhoneNumber: string;
+
+//     @Column()
+//     modeOfTeaching: string; 
+// }
+
+
+
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Institute } from './Institute';
+import { Teacher } from './Teacher';
+import { Student } from './Student';
+
+@Entity('classes')
 export class Class {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column()
+  name: string;
 
-    @Column()
-    instituteName: string;
+  @Column()
+  schedule: string;
 
-    @Column()
-    subject: string;
+  @Column()
+  subject: string;
 
-    @Column()
-    batch: string;
+  @Column()
+  batch: string;
 
-    @Column()
-    grade: string;
+  @Column()
+  grade: string;
 
-    @Column({ type: 'timestamp' }) 
-    dateTime: Date;
+  @Column()
+  dateTime: string;
 
-    @Column()
-    teacherName: string;
+  @ManyToOne(() => Teacher, (teacher) => teacher.classes)
+  teacher: Teacher;
 
-    @Column({ type: 'decimal', precision: 10, scale: 2 }) 
-    feePerMonth: number;
+  @ManyToOne(() => Institute, (institute) => institute.classes)
+  institute: Institute;
 
-    @Column()
-    teacherExperience: string; 
-
-    @Column()
-    numberOfStudents: number;
-
-    @Column()
-    teacherContactPhoneNumber: string;
-
-    @Column()
-    modeOfTeaching: string; 
+  @OneToMany(() => Student, (student) => student.class)
+  students: Student[];
 }

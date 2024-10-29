@@ -17,7 +17,10 @@ import Drawer from "./component/Drawer";
 import AdminNotices from "./pages/dashboard_buttons/AdminNotices";
 import Dashboard from "./pages/AdminProfile";
 import ClassDetails from "./pages/admin_profile/ClassDetails";
-
+import AssignmentSubmissions from "./pages/teacher_profile/AssignmentSubmisson";
+import ClassManagement from "./pages/teacher_profile/ClassManagentPage";
+import Messaging from "./pages/teacher_profile/MessagingPage";
+import StudentReport from "./pages/teacher_profile/StudentReport";
 
 
 const router = createBrowserRouter([
@@ -210,6 +213,48 @@ const router = createBrowserRouter([
         index: true,
         element: 
         <Institutes />,
+      },
+    ],
+  },
+  {
+    path: "/t_assignment_submission",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element:
+         <AssignmentSubmissions/>,
+      },
+    ],
+  },
+  {
+    path: "/t_class_management",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: 
+        <ClassManagement/>,
+      },
+    ],
+  },
+  {
+    path: "/t_messeging",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <Messaging/>,
+      },
+    ],
+  },
+  {
+    path: "/t_student_report",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <StudentReport/>,
       },
     ],
   },

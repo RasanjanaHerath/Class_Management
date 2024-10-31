@@ -27,7 +27,7 @@ import { Notice } from './Notice';
 @Entity('institutes')
 export class Institute {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: number;
 
   @Column()
   name: string;

@@ -4,7 +4,7 @@ import { Teacher } from '../entity/Teacher';
 
 export class TeacherController {
   // Get teacher details by ID
-  static async getTeacher(req: Request, res: Response) {
+  static getTeacher = async (req: Request, res: Response) {
     const teacherRepo = AppDataSource.getRepository(Teacher);
     const { id } = req.params;
     const teacher = await teacherRepo.findOneBy({ id });
@@ -23,7 +23,7 @@ export class TeacherController {
 
 
   // Update teacher profile
-  static async updateTeacher(req: Request, res: Response) {
+  static updateTeacher = async (req: Request, res: Response) {
     const teacherRepo = AppDataSource.getRepository(Teacher);
     const { id } = req.params;
     const { name, email, description, contact } = req.body;

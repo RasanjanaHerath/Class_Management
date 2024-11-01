@@ -1,22 +1,3 @@
-// import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
-
-// @Entity()
-// export class Institute {
-
-//     @PrimaryGeneratedColumn()
-//     id: number
-
-//     @Column()
-//     name: string
-
-//     @Column()
-//     email: string
-
-//     @Column()
-//     city: string
-
-// }
-
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Teacher } from './Teacher';
 import { Student } from './Student';

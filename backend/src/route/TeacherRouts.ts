@@ -1,9 +1,14 @@
+// src/routes/teacherRoutes.ts
 import { Router } from 'express';
 import { TeacherController } from '../controller/TeacherController';
+import { jwtMiddleware } from '../middlewear/jwtMiddlewear';
 
-const router = Router();
+const teacherRoutes = Router();
 
-router.get('/teacher/:id', TeacherController.getTeacher);
-router.put('/teacher/:id', TeacherController.updateTeacher);
+// getAll teachers
+teacherRoutes.get('/teacher/:id',jwtMiddleware, TeacherController.getTeacher);
 
-export default router;
+//update teacher
+teacherRoutes.put('/teacher/:id', jwtMiddleware, TeacherController.updateTeacher);
+
+export default teacherRoutes;

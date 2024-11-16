@@ -1,16 +1,16 @@
 import {Router} from "express";
 import { classController } from "../controller/classController";
 
-const router = Router();
+const classRoutes = Router();
 
 //get all users
-router.get("/classes",classController.getAll);
+classRoutes.get("/classes",classController.getAll);
 
 //create a new user
-router.post("/classes",classController.createClass);
+classRoutes.post("/classes",classController.createClass);
 
-router.put("/classes/:id",classController.updateClass);
+classRoutes.put("/classes/:id",classController.updateClass);
 
-router.delete("/classes/:id",classController.deleteClass);
+classRoutes.delete("/classes/:id",classController.deleteClass);
 
-export default router;
+export default classRoutes;

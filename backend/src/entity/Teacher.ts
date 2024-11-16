@@ -9,7 +9,7 @@ import { User } from './User';
 @Entity('teachers')
 export class Teacher {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  teacherId: number;
 
   @Column()
   name: string;
@@ -22,6 +22,15 @@ export class Teacher {
 
   @Column()
   contact : string;
+
+  @Column({ type: 'date' })
+  birthday: Date;
+
+  @Column()
+  nic : string;
+
+  @Column()
+  phoneNumber : string;
 
   @ManyToOne(() => Institute, (institute) => institute.teachers)
   institute: Institute;

@@ -61,6 +61,10 @@ export class Class {
   @Column()
   subject: string;
 
+  
+  @Column()
+  instituteName: string;
+
   @Column()
   batch: string;
 
@@ -69,6 +73,12 @@ export class Class {
 
   @Column()
   dateTime: string;
+
+  @Column()
+  teacherContactPhoneNumber: string;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2 }) 
+  feePerMonth: number;
 
   @ManyToOne(() => Teacher, (teacher) => teacher.classes)
   teacher: Teacher;

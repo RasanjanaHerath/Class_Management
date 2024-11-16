@@ -8,10 +8,10 @@ import { Notice } from './Notice';
 @Entity('institutes')
 export class Institute {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: number
 
   @Column()
-  name: string;
+  name: string
 
   @Column()
   email: string

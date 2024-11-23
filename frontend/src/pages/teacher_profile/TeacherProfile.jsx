@@ -120,7 +120,12 @@ import profilePicture from '../../assets/TEACHER.jpg'; // Default profile pictur
 const TeacherProfile = () => {
   const [teacher, setTeacher] = useState({});
   const [showEditForm, setShowEditForm] = useState(false);
-
+  const user = localStorage.getItem("user");
+  const parsedUser = JSON.parse(user); // Convert JSON string to object
+  
+  console.log("Parsed User", parsedUser); // This will display the object
+  console.log("User Role", parsedUser.role); // Access the role property
+  
   useEffect(() => {
     const fetchTeacherData = async () => {
       try {
@@ -139,6 +144,8 @@ const TeacherProfile = () => {
       const response = await axios.put(`http://localhost:3000/teacher/${teacher.id}`, teacher);
       setTeacher(response.data);
       setShowEditForm(false);
+      
+ 
     } catch (error) {
       console.error("Error updating teacher data:", error);
     }

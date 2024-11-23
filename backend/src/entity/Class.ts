@@ -50,10 +50,10 @@ import { Student } from './Student';
 @Entity('classes')
 export class Class {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: number;
 
   @Column()
-  name: string;
+  teacherName: string;
 
   @Column()
   schedule: string;
@@ -61,6 +61,8 @@ export class Class {
   @Column()
   subject: string;
 
+  @Column()
+  teacherExperience: string;
   
   @Column()
   instituteName: string;
@@ -73,6 +75,9 @@ export class Class {
 
   @Column()
   dateTime: string;
+
+  @Column()
+  numberOfStudents: number;
 
   @Column()
   teacherContactPhoneNumber: string;

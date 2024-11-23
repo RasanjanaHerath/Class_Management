@@ -9,12 +9,12 @@ import { Student } from '../entity/Student';
 
 export class TeacherController {
   
-  // Get teacher details by ID
+//   // Get teacher details by ID
   static getTeacher = async (req: Request, res: Response, next: NextFunction)=> {
     const teacherRepository = AppDataSource.getRepository(Teacher);
     
     const teacherId = parseInt(req.params.id)
-    const teacher = await teacherRepository.findOne({ teacherId });
+    const teacher = await teacherRepository.findOne({ where: { teacherId: teacherId } });
     
 
     return teacher
@@ -29,7 +29,7 @@ export class TeacherController {
   };
 
 
-  // Update teacher profile
+//   // Update teacher profile
   static updateTeacher = async (req: Request, res: Response)=> {
     
     const teacherRepository = AppDataSource.getRepository(Teacher);
@@ -50,7 +50,7 @@ export class TeacherController {
     return res.json(teacher);
   };
 
-  // Create Teacher
+ // Create Teacher
   static save = async (request: Request, response: Response, next: NextFunction) => {
     
     const { birthday, nic, phoneNumber, phmId } = request.body;
@@ -73,7 +73,7 @@ export class TeacherController {
   
     try {
       const userRepository = AppDataSource.getRepository(User);
-      const user = await this.userRepository.findOne({id: userId});
+      const user = await userRepository.findOne({id: userId});
       if (!user) {
         return response.status(404).json({ message: "User not found" });
       }

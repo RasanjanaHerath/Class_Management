@@ -10,6 +10,7 @@ import { Assignment } from "./entity/Assignment"
 import { Grade } from "./entity/Grade"
 import { Result } from "./entity/Result"
 import { Announcement } from "./entity/Announcement"
+// import { EnrollClass } from "./entity/EnrollClass"
 
 export const AppDataSource = new DataSource({
     type: "mysql",
@@ -20,6 +21,7 @@ export const AppDataSource = new DataSource({
     database: "test",
     synchronize: true,
     logging: false,
+<<<<<<< HEAD
     entities: [
         Student,
         Teacher,
@@ -33,6 +35,9 @@ export const AppDataSource = new DataSource({
         Announcement
 
     ],
+=======
+    entities: [User,Institute,Notice,Class,EnrollClass],
+>>>>>>> 45b766a (FEAT: Create a class page)
     migrations: [],
     subscribers: [],
     driver: require('mysql2')

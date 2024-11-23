@@ -46,7 +46,7 @@ export class NoticeController {
         }
     };
 
-    // Delete a user
+    // Delete a Notice
     static deleteNotice = async (req: Request, res: Response) => {
         const noticeRepository = AppDataSource.getRepository(Notice);
 

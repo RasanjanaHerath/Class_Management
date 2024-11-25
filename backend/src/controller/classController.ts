@@ -24,7 +24,7 @@ export class classController {
                 teacherExperience, 
                 numberOfStudents, 
                 teacherContactPhoneNumber, 
-                modeOfTeaching 
+                //modeOfTeaching 
             } = req.body;
     
             
@@ -39,7 +39,7 @@ export class classController {
             newClass.teacherExperience = teacherExperience;
             newClass.numberOfStudents = numberOfStudents;
             newClass.teacherContactPhoneNumber = teacherContactPhoneNumber;
-            newClass.modeOfTeaching = modeOfTeaching;
+            //newClass.modeOfTeaching = modeOfTeaching;
     
             const classRepository = AppDataSource.getRepository(Class);
             await classRepository.save(newClass);
@@ -66,7 +66,7 @@ export class classController {
             teacherExperience,
             numberOfStudents,
             teacherContactPhoneNumber,
-            modeOfTeaching
+           // modeOfTeaching
         } = req.body;
 
         const classRepository = AppDataSource.getRepository(Class);
@@ -86,7 +86,7 @@ export class classController {
             existingClass.teacherExperience = teacherExperience;
             existingClass.numberOfStudents = numberOfStudents;
             existingClass.teacherContactPhoneNumber = teacherContactPhoneNumber;
-            existingClass.modeOfTeaching = modeOfTeaching;
+            //existingClass.modeOfTeaching = modeOfTeaching;
 
             // Save the updated class to the database
             await classRepository.save(existingClass);

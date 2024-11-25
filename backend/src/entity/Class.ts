@@ -50,16 +50,22 @@ import { Student } from './Student';
 @Entity('classes')
 export class Class {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: number;
 
   @Column()
-  name: string;
+  teacherName: string;
 
   @Column()
   schedule: string;
 
   @Column()
   subject: string;
+
+  @Column()
+  teacherExperience: string;
+  
+  @Column()
+  instituteName: string;
 
   @Column()
   batch: string;
@@ -69,6 +75,15 @@ export class Class {
 
   @Column()
   dateTime: string;
+
+  @Column()
+  numberOfStudents: number;
+
+  @Column()
+  teacherContactPhoneNumber: string;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2 }) 
+  feePerMonth: number;
 
   @ManyToOne(() => Teacher, (teacher) => teacher.classes)
   teacher: Teacher;

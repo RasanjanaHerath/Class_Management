@@ -12,15 +12,15 @@ export class Student {
   @Column()
   name: string;
 
-  @ManyToOne(() => Class, (classEntity) => classEntity.students)
+  @ManyToOne(() => Class, (classEntity) => classEntity.students, { nullable: true })
   class: Class;
 
-  @ManyToOne(() => Institute, (institute) => institute.students)
+  @ManyToOne(() => Institute, (institute) => institute.students, { nullable: true })
   institute: Institute;
 
-  @ManyToOne(() => Teacher, (teacher) => teacher.students)
+  @ManyToOne(() => Teacher, (teacher) => teacher.students, { nullable: true })
   teacher: Teacher;
 
-  @OneToMany(() => Notice, (notice) => notice.student)
+  @OneToMany(() => Notice, (notice) => notice.student, { nullable: true })
   notices: Notice[];
 }

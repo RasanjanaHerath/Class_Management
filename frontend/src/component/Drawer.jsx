@@ -268,24 +268,25 @@ const Drawer = ({ role }) => {
   // Define menu items based on roles
   const menuItems = {
     student: [
-      { path: "/dashboard", label: "Dashboard" },
+      { path: "/student_profile", label: "Dashboard" },
       { path: "/student_classes", label: "My Classes" },
-      { path: "/messages", label: "Messages" },
-      { path: "/student_reports", label: "Reports" },
+      { path: "/messeging", label: "Messages" },
+      { path: "/student_report", label: "Reports" },
     ],
     teacher: [
-      { path: "/dashboard", label: "Dashboard" },
+      { path: "/teacher_profile", label: "Dashboard" },
       { path: "/t_class_management", label: "Class Management" },
-      { path: "/messages", label: "Messages" },
-      { path: "/teacher_reports", label: "Student Reports" },
+      { path: "/t_messeging", label: "Messages" },
+      { path: "/t_assignment_submission", label: "Assignments" },
+      { path: "/t_student_report", label: "Student Reports" },
     ],
     admin: [
-      { path: "/dashboard", label: "Dashboard" },
+      { path: "/super_admin_profile", label: "Dashboard" },
       { path: "/institutes", label: "Institutes" },
       { path: "/admin_reports", label: "Analytics and Reports" },
     ],
     institute: [
-      { path: "/dashboard", label: "Dashboard" },
+      { path: "/admin_profile", label: "Dashboard" },
       { path: "/i_class_management", label: "Manage Classes" },
       { path: "/teacher_details", label: "Teacher Details" },
       { path: "/student_details", label: "Student Details" },

@@ -276,7 +276,7 @@ const Drawer = ({ role }) => {
     teacher: [
       { path: "/teacher_profile", label: "Dashboard" },
       { path: "/t_class_management", label: "Class Management" },
-      { path: "/t_messeging", label: "Messages" },
+      { path: "/t_announcement", label: "Announcement" },
       { path: "/t_assignment_submission", label: "Assignments" },
       { path: "/t_student_report", label: "Student Reports" },
     ],

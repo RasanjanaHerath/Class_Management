@@ -19,7 +19,7 @@ import Dashboard from "./pages/AdminProfile";
 import ClassDetails from "./pages/admin_profile/ClassDetails";
 import AssignmentSubmissions from "./pages/teacher_profile/AssignmentSubmisson";
 import ClassManagement from "./pages/teacher_profile/ClassManagentPage";
-import Messaging from "./pages/teacher_profile/MessagingPage";
+import Announcement from "./pages/teacher_profile/Announcement";
 import StudentReport from "./pages/teacher_profile/StudentReport";
 
 
@@ -239,12 +239,12 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/t_messeging",
+    path: "/t_announcement",
     element: <DrawerLayout/>,
     children: [
       {
         index: true,
-        element: <Messaging/>,
+        element: <Announcement/>,
       },
     ],
   },

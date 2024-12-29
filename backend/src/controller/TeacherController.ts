@@ -39,28 +39,59 @@ export class TeacherController {
   };
 
   // Update teacher profile
+  // static updateTeacher = async (req: Request, res: Response) => {
+  //   const teacherRepository = AppDataSource.getRepository(Teacher);
+  //   const teacherId = parseInt(req.params.id, 10);
+  //   const updateData = req.body; // Expect the necessary fields in the body
+
+  //   try {
+  //     const teacher = await teacherRepository.findOneBy({ teacherId });
+  //     if (!teacher) return res.status(404).json({ message: 'Teacher not found' });
+
+  //     Object.assign(teacher, updateData); // Merge new data into existing entity
+  //     await teacherRepository.save(teacher);
+
+  //     return res.json(teacher);
+  //   } catch (error) {
+  //     console.error('Error updating teacher:', error);
+  //     return res.status(500).json({ message: 'An error occurred while updating the teacher.' });
+  //   }
+  // };
+
+  // Update teacher profile
   static updateTeacher = async (req: Request, res: Response) => {
     const teacherRepository = AppDataSource.getRepository(Teacher);
     const teacherId = parseInt(req.params.id, 10);
     const updateData = req.body; // Expect the necessary fields in the body
 
+    // Validation: Ensure required fields are present
+    const { name, qualifications, subjects } = updateData;
+    if (!name || !qualifications || !subjects) {
+        return res.status(400).json({ message: 'Missing required fields: name, qualifications, or subjects.' });
+    }
+
     try {
-      const teacher = await teacherRepository.findOneBy({ teacherId });
-      if (!teacher) return res.status(404).json({ message: 'Teacher not found' });
+        // Find the teacher by ID
+        const teacher = await teacherRepository.findOneBy({ teacherId });
+        if (!teacher) {
+            return res.status(404).json({ message: 'Teacher not found' });
+        }
 
-      Object.assign(teacher, updateData); // Merge new data into existing entity
-      await teacherRepository.save(teacher);
+        // Update teacher details
+        Object.assign(teacher, updateData); // Merge new data into existing entity
+        await teacherRepository.save(teacher);
 
-      return res.json(teacher);
+        return res.status(200).json({ message: 'Teacher updated successfully', teacher });
     } catch (error) {
-      console.error('Error updating teacher:', error);
-      return res.status(500).json({ message: 'An error occurred while updating the teacher.' });
+        console.error('Error updating teacher:', error);
+        return res.status(500).json({ message: 'An error occurred while updating the teacher.', error });
     }
   };
 
+
   // Create Teacher
   static save = async (req: Request, res: Response, next: NextFunction) => {
-    const { birthday, nic, phoneNumber, instituteId } = req.body;
+    const { birthday, nic, phoneNumber, instituteId, qualification, subjects, experience, createdAt, updatedAt } = req.body;
 
     try {
       const userRepository = AppDataSource.getRepository(User);
@@ -76,6 +107,10 @@ export class TeacherController {
       teacher.birthday = birthday;
       teacher.nic = nic;
       teacher.phoneNumber = phoneNumber;
+      teacher.qualification = qualification;
+      teacher.subjects = subjects;
+      teacher.experience = experience;
+      teacher.createdAt = createdAt;
       teacher.user = user;
 
       // Associate institute if provided

@@ -3,6 +3,7 @@ import { Student } from './Student';
 import { Class } from './Class';
 import { Institute } from './Institute';
 import { Assignment } from './Assignment';
+import { Announcement } from './Announcement';
 import { Notice } from './Notice';
 import { User } from './User';
 
@@ -22,9 +23,6 @@ export class Teacher {
 
   @Column({ nullable: true })
   description : string;
-
-  @Column()
-  contact : string;
 
   @Column({ type: 'date' })
   birthday: Date;
@@ -65,6 +63,9 @@ export class Teacher {
 
   @OneToMany(() => Assignment, (assignment) => assignment.teacher)
   assignments: Assignment[];
+
+  @OneToMany(() => Announcement, (announcement) => announcement.teacher)
+  announcements: Assignment[];
 
   @OneToMany(() => Notice, (notice) => notice.teacher)
   notices: Notice[];

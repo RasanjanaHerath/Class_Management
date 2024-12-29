@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileAlt, faPlus, faUpload } from '@fortawesome/free-solid-svg-icons';
 
@@ -12,6 +12,7 @@ const AssignmentSubmissions = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [isExcelUpload, setIsExcelUpload] = useState(false);
   const [excelFile, setExcelFile] = useState(null);
+  const dropdownRef = useRef(null);
 
   const handleStudentSelect = (student) => {
     setSelectedStudents((prev) =>
@@ -19,6 +20,7 @@ const AssignmentSubmissions = () => {
         ? prev
         : [...prev, { ...student, marks: "" }]
     );
+    setShowDropdown(false); // Close dropdown after selecting a student
   };
 
   const handleMarkChange = (id, value) => {
@@ -42,9 +44,21 @@ const AssignmentSubmissions = () => {
     setSelectedStudents([]);
     setExcelFile(null);
     setIsExcelUpload(false);
+    setShowUploadMarksPopup(false); // Close the popup
   };
 
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setShowDropdown(false);
+    }
+  };
 
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const [students] = useState([
     { id: 1, name: "John Doe" },
@@ -91,7 +105,7 @@ const AssignmentSubmissions = () => {
     <div className="flex flex-col lg:flex-row min-h-screen md:ml-64 ml-0">
       <div className="flex-grow p-4">
         <div className="bg-white shadow-lg rounded-lg p-6 mb-8">
-          <h2 className="text-2xl font-bold mb-4">Assignment Submissions</h2>
+          <h2 className="text-2xl font-bold mb-4">Assignments</h2>
 
           {!selectedAssignment && (
             <>
@@ -161,8 +175,6 @@ const AssignmentSubmissions = () => {
                   </tbody>
                 </table>
               </div>
-
-              
             </>
           )}
         </div>
@@ -221,127 +233,122 @@ const AssignmentSubmissions = () => {
 
       {/* Upload Marks Popup */}
       {showUploadMarksPopup && (
-        <div className="p-4">
-        <div className="mb-4">
-          <button
-            onClick={() => setIsExcelUpload(false)}
-            className={`px-4 py-2 border rounded ${
-              !isExcelUpload ? "bg-blue-500 text-white" : "bg-gray-100"
-            }`}
-          >
-            Enter Marks Manually
-          </button>
-          <button
-            onClick={() => {
-              setIsExcelUpload(true);
-              setSelectedStudents([]);
-            }}
-            className={`ml-2 px-4 py-2 border rounded ${
-              isExcelUpload ? "bg-blue-500 text-white" : "bg-gray-100"
-            }`}
-          >
-            Upload Excel Sheet
-          </button>
-        </div>
-  
-        {!isExcelUpload && (
-          <div>
-            <div className="mb-4 relative">
-              <input
-                type="text"
-                className="w-full px-3 py-2 border rounded mb-2"
-                placeholder="Search student by name or ID"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <div className="mb-4">
               <button
-                onClick={() => setShowDropdown((prev) => !prev)}
-                className="absolute right-3 top-2 text-gray-500"
+                onClick={() => setIsExcelUpload(false)}
+                className={`px-4 py-2 border rounded ${
+                  !isExcelUpload ? "bg-blue-500 text-white" : "bg-gray-100"
+                }`}
               >
-                ▼
+                Enter Marks Manually
               </button>
-              {showDropdown && (
-                <ul className="absolute bg-white w-full shadow-lg max-h-40 overflow-y-auto border rounded">
-                  {students
-                    .filter(
-                      (student) =>
-                        student.name
-                          .toLowerCase()
-                          .includes(searchTerm.toLowerCase()) ||
-                        student.id.toString().includes(searchTerm)
-                    )
-                    .map((student) => (
-                      <li
-                        key={student.id}
-                        className="cursor-pointer p-2 hover:bg-gray-200"
-                        onClick={() => handleStudentSelect(student)}
-                      >
-                        {student.name} (ID: {student.id})
-                      </li>
-                    ))}
-                </ul>
-              )}
+              <button
+                onClick={() => {
+                  setIsExcelUpload(true);
+                  setSelectedStudents([]);
+                }}
+                className={`ml-2 px-4 py-2 border rounded ${
+                  isExcelUpload ? "bg-blue-500 text-white" : "bg-gray-100"
+                }`}
+              >
+                Upload Excel Sheet
+              </button>
             </div>
-            <div>
-              {selectedStudents.map((student) => (
-                <div key={student.id} className="flex items-center mb-2">
-                  <span className="flex-grow">
-                    {student.name} (ID: {student.id})
-                  </span>
+
+            {!isExcelUpload && (
+              <div>
+                <div className="mb-4 relative" ref={dropdownRef}>
                   <input
                     type="text"
-                    className="w-24 px-2 py-1 border rounded"
-                    placeholder="Marks"
-                    value={student.marks}
-                    onChange={(e) =>
-                      handleMarkChange(student.id, e.target.value)
-                    }
+                    className="w-full px-3 py-2 border rounded mb-2"
+                    placeholder="Search student by name or ID"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                   />
+                  <button
+                    onClick={() => setShowDropdown((prev) => !prev)}
+                    className="absolute right-3 top-2 text-gray-500"
+                  >
+                    ▼
+                  </button>
+                  {showDropdown && (
+                    <ul className="absolute bg-white w-full shadow-lg max-h-40 overflow-y-auto border rounded">
+                      {students
+                        .filter(
+                          (student) =>
+                            student.name
+                              .toLowerCase()
+                              .includes(searchTerm.toLowerCase()) ||
+                            student.id.toString().includes(searchTerm)
+                        )
+                        .map((student) => (
+                          <li
+                            key={student.id}
+                            className="cursor-pointer p-2 hover:bg-gray-200"
+                            onClick={() => handleStudentSelect(student)}
+                          >
+                            {student.name} (ID: {student.id})
+                          </li>
+                        ))}
+                    </ul>
+                  )}
                 </div>
-              ))}
-            </div>
-            <textarea
-                    className="w-full px-3 py-1 border rounded mb-4"
-                    placeholder="Enter Marks"
-                    value={marks[selectedStudents.id] || ""}
-                    onChange={handleMarkChange}
-            ></textarea>
-          </div>
-        )}
-  
-        {isExcelUpload && (
-          <div className="mb-4">
-            <input
-              type="file"
-              accept=".xlsx, .xls"
-              onChange={(e) => setExcelFile(e.target.files[0])}
-              className="block w-full text-sm text-gray-500"
-            />
-            {excelFile && (
-              <p className="mt-2 text-sm text-gray-600">
-                Selected File: {excelFile.name}
-              </p>
+                <div>
+                  {selectedStudents.map((student) => (
+                    <div key={student.id} className="flex items-center mb-2">
+                      <span className="flex-grow">
+                        {student.name} (ID: {student.id})
+                      </span>
+                      <input
+                        type="text"
+                        className="w-24 px-2 py-1 border rounded"
+                        placeholder="Marks"
+                        value={student.marks}
+                        onChange={(e) =>
+                          handleMarkChange(student.id, e.target.value)
+                        }
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
-          </div>
-        )}
-  
-        <div>
-          <button
-            onClick={handleSave}
-            className="px-4 py-2 bg-green-500 text-white rounded mr-2"
-          >
-            Save
-          </button>
-          <button
-            onClick={handleCancel}
-            className="px-4 py-2 bg-red-500 text-white rounded"
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
-      )}
 
+            {isExcelUpload && (
+              <div className="mb-4">
+                <input
+                  type="file"
+                  accept=".xlsx, .xls"
+                  onChange={(e) => setExcelFile(e.target.files[0])}
+                  className="block w-full text-sm text-gray-500"
+                />
+                {excelFile && (
+                  <p className="mt-2 text-sm text-gray-600">
+                    Selected File: {excelFile.name}
+                  </p>
+                )}
+              </div>
+            )}
+
+            <div>
+              <button
+                onClick={handleSave}
+                className="px-4 py-2 bg-green-500 text-white rounded mr-2"
+              >
+                Save
+              </button>
+              <button
+                onClick={handleCancel}
+                className="px-4 py-2 bg-red-500 text-white rounded"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

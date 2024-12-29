@@ -111,6 +111,11 @@ const Announcement = () => {
     setShowEditPopup(true);
   };
 
+  // Handle delete button click
+  const handleDelete = (id) => {
+    setAnnouncements((prev) => prev.filter((announcement) => announcement.id !== id));
+  };
+
   return (
     <div className="lg:flex-row min-h-screen md:ml-64 ml-0 p-5">
       <h1 className="text-2xl font-bold mb-4">Announcements</h1>
@@ -141,6 +146,12 @@ const Announcement = () => {
             className="bg-green-500 text-white px-4 py-2 rounded mt-2"
           >
             Edit
+          </button>
+          <button
+            onClick={() => handleDelete(announcement.id)}
+            className="bg-red-500 text-white px-4 py-2 rounded mt-2 ml-2"
+          >
+            Delete
           </button>
         </div>
       ))}

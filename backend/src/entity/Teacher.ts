@@ -12,7 +12,10 @@ export class Teacher {
   teacherId: number;
 
   @Column()
-  name: string;
+  firstName: string
+
+  @Column()
+  lastName: string
 
   @Column()
   email : string;
@@ -32,8 +35,11 @@ export class Teacher {
   @Column({ unique: true })
   phoneNumber : string;
 
-  @Column()
+  @Column({ nullable: true })
   qualification: string;
+
+  @Column({ nullable: true })
+  subjects: string;
 
   @Column({ type: 'int' })
   experience: number; 

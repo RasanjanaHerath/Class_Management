@@ -93,5 +93,22 @@ export class TeacherController {
       return res.status(500).json({ message: 'An error occurred while saving the teacher.' });
     }
   };
+
+  // Delete teacher by ID
+  static deleteTeacher = async (req: Request, res: Response) => {
+    const teacherRepository = AppDataSource.getRepository(Teacher);
+    const teacherId = parseInt(req.params.id, 10);
+
+    try {
+      const teacher = await teacherRepository.findOneBy({ teacherId });
+      if (!teacher) return res.status(404).json({ message: 'Teacher not found' });
+
+      await teacherRepository.remove(teacher);
+      return res.status(204).send();
+    } catch (error) {
+      console.error('Error deleting teacher:', error);
+      return res.status(500).json({ message: 'An error occurred while deleting the teacher.' });
+    }
+  };
 }
 

@@ -21,6 +21,7 @@ import AssignmentSubmissions from "./pages/teacher_profile/AssignmentSubmisson";
 import ClassManagement from "./pages/teacher_profile/ClassManagentPage";
 import Announcement from "./pages/teacher_profile/Announcement";
 import StudentReport from "./pages/teacher_profile/StudentReport";
+import Messege from "./pages/teacher_profile/Messege";
 
 
 const router = createBrowserRouter([
@@ -255,6 +256,16 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <StudentReport/>,
+      },
+    ],
+  },
+  {
+    path: "/t_messege",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <Messege/>,
       },
     ],
   },

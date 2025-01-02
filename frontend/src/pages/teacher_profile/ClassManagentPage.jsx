@@ -1,50 +1,3 @@
-// import React from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faPlus, faChalkboardTeacher, faEdit } from '@fortawesome/free-solid-svg-icons';
-
-// const ClassManagement = () => {
-//   return (
-//     <div className="flex flex-col lg:flex-row min-h-screen md:ml-64 ml-0">
-//       <div className="flex-grow p-4">
-//         <div className="bg-white shadow-lg rounded-lg p-6 mb-8">
-//           <h2 className="text-2xl font-bold mb-4">Class Management</h2>
-//           <button className="bg-blue-500 text-white px-4 py-2 rounded-full mb-4 shadow-lg transition transform hover:scale-105">
-//             <FontAwesomeIcon icon={faPlus} /> Add New Class
-//           </button>
-//           <div className="overflow-auto">
-//             <table className="min-w-full bg-white">
-//               <thead>
-//                 <tr>
-//                   <th className="py-2 px-4 border-b border-gray-200 text-left">Class Name</th>
-//                   <th className="py-2 px-4 border-b border-gray-200 text-left">Subject</th>
-//                   <th className="py-2 px-4 border-b border-gray-200 text-left">Students</th>
-//                   <th className="py-2 px-4 border-b border-gray-200 text-right">Actions</th>
-//                 </tr>
-//               </thead>
-//               <tbody>
-//                 <tr>
-//                   <td className="py-2 px-4 border-b border-gray-200">Mathematics</td>
-//                   <td className="py-2 px-4 border-b border-gray-200">Algebra</td>
-//                   <td className="py-2 px-4 border-b border-gray-200">30</td>
-//                   <td className="py-2 px-4 border-b border-gray-200 text-right">
-//                     <button className="text-blue-500 hover:underline">
-//                       <FontAwesomeIcon icon={faEdit} /> Edit
-//                     </button>
-//                   </td>
-//                 </tr>
-//                 {/* Additional rows as needed */}
-//               </tbody>
-//             </table>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ClassManagement;
-
-
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
@@ -52,13 +5,14 @@ import { faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 const ClassManagement = () => {
   const [classes, setClasses] = useState([
     {
-      id: 1,
-      name: "Mathematics",
+      subject: "Maths",
+      grade: "11",
+      instituteName: "Susipone",
       scheduleDay: "Monday",
-      scheduleTime: "10:00",
-      subject: "Algebra",
-      instituteName: "ABC School",
-      grade: "10",
+      startTime: "10:00 PM",
+      endTime: "11:00 PM",
+      feePerMonth: "1500",
+      numerOnumberOfStudents: "1000",
     },
   ]);
 
@@ -66,12 +20,14 @@ const ClassManagement = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     id: null,
-    name: "",
-    scheduleDay: "",
-    scheduleTime: "",
     subject: "",
-    instituteName: "",
     grade: "",
+    instituteName: "",
+    scheduleDay: "",
+    startTime: "",
+    endTime: "",
+    feePerMonth: "",
+    numerOnumberOfStudents: "",
   });
 
   const togglePopup = () => {
@@ -101,12 +57,13 @@ const ClassManagement = () => {
     togglePopup();
     setFormData({
       id: null,
-      name: "",
-      scheduleDay: "",
-      scheduleTime: "",
       subject: "",
-      instituteName: "",
       grade: "",
+      instituteName: "",
+      scheduleDay: "",
+      startTime: "",
+      endTime: "",
+      feePerMonth: "",
     });
     setIsEditing(false);
   };
@@ -126,22 +83,28 @@ const ClassManagement = () => {
             <table className="min-w-full bg-white">
               <thead>
                 <tr>
-                  <th className="py-2 px-4 border-b border-gray-200 text-left">Class Name</th>
                   <th className="py-2 px-4 border-b border-gray-200 text-left">Subject</th>
+                  <th className="py-2 px-4 border-b border-gray-200 text-left">Grade</th>
                   <th className="py-2 px-4 border-b border-gray-200 text-left">Institute</th>
-                  <th className="py-2 px-4 border-b border-gray-200 text-left">Day</th>
-                  <th className="py-2 px-4 border-b border-gray-200 text-left">Time</th>
+                  <th className="py-2 px-4 border-b border-gray-200 text-left">Schedule Day</th>
+                  <th className="py-2 px-4 border-b border-gray-200 text-left">Start Time</th>
+                  <th className="py-2 px-4 border-b border-gray-200 text-left">End Time</th>
+                  <th className="py-2 px-4 border-b border-gray-200 text-left">Fee Per Month</th>
+                  <th className="py-2 px-4 border-b border-gray-200 text-left">Number Of Students</th>
                   <th className="py-2 px-4 border-b border-gray-200 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {classes.map((classItem) => (
                   <tr key={classItem.id}>
-                    <td className="py-2 px-4 border-b border-gray-200">{classItem.name}</td>
                     <td className="py-2 px-4 border-b border-gray-200">{classItem.subject}</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{classItem.grade}</td>
                     <td className="py-2 px-4 border-b border-gray-200">{classItem.instituteName}</td>
                     <td className="py-2 px-4 border-b border-gray-200">{classItem.scheduleDay}</td>
-                    <td className="py-2 px-4 border-b border-gray-200">{classItem.scheduleTime}</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{classItem.startTime}</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{classItem.endTime}</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{classItem.feePerMonth}</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{classItem.numerOnumberOfStudents}</td>
                     <td className="py-2 px-4 border-b border-gray-200 text-right">
                       <button
                         onClick={() => handleEdit(classItem)}
@@ -166,16 +129,41 @@ const ClassManagement = () => {
             </h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label className="block text-gray-700">Class Name</label>
+                <label className="block text-gray-700">Subject</label>
                 <input
                   type="text"
-                  name="name"
-                  value={formData.name}
+                  name="subject"
+                  value={formData.subject}
                   onChange={handleChange}
                   className="w-full px-3 py-2 border rounded"
                   required
                 />
               </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700">Grade</label>
+                <input
+                  type="text"
+                  name="grade"
+                  value={formData.grade}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border rounded"
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700">Institute</label>
+                <input
+                  type="text"
+                  name="instituteName"
+                  value={formData.instituteName}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border rounded"
+                  required
+                />
+              </div>
+
               <div className="mb-4">
                 <label className="block text-gray-700">Schedule Day</label>
                 <select
@@ -196,49 +184,39 @@ const ClassManagement = () => {
                 </select>
               </div>
               <div className="mb-4">
-                <label className="block text-gray-700">Schedule Time</label>
+                <label className="block text-gray-700">Start Time</label>
                 <input
                   type="time"
                   name="scheduleTime"
-                  value={formData.scheduleTime}
+                  value={formData.startTime}
                   onChange={handleChange}
                   className="w-full px-3 py-2 border rounded"
                   required
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-gray-700">Subject</label>
+                <label className="block text-gray-700">End Time</label>
                 <input
-                  type="text"
-                  name="subject"
-                  value={formData.subject}
+                  type="time"
+                  name="scheduleTime"
+                  value={formData.endTime}
                   onChange={handleChange}
                   className="w-full px-3 py-2 border rounded"
                   required
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-gray-700">Institute</label>
+                <label className="block text-gray-700">Fee Per Month</label>
                 <input
-                  type="text"
-                  name="instituteName"
-                  value={formData.instituteName}
+                  type="number"
+                  name="scheduleTime"
+                  value={formData.feePerMonth}
                   onChange={handleChange}
                   className="w-full px-3 py-2 border rounded"
                   required
                 />
               </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Grade</label>
-                <input
-                  type="text"
-                  name="grade"
-                  value={formData.grade}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded"
-                  required
-                />
-              </div>
+              
               <div className="flex justify-end">
                 <button
                   type="button"

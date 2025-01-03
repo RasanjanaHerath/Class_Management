@@ -46,7 +46,7 @@ const StudentProfile = () => {
   //const institutes = ['Institute 1', 'Institute 2', 'Institute 3'];
 
   useEffect(() => {
-    axios.get(`${BASE_URL}classes`)
+    axios.get(`${BASE_URL}institute`)
       .then(response => {
         setInstitutes(response.data);
       })
@@ -75,6 +75,8 @@ const StudentProfile = () => {
 
   const cardColors = ["bg-yellow-200", "bg-blue-300", "bg-green-300","bg-red-200","bg-purple-300"];
 
+
+  console.log("instituesss: ",institutes)
   return (
     <div className="flex min-h-screen bg-zinc-50 gap-10 p-4 md:ml-64 ml-0">
       {/* Middle Section */}
@@ -169,16 +171,17 @@ const StudentProfile = () => {
               >
                 <option value="">Choose an institute</option>
                 {institutes.map((institute) => (
-                  <option key={institute} value={institute}>
-                    {institute.instituteName}
+                  <option key={institute.id} value={institute} >
+                    {institute.name}
                   </option>
                 ))}
+                
               </select>
             </div>
 
             {/* Course Dropdown */}
             <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2">Select a Course:</label>
+              <label className="block text-gray-700 font-bold mb-2">Select Class:</label>
               <select
                 value={selectedCourse}
                 onChange={(e) => setSelectedCourse(e.target.value)}

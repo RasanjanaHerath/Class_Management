@@ -22,6 +22,7 @@ import ClassManagement from "./pages/teacher_profile/ClassManagentPage";
 import Announcement from "./pages/teacher_profile/Announcement";
 import StudentReport from "./pages/teacher_profile/StudentReport";
 import Messege from "./pages/teacher_profile/Messege";
+import StudentClass from "./pages/studentClass";
 
 import TeacherDetails from "./pages/admin_profile/teacherDetails";
 import StudentDetails from "./pages/admin_profile/StudentDetails";
@@ -97,6 +98,17 @@ const router = createBrowserRouter([
       },
     ],
   },
+
+  {
+    path: "/student_class",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <StudentClass />,
+      },
+    ],
+  },
   {
     path: "/teacher_profile",
     element: <DrawerLayout />,
@@ -109,7 +121,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin_notice",
-    //element: <Drawer />,
+    element: <DrawerLayout />,
     children: [
       {
         index: true,

@@ -5,7 +5,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage : {
+        'adminNoticeBackgroundImage': "url('/src/assets/logo1.png')",
+
+      },
+    },
     screens: {
       xs: "480px",
       ss: "620px", // Add a screen size between xs and sm if needed

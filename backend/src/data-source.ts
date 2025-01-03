@@ -9,6 +9,7 @@ import { Student } from "./entity/Student"
 import { Assignment } from "./entity/Assignment"
 import { Grade } from "./entity/Grade"
 import { Result } from "./entity/Result"
+import { Announcement } from "./entity/Announcement"
 
 export const AppDataSource = new DataSource({
     type: "mysql",
@@ -28,7 +29,8 @@ export const AppDataSource = new DataSource({
         Assignment,
         User,
         Grade,
-        Result
+        Result,
+        Announcement
 
     ],
     migrations: [],

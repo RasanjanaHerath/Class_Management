@@ -1,47 +1,3 @@
-// import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
-
-// @Entity()
-// export class Class {
-
-//     @PrimaryGeneratedColumn()
-//     id: number;
-
-//     @Column()
-//     instituteName: string;
-
-//     @Column()
-//     subject: string;
-
-//     @Column()
-//     batch: string;
-
-//     @Column()
-//     grade: string;
-
-//     @Column({ type: 'timestamp' }) 
-//     dateTime: Date;
-
-//     @Column()
-//     teacherName: string;
-
-//     @Column({ type: 'decimal', precision: 10, scale: 2 }) 
-//     feePerMonth: number;
-
-//     @Column()
-//     teacherExperience: string; 
-
-//     @Column()
-//     numberOfStudents: number;
-
-//     @Column()
-//     teacherContactPhoneNumber: string;
-
-//     @Column()
-//     modeOfTeaching: string; 
-// }
-
-
-
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { Institute } from './Institute';
 import { Teacher } from './Teacher';
@@ -53,10 +9,13 @@ export class Class {
   id: number;
 
   @Column()
+  teacherId: number;
+
+  @Column()
   teacherName: string;
 
   @Column()
-  schedule: string;
+  scheduleDay: string;
 
   @Column()
   subject: string;
@@ -68,22 +27,19 @@ export class Class {
   instituteName: string;
 
   @Column()
-  batch: string;
-
-  @Column()
   grade: string;
-
-  @Column()
-  dateTime: string;
 
   @Column()
   numberOfStudents: number;
 
-  @Column()
-  teacherContactPhoneNumber: string;
-
   @Column({ type: 'decimal', precision: 10, scale: 2 }) 
   feePerMonth: number;
+
+  @Column()
+  startTime: string;
+
+  @Column()
+  endTime: string;
 
   @ManyToOne(() => Teacher, (teacher) => teacher.classes)
   teacher: Teacher;

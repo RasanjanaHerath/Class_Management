@@ -21,8 +21,6 @@ export const AppDataSource = new DataSource({
     database: "test",
     synchronize: true,
     logging: false,
-<<<<<<< HEAD
-<<<<<<< HEAD
     entities: [
         Student,
         Teacher,
@@ -36,12 +34,6 @@ export const AppDataSource = new DataSource({
         Announcement
 
     ],
-=======
-    entities: [User,Institute,Notice,Class,EnrollClass],
->>>>>>> 45b766a (FEAT: Create a class page)
-=======
-    entities: [User,Institute,Notice,Class],
->>>>>>> 336c728 (FEAT: Fix issue)
     migrations: [],
     subscribers: [],
     driver: require('mysql2')

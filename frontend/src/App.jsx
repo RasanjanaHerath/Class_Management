@@ -23,6 +23,8 @@ import Announcement from "./pages/teacher_profile/Announcement";
 import StudentReport from "./pages/teacher_profile/StudentReport";
 import Messege from "./pages/teacher_profile/Messege";
 
+import TeacherDetails from "./pages/admin_profile/teacherDetails";
+import StudentDetails from "./pages/admin_profile/StudentDetails";
 
 const router = createBrowserRouter([
   {
@@ -141,7 +143,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <teacher_details/>,
+        element: <TeacherDetails/>,
       },
     ],
   },
@@ -151,7 +153,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <student_details/>,
+        element: <StudentDetails/>,
       },
     ],
   },
@@ -191,7 +193,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <dashboard/>,
+        element: <Dashboard/>,
       },
     ],
   },

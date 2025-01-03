@@ -24,22 +24,22 @@ export class classController {
                 teacherExperience, 
                 numberOfStudents, 
                 teacherContactPhoneNumber, 
-                modeOfTeaching 
+                //modeOfTeaching 
             } = req.body;
     
             
             const newClass = new Class();
             newClass.instituteName = instituteName;
             newClass.subject = subject;
-            newClass.batch = batch;
+            //newClass.batch = batch;
             newClass.grade = grade;
-            newClass.dateTime = dateTime;
+            //newClass.dateTime = dateTime;
             newClass.teacherName = teacherName;
             newClass.feePerMonth = feePerMonth;
             newClass.teacherExperience = teacherExperience;
             newClass.numberOfStudents = numberOfStudents;
-            newClass.teacherContactPhoneNumber = teacherContactPhoneNumber;
-            newClass.modeOfTeaching = modeOfTeaching;
+            //newClass.teacherContactPhoneNumber = teacherContactPhoneNumber;
+            //newClass.modeOfTeaching = modeOfTeaching;
     
             const classRepository = AppDataSource.getRepository(Class);
             await classRepository.save(newClass);
@@ -66,7 +66,7 @@ export class classController {
             teacherExperience,
             numberOfStudents,
             teacherContactPhoneNumber,
-            modeOfTeaching
+           // modeOfTeaching
         } = req.body;
 
         const classRepository = AppDataSource.getRepository(Class);
@@ -78,15 +78,15 @@ export class classController {
             // Update class properties with the provided values
             existingClass.instituteName = instituteName;
             existingClass.subject = subject;
-            existingClass.batch = batch;
+            //existingClass.batch = batch;
             existingClass.grade = grade;
-            existingClass.dateTime = dateTime;
+            //existingClass.dateTime = dateTime;
             existingClass.teacherName = teacherName;
             existingClass.feePerMonth = feePerMonth;
             existingClass.teacherExperience = teacherExperience;
             existingClass.numberOfStudents = numberOfStudents;
-            existingClass.teacherContactPhoneNumber = teacherContactPhoneNumber;
-            existingClass.modeOfTeaching = modeOfTeaching;
+            //existingClass.teacherContactPhoneNumber = teacherContactPhoneNumber;
+            //existingClass.modeOfTeaching = modeOfTeaching;
 
             // Save the updated class to the database
             await classRepository.save(existingClass);

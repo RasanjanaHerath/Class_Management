@@ -17,8 +17,14 @@ import Drawer from "./component/Drawer";
 import AdminNotices from "./pages/dashboard_buttons/AdminNotices";
 import Dashboard from "./pages/AdminProfile";
 import ClassDetails from "./pages/admin_profile/ClassDetails";
+import AssignmentSubmissions from "./pages/teacher_profile/AssignmentSubmisson";
+import ClassManagement from "./pages/teacher_profile/ClassManagentPage";
+import Announcement from "./pages/teacher_profile/Announcement";
+import StudentReport from "./pages/teacher_profile/StudentReport";
+import Messege from "./pages/teacher_profile/Messege";
 
-
+import TeacherDetails from "./pages/admin_profile/teacherDetails";
+import StudentDetails from "./pages/admin_profile/StudentDetails";
 
 const router = createBrowserRouter([
   {
@@ -137,7 +143,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <teacher_details/>,
+        element: <TeacherDetails/>,
       },
     ],
   },
@@ -147,7 +153,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <student_details/>,
+        element: <StudentDetails/>,
       },
     ],
   },
@@ -187,7 +193,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <dashboard/>,
+        element: <Dashboard/>,
       },
     ],
   },
@@ -210,6 +216,58 @@ const router = createBrowserRouter([
         index: true,
         element: 
         <Institutes />,
+      },
+    ],
+  },
+  {
+    path: "/t_assignment_submission",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element:
+         <AssignmentSubmissions/>,
+      },
+    ],
+  },
+  {
+    path: "/t_class_management",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: 
+        <ClassManagement/>,
+      },
+    ],
+  },
+  {
+    path: "/t_announcement",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <Announcement/>,
+      },
+    ],
+  },
+  {
+    path: "/t_student_report",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <StudentReport/>,
+      },
+    ],
+  },
+  {
+    path: "/t_messege",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <Messege/>,
       },
     ],
   },

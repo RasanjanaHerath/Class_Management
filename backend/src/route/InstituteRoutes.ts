@@ -2,16 +2,16 @@
 import { Router } from "express";
 import { InstituteController } from "../controller/InstituteController";
 
-const router = Router();
+const instituteRoutes = Router();
 
 // Get all users
-router.get("/institute", InstituteController.getAll);
+instituteRoutes.get("/institute", InstituteController.getAll);
 
 // Create a new user
-router.post("/institute", InstituteController.createInstitute);
+instituteRoutes.post("/institute", InstituteController.createInstitute);
 
-router.put("/institute/:id", InstituteController.updateInstitute);
+instituteRoutes.put("/institute/:id", InstituteController.updateInstitute);
 
-router.delete("/institute/:id", InstituteController.deleteInstitute);
+instituteRoutes.delete("/institute/:id", InstituteController.deleteInstitute);
 
-export default router;
+export default instituteRoutes;

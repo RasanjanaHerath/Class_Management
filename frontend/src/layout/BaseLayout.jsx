@@ -3,7 +3,6 @@ import { Outlet } from "react-router-dom";
 import NavBar from '../component/NavBar';
 import Footer from '../component/Footer';
 import { useLocation } from 'react-router-dom';
-import Sidebar from '../pages/teacher_profile/SideBar';
 
 const BaseLayout = () => {
 

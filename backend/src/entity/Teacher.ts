@@ -12,15 +12,6 @@ export class Teacher {
   @PrimaryGeneratedColumn()
   teacherId: number;
 
-  @Column()
-  firstName: string
-
-  @Column()
-  lastName: string
-
-  @Column()
-  email : string;
-
   @Column({ nullable: true })
   description : string;
 
@@ -30,7 +21,7 @@ export class Teacher {
   @Column()
   nic : string;
 
-  @Column({ unique: true })
+  @Column({ unique: true , nullable:true})
   phoneNumber : string;
 
   @Column({ nullable: true })
@@ -39,7 +30,7 @@ export class Teacher {
   @Column({ nullable: true })
   subjects: string;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'int', nullable:true })
   experience: number; 
 
   @CreateDateColumn()

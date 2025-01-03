@@ -1,5 +1,5 @@
 // src/controllers/UserController.ts
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { User } from "../entity/User";
 import * as bcrypt from "bcryptjs";
@@ -40,12 +40,15 @@ export class UserController {
             user.password = hashedPassword;
 
             await userRepository.save(user);
+            console.log('User role from user reg:', user.role); // Log the user role
             const token = jwt.sign(
-                { userId: user.id, userRole: user.role},
-               "dafojaldkfajd",
+                { userId: user.id, userRole: user.role },
+                process.env.JWT_SECRET!
             );
-            res.status(201).json({ message: "User registered successfully" });
+            console.log('Generated token:', token); // Log the generated token
+            res.status(201).json({ message: "User registered successfully", token });
         } catch (error) {
+            console.error('Error registering user:', error); // Log the error
             res.status(500).json({ message: "Error registering user", error });
         }
     };
@@ -90,14 +93,12 @@ export class UserController {
     };
 
     // Login function
-    static login = async (req: Request, res: Response) => {
+    static login = async (req: Request, res: Response, next: NextFunction) => {
         const { email, password } = req.body;
         const userRepository = AppDataSource.getRepository(User);
 
         try {
-            // Find the user by first name
-            const user = await userRepository.findOne({ where:{email} });
-            //console.log("User found:", user);
+            const user = await userRepository.findOne({ where: { email } });
             if (!user) {
                 return res.status(404).json({ message: "User not found" });
             }
@@ -105,23 +106,20 @@ export class UserController {
             // Check if password matches
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) {
-                res.status(400).json({ message: "Invalid credentials" });
-                return;
+                return res.status(400).json({ message: "Invalid credentials" });
             }
-            //console.log("eafdafdasfd0",process.env.JWT_SECRET)
-            console.log("eafdafdasfd0",process.env.JWT_SECRET)
+
             // Generate JWT
-            const token = jwt.sign({ userId: user.id }," process.env.JWT_SECRET ");
+            const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET || 'default_secret');
             const userResponse = {
-                id:user.id,
-                email:user.email,
-                firstName:user.firstName, 
-                lastName:user.lastName,
-                userName:user.userName,
-                role:user.role
+                id: user.id,
+                email: user.email,
+                firstName: user.firstName, 
+                lastName: user.lastName,
+                userName: user.userName,
+                role: user.role
             };
-            res.json({user:userResponse, token})  
-            res.status(200).json({ token, message: "Login successful" }); 
+            res.json({ user: userResponse, token });
         } catch (error) {
             console.error("Error during login:", error); // Log the error for debugging
             res.status(500).json({ message: "Error logging in", error: error.toString() });

@@ -3,6 +3,9 @@ import { Teacher } from "./Teacher"
 
 @Entity()
 export class User {
+    static id(id: any) {
+        throw new Error("Method not implemented.")
+    }
 
     @PrimaryGeneratedColumn()
     id: number

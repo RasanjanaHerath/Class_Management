@@ -8,31 +8,34 @@ import * as jwt from "jsonwebtoken";
 declare global {
   namespace Express {
     interface Request {
-      user: any;
+      user: {
+        userId: number;
+        userRole: string;
+      };
     }
   }
 }
 
-export function jwtMiddleware(
-  request: Request,
-  response: Response,
-  next: NextFunction
-) {
-  const token = request.headers["authorization"]?.split(" ")[1];
+
+export const jwtMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  const token = req.headers['authorization']?.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ message: 'No token provided' });
+  }
 
   try {
-    console.log("Token: ", token);
-    console.log("JWT_SECRET: ", process.env.JWT_SECRET);
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'default_secret' )
+    console.log('Decoded token here:', decoded); // Log the decoded token
+    req.user = decoded as { userId: number; userRole: string };
+    
 
-    // Attach the decoded data to the request object
-    request.user = decoded;
-    console.log(request.user);
+    if (!req.user.userRole || !req.user.userId) {
+      return res.status(401).json({ message: 'Invalid token payload' });
+    }
 
     next();
-  } catch (err) {
-    console.log(err);
-    response.status(401).json({ message: "Invalid token" });
-  }
-
-}
+  } catch (error) {
+    res.status(401).json({ message: 'Invalid token' });
+  }
+};

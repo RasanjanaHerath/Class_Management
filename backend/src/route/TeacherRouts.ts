@@ -16,10 +16,10 @@ teacherRoutes.get('/teacher/:id',TeacherController.getTeacher);
 teacherRoutes.get('/teacher/',TeacherController.getAll);
 
 // Create a new teacher with validation
-teacherRoutes.post('/teacher', validateTeacher, TeacherController.save);
+teacherRoutes.post('/users/teacher/', TeacherController.save);
 
 // Update a teacher's details with validation
-teacherRoutes.put('/teacher/:id', validateTeacher, TeacherController.updateTeacher);
+teacherRoutes.put('/teacher/:id', TeacherController.updateTeacher);
 
 // delete teacher
 teacherRoutes.delete('/teacher/:id',TeacherController.deleteTeacher);

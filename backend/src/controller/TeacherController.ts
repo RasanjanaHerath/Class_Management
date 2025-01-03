@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction} from 'express';
 import { AppDataSource } from '../data-source';
 import { Teacher } from '../entity/Teacher';
 import { User } from '../entity/User';
@@ -30,7 +30,7 @@ export class TeacherController {
     const teacherRepository = AppDataSource.getRepository(Teacher);
 
     try {
-      const teachers = await teacherRepository.find({ relations: ['user', 'institute'] });
+      const teachers = await teacherRepository.find({ relations: ['user'] });
       return res.json(teachers);
     } catch (error) {
       console.error('Error fetching teachers:', error);
@@ -59,39 +59,98 @@ export class TeacherController {
   // };
 
   // Update teacher profile
-  static updateTeacher = async (req: Request, res: Response) => {
+  static updateTeacher = async (req: Request, res: Response, next: NextFunction) => {
     const teacherRepository = AppDataSource.getRepository(Teacher);
     const teacherId = parseInt(req.params.id, 10);
     const updateData = req.body; // Expect the necessary fields in the body
 
-    // Validation: Ensure required fields are present
-    const { name, qualifications, subjects } = updateData;
-    if (!name || !qualifications || !subjects) {
-        return res.status(400).json({ message: 'Missing required fields: name, qualifications, or subjects.' });
-    }
+    // try {
+    //     // Find the teacher by ID
+    //     const teacher = await teacherRepository.findOneBy({ teacherId });
+    //     if (!teacher) {
+    //         return res.status(404).json({ message: 'Teacher not found' });
+    //     }
+
+    //     // Update teacher details
+    //     Object.assign(teacher, updateData); // Merge new data into existing entity
+    //     await teacherRepository.save(teacher);
+
+    //     return res.status(200).json({ message: 'Teacher updated successfully', teacher });
+    // } catch (error) {
+    //     console.error('Error updating teacher:', error);
+    //     return res.status(500).json({ message: 'An error occurred while updating the teacher.', error });
+    // }
+
+    const id = parseInt(req.params.id);
+    const { qualification, experience } =
+      req.body;
+
+    const userId = req.user?.userId;
 
     try {
-        // Find the teacher by ID
-        const teacher = await teacherRepository.findOneBy({ teacherId });
-        if (!teacher) {
-            return res.status(404).json({ message: 'Teacher not found' });
-        }
+      const teacher = await teacherRepository.findOne({
+        where: { teacherId },
+        relations: ["user"],
+      });
 
-        // Update teacher details
-        Object.assign(teacher, updateData); // Merge new data into existing entity
-        await teacherRepository.save(teacher);
+      if (!teacher) {
+        return res.status(404).json({ message: "Teacher not found" });
+      }
 
-        return res.status(200).json({ message: 'Teacher updated successfully', teacher });
+      // Update the moh's details
+      // teacher.user.firstName = firstName ?? teacher.user.firstName;
+      // teacher.user.lastName = lastName ?? teacher.user.lastName;
+      // teacher.user.email = email ?? teacher.user.email;
+      // teacher.phoneNumber = phoneNumber ?? teacher.phoneNumber;
+      teacher.qualification = qualification ?? teacher.qualification;
+      // teacher.description = description ?? teacher.description;
+      teacher.experience = experience ?? teacher.experience;
+      teacher.teacherId = teacherId ?? teacher.teacherId;
+
+      // console.log("phm ", userId);
+      // if (userId) {
+      //   const user = await this.userRepository.findOne({
+      //     where: { id: userId },
+      //   });
+      //   const phm = await this.phmRepository.findOne({
+      //     where: { user },
+      //     relations: ["user"],
+      //   });
+      //   if (!phm) {
+      //     return response.status(404).json({ message: "PHM not found" });
+      //   }
+      //   moh.phm = phm; // Update the PHM relationship
+      // }
+
+      await teacherRepository.save(teacher);
+      res.send(teacher);
+      return;
     } catch (error) {
-        console.error('Error updating teacher:', error);
-        return res.status(500).json({ message: 'An error occurred while updating the teacher.', error });
+      return next(error);
     }
   };
 
 
   // Create Teacher
   static save = async (req: Request, res: Response, next: NextFunction) => {
-    const { birthday, nic, phoneNumber, instituteId, qualification, subjects, experience, createdAt, updatedAt } = req.body;
+    const { birthday, nic, phoneNumber, qualification, description, experience, subjects } = req.body;
+
+    if (req.user.userRole !== "teacher") {
+      console.log("role from controller :", req.user.userRole);
+      // return "You are not authorized to create a MOH";
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to create a Moh" });
+    }
+
+    const userId = req.user?.userId;
+
+    if (!userId) {
+      return res
+        .status(400)
+        .json({ error: "User ID is missing or invalid" });
+    }
+
 
     try {
       const userRepository = AppDataSource.getRepository(User);
@@ -108,18 +167,18 @@ export class TeacherController {
       teacher.nic = nic;
       teacher.phoneNumber = phoneNumber;
       teacher.qualification = qualification;
+      teacher.description = description;
       teacher.subjects = subjects;
       teacher.experience = experience;
-      teacher.createdAt = createdAt;
       teacher.user = user;
 
       // Associate institute if provided
-      if (instituteId) {
-        const institute = await instituteRepository.findOneBy({ id: instituteId });
-        if (!institute) return res.status(404).json({ message: 'Institute not found' });
+      // if (instituteId) {
+      //   const institute = await instituteRepository.findOneBy({ id: instituteId });
+      //   if (!institute) return res.status(404).json({ message: 'Institute not found' });
 
-        teacher.institute = institute;
-      }
+      //   teacher.institute = institute;
+      // }
 
       await teacherRepository.save(teacher);
       return res.status(201).json(teacher);
@@ -127,6 +186,7 @@ export class TeacherController {
       console.error('Error creating teacher:', error);
       return res.status(500).json({ message: 'An error occurred while saving the teacher.' });
     }
+
   };
 
   // Delete teacher by ID

@@ -27,11 +27,11 @@ export class Teacher {
   @Column({ nullable: true })
   qualification: string;
 
-  @Column({ nullable: true })
-  subjects: string;
+  @Column("simple-array")
+  subjects: string[];
 
-  @Column({ type: 'int', nullable:true })
-  experience: number; 
+  @Column({ nullable:true })
+  experience: string; 
 
   @CreateDateColumn()
   createdAt: Date;
@@ -41,10 +41,10 @@ export class Teacher {
 
 
 
-  @JoinTable()
-  institutes: Institute[];
+ 
   @ManyToMany(() => Institute, (institute) => institute.teachers)
-  institute: Institute;
+  @JoinTable()
+  institute: Institute[];
 
   @OneToMany(() => Student, (student) => student.teacher)
   students: Student[];

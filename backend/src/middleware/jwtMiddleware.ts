@@ -26,7 +26,8 @@ export const jwtMiddleware = (req: Request, res: Response, next: NextFunction) =
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'default_secret' )
-    console.log('Decoded token here:', decoded); // Log the decoded token
+    console.log('Decoded token here:', decoded); // Log the decoded 
+
     req.user = decoded as { userId: number; userRole: string };
     
 
@@ -39,3 +40,4 @@ export const jwtMiddleware = (req: Request, res: Response, next: NextFunction) =
     res.status(401).json({ message: 'Invalid token' });
   }
 };
+

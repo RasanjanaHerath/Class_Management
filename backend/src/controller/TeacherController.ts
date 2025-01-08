@@ -38,25 +38,6 @@ export class TeacherController {
     }
   };
 
-  // Update teacher profile
-  // static updateTeacher = async (req: Request, res: Response) => {
-  //   const teacherRepository = AppDataSource.getRepository(Teacher);
-  //   const teacherId = parseInt(req.params.id, 10);
-  //   const updateData = req.body; // Expect the necessary fields in the body
-
-  //   try {
-  //     const teacher = await teacherRepository.findOneBy({ teacherId });
-  //     if (!teacher) return res.status(404).json({ message: 'Teacher not found' });
-
-  //     Object.assign(teacher, updateData); // Merge new data into existing entity
-  //     await teacherRepository.save(teacher);
-
-  //     return res.json(teacher);
-  //   } catch (error) {
-  //     console.error('Error updating teacher:', error);
-  //     return res.status(500).json({ message: 'An error occurred while updating the teacher.' });
-  //   }
-  // };
 
   // Update teacher profile
   static updateTeacher = async (req: Request, res: Response, next: NextFunction) => {
@@ -82,7 +63,7 @@ export class TeacherController {
     // }
 
     const id = parseInt(req.params.id);
-    const { qualification, experience } =
+    const { firstName, lastName, email, phoneNumber, qualification, description, experience } =
       req.body;
 
     const userId = req.user?.userId;
@@ -98,12 +79,12 @@ export class TeacherController {
       }
 
       // Update the moh's details
-      // teacher.user.firstName = firstName ?? teacher.user.firstName;
-      // teacher.user.lastName = lastName ?? teacher.user.lastName;
-      // teacher.user.email = email ?? teacher.user.email;
-      // teacher.phoneNumber = phoneNumber ?? teacher.phoneNumber;
+      teacher.user.firstName = firstName ?? teacher.user.firstName;
+      teacher.user.lastName = lastName ?? teacher.user.lastName;
+      teacher.user.email = email ?? teacher.user.email;
+      teacher.phoneNumber = phoneNumber ?? teacher.phoneNumber;
       teacher.qualification = qualification ?? teacher.qualification;
-      // teacher.description = description ?? teacher.description;
+      teacher.description = description ?? teacher.description;
       teacher.experience = experience ?? teacher.experience;
       teacher.teacherId = teacherId ?? teacher.teacherId;
 
@@ -140,7 +121,7 @@ export class TeacherController {
       // return "You are not authorized to create a MOH";
       return res
         .status(403)
-        .json({ message: "You are not authorized to create a Moh" });
+        .json({ message: "You are not authorized to create a TEacher" });
     }
 
     const userId = req.user?.userId;

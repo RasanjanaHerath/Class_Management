@@ -32,6 +32,9 @@ export class Class {
   @Column()
   numberOfStudents: number;
 
+  @Column({default: false})
+  isverify: boolean;
+
   @Column({ type: 'decimal', precision: 10, scale: 2 }) 
   feePerMonth: number;
 

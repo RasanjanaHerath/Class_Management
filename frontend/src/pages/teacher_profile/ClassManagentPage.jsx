@@ -68,6 +68,8 @@ const ClassManagement = () => {
     setIsEditing(false);
   };
 
+
+
   return (
     <div className="flex flex-col lg:flex-row min-h-screen md:ml-64 ml-0">
       <div className="flex-grow p-4">

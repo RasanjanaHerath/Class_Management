@@ -24,7 +24,7 @@ import StudentReport from "./pages/teacher_profile/StudentReport";
 import Messege from "./pages/teacher_profile/Messege";
 import StudentClass from "./pages/studentClass";
 
-import TeacherDetails from "./pages/admin_profile/teacherDetails";
+import TeacherDetails from "./pages/admin_profile/TeacherDetails";
 import StudentDetails from "./pages/admin_profile/StudentDetails";
 
 const router = createBrowserRouter([

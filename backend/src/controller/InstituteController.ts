@@ -108,12 +108,23 @@ export class InstituteController {
 //         const { name, email, city , phoneNumber} = req.body;
 //         const instituteRepository = AppDataSource.getRepository(Institute);
 
+<<<<<<< HEAD
 //         const institute = await instituteRepository.findOneBy({ id: parseInt(req.params.id) });
 //         if (institute) {
 //         // institute.name = name;
 //         // institute.email = email;
 //         institute.city = city;
 //         institute.city = city;
+=======
+        // const institute = await instituteRepository.findOneBy({ id: parseInt(req.params.id) });
+        const institute = await instituteRepository.findOneBy({ id: req.params.id });
+
+
+        if (institute) {
+        institute.name = name;
+        institute.email = email;
+        institute.city = city;
+>>>>>>> 545cf55 (wip)
 
 
 //         await instituteRepository.save(institute);
@@ -127,7 +138,10 @@ export class InstituteController {
     static deleteInstitute = async (req: Request, res: Response) => {
         const instituteRepository = AppDataSource.getRepository(Institute);
 
-        const institute = await instituteRepository.findOneBy({ id: parseInt(req.params.id) });
+        // const institute = await instituteRepository.findOneBy({ id: parseInt(req.params.id) });
+        const institute = await instituteRepository.findOneBy({ id: req.params.id });
+
+
         if (institute) {
         await instituteRepository.remove(institute);
         res.json({ message: "Institute deleted" });

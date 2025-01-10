@@ -10,6 +10,7 @@ require('dotenv').config();
 import classRoutes from "./route/classRoutes"; 
 import teacherRoutes from "./route/TeacherRouts";
 import assignmentRoutes from "./route/AssignmentRoutes";
+import student_router from "./route/student.routes";
 
 
 AppDataSource.initialize().then(async () => {

@@ -39,7 +39,7 @@ export class Class {
   @ManyToOne(() => Institute, (institute) => institute.classes)
   institute: Institute;
 
-  @OneToMany(() => Student, (student) => student.class)
+  @OneToMany(() => Student, (student) => student.classes)
   students: Student[];
 
   @OneToMany(() => Assignment, (assignment) => assignment.class)

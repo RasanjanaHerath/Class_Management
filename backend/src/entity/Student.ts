@@ -11,10 +11,31 @@ export class Student {
   id: string;
 
   @Column()
-  name: string;
+  school: string;
+
+  @Column()
+  birthday: string
+
+  @Column()
+  age: string
+
+  @Column()
+  address: string
+
+  @Column()
+  nic: string
+
+  @Column()
+  telephone: string
+
+  @Column()
+  parents_name: string
+
+  @Column()
+  parents_number: string
 
   @ManyToOne(() => Class, (classEntity) => classEntity.students, { nullable: true })
-  class: Class;
+  classes: Class;
 
   @ManyToOne(() => Institute, (institute) => institute.students, { nullable: true })
   institute: Institute;

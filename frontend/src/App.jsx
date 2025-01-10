@@ -26,6 +26,8 @@ import StudentClass from "./pages/studentClass";
 
 import TeacherDetails from "./pages/admin_profile/TeacherDetails";
 import StudentDetails from "./pages/admin_profile/StudentDetails";
+import PaymentDetails from "./pages/admin_profile/PaymentDetails";
+import Notifications from "./pages/admin_profile/Notifications";
 
 const router = createBrowserRouter([
   {
@@ -185,7 +187,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <notification/>,
+        element: <Notifications/>,
       },
     ],
   },
@@ -195,7 +197,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <payment_details/>,
+        element: <PaymentDetails/>,
       },
     ],
   },

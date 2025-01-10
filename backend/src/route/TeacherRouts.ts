@@ -2,7 +2,6 @@
 import { Router } from 'express';
 import { TeacherController } from '../controller/TeacherController';
 import { jwtMiddleware } from '../middleware/jwtMiddleware';
-import { validateTeacher } from '../middleware/validateTeacher';
 
 const teacherRoutes = Router();
 

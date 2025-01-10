@@ -29,7 +29,7 @@ const ResultsHistogram = () => {
 
   return (
     <div className="bg-gray-200 rounded-lg shadow-md h-300">
-      <h2 className="text-xl font-bold mb-4 text-center">Class Results</h2>
+      <h2 className="text-xl font-bold mb-4 text-center">Last Exam Results</h2>
       <Bar data={data} options={options} />
     </div>
   );
@@ -43,7 +43,7 @@ const StudentProfile = () => {
   const [institutes , setInstitutes] = useState();
 
  // const courses = ['Physics', 'Chemistry', 'Mathematics', 'Biology', 'History'];
-  //const institutes = ['Institute 1', 'Institute 2', 'Institute 3'];
+ //const institutes = ['Institute 1', 'Institute 2', 'Institute 3'];
 
   useEffect(() => {
     axios.get(`${BASE_URL}institute`)
@@ -161,6 +161,22 @@ const StudentProfile = () => {
           <div className="bg-white rounded-lg p-6 shadow-lg max-w-md w-full">
             <h2 className="text-xl font-bold mb-4">Enroll in a Course</h2>
 
+            <div className="mb-4">
+              <label className="block text-gray-700 font-bold mb-2">Select City:</label>
+              <select
+                value={selectedCourse}
+                onChange={(e) => setSelectedCourse(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none"
+              >
+                <option value="">Choose City</option>
+                {institutes.map((institute) => (
+                  <option key={institute.id} value={institute}>
+                    {institute.city}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             {/* Institute Dropdown */}
             <div className="mb-4">
               <label className="block text-gray-700 font-bold mb-2">Select an Institute:</label>
@@ -189,8 +205,8 @@ const StudentProfile = () => {
               >
                 <option value="">Choose a course</option>
                 {institutes.map((institute) => (
-                  <option key={institute} value={institute}>
-                    {institute.subject}
+                  <option key={institute.id} value={institute}>
+                    {institute.classes}
                   </option>
                 ))}
               </select>

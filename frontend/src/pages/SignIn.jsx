@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import React from 'react'
 // import { useState } from 'react';
 // import axios from "axios";
@@ -185,6 +186,42 @@ const SignIn = () => {
     return newErrors;
   };
 
+=======
+import React, { useState } from 'react';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import logo from '../assets/logo.png';
+
+const SignIn = () => {
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    userName: '',
+    password: '',
+    role: '',
+    instituteName: '',
+    captcha: false,
+  });
+
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.firstName) newErrors.firstName = 'First Name is required';
+    if (!formData.lastName) newErrors.lastName = 'Last Name is required';
+    if (!formData.email) newErrors.email = 'Email is required';
+    if (!formData.userName) newErrors.userName = 'Username is required';
+    if (!formData.password) newErrors.password = 'Password is required';
+    if (formData.role === 'institute' && !formData.instituteName)
+      newErrors.instituteName = 'Institute Name is required';
+    if (!formData.captcha) newErrors.captcha = 'Captcha is required';
+    return newErrors;
+  };
+
+>>>>>>> aedfd8d (wIP)
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -195,6 +232,7 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+<<<<<<< HEAD
     const newErrors = validateForm();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -230,10 +268,45 @@ const SignIn = () => {
               value={formData.firstName}
               onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+=======
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:3000/api/users", formData);
+      console.log(response.data);
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-slate-100">
+      <div className="bg-sky-500 p-8 rounded-lg shadow-md w-full max-w-md hover:bg-blue-500 hover:shadow-2xl transform hover:scale-105 transition duration-300">
+        <img src={logo} alt="ClassMaster Logo" className="mb-4 mx-auto w-20" />
+        <h2 className="text-3xl mb-6 text-center text-white">ClassMaster</h2>
+        <p className="text-center text-white mb-6">
+          Already have an account? <a href="/login" className="underline">Login</a>
+        </p>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-white">First Name:</label>
+            <input
+              type="text"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              className="w-full px-3 py-2 mt-1 border rounded"
+>>>>>>> aedfd8d (wIP)
             />
             {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName}</p>}
           </div>
           <div className="mb-4">
+<<<<<<< HEAD
             <label htmlFor="lastName" className="block text-gray-700">Last Name</label>
             <input
               type="text"
@@ -242,10 +315,20 @@ const SignIn = () => {
               value={formData.lastName}
               onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+=======
+            <label className="block text-white">Last Name:</label>
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              className="w-full px-3 py-2 mt-1 border rounded"
+>>>>>>> aedfd8d (wIP)
             />
             {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName}</p>}
           </div>
           <div className="mb-4">
+<<<<<<< HEAD
             <label htmlFor="userName" className="block text-gray-700">Username</label>
             <input
               type="text"
@@ -254,10 +337,31 @@ const SignIn = () => {
               value={formData.userName}
               onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+=======
+            <label className="block text-white">Email:</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full px-3 py-2 mt-1 border rounded"
+            />
+            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+          </div>
+          <div className="mb-4">
+            <label className="block text-white">Username (only letters, numbers, and underscores):</label>
+            <input
+              type="text"
+              name="userName"
+              value={formData.userName}
+              onChange={handleChange}
+              className="w-full px-3 py-2 mt-1 border rounded"
+>>>>>>> aedfd8d (wIP)
             />
             {errors.userName && <p className="text-red-500 text-sm">{errors.userName}</p>}
           </div>
           <div className="mb-4">
+<<<<<<< HEAD
             <label htmlFor="email" className="block text-gray-700">Email</label>
             <input
               type="email"
@@ -279,11 +383,24 @@ const SignIn = () => {
               value={formData.password}
               onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+=======
+            <label className="block text-white">Password (min. 8 char):</label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full px-3 py-2 mt-1 border rounded"
+>>>>>>> aedfd8d (wIP)
             />
             {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
           </div>
           <div className="mb-4">
+<<<<<<< HEAD
             <label htmlFor="password" className="block text-gray-700">Role</label>
+=======
+            <label className="block text-white">Role:</label>
+>>>>>>> aedfd8d (wIP)
             <select
               name="role"
               value={formData.role}
@@ -298,12 +415,41 @@ const SignIn = () => {
             {errors.role && <p className="text-red-500 text-sm">{errors.role}</p>}
             
           </div>
+<<<<<<< HEAD
           {errors.form && <p className="text-red-500 text-sm mb-4">{errors.form}</p>}
           <button
             type="submit"
             className="w-full bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg transition transform hover:scale-105"
           >
             Next
+=======
+          {formData.role === 'institute' && (
+            <div className="mb-4">
+              <label className="block text-white">Institute Name:</label>
+              <input
+                type="text"
+                name="instituteName"
+                value={formData.instituteName}
+                onChange={handleChange}
+                className="w-full px-3 py-2 mt-1 border rounded"
+              />
+              {errors.instituteName && <p className="text-red-500 text-sm">{errors.instituteName}</p>}
+            </div>
+          )}
+          <div className="mb-4 flex items-center">
+            <input
+              type="checkbox"
+              name="captcha"
+              checked={formData.captcha}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label className="text-white">I'm not a robot</label>
+            {errors.captcha && <p className="text-red-500 text-sm">{errors.captcha}</p>}
+          </div>
+          <button type="submit" className="w-full bg-blue-800 text-white py-2 rounded hover:bg-blue-900">
+            Register
+>>>>>>> aedfd8d (wIP)
           </button>
         </form>
       </div>
@@ -311,4 +457,8 @@ const SignIn = () => {
   );
 };
 
+<<<<<<< HEAD
 export default SignIn;
+=======
+export default SignIn;
+>>>>>>> aedfd8d (wIP)

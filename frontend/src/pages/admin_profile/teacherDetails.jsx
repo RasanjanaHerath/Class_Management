@@ -6,6 +6,7 @@ const TeacherDetails = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-10 md:ml-64 md:mr-64">
       <h1 className="text-2xl font-bold mb-6 text-center">Teacher Details</h1>
+      
       <div className="overflow-x-auto">
         <table className="table-auto w-full bg-white shadow-lg rounded-lg">
           <thead className="bg-gray-400 text-white">

@@ -26,8 +26,8 @@ export class Teacher {
 
   @Column({ nullable: true })
   qualification: string;
-
-  @Column("simple-array")
+  
+  @Column("simple-array", { nullable: true })
   subjects: string[];
 
   @Column({ nullable:true })

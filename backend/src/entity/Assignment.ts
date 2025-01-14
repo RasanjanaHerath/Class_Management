@@ -21,6 +21,9 @@ export class Assignment {
   @Column()
   totalMarks: number;
 
+  @Column({ nullable: true })
+  assignmentFilePath: string; // Add this column to store the file path
+
   @CreateDateColumn()
   createdAt: Date;
   

@@ -31,7 +31,6 @@ export const AppDataSource = new DataSource({
         User,
         Grade,
         Result,
-        Announcement
 
     ],
     migrations: [],

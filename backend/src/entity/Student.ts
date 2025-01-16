@@ -6,7 +6,7 @@ import { Notice } from './Notice';
 
 @Entity('students')
 export class Student {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: string;
 
   @Column()

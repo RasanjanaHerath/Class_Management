@@ -14,31 +14,25 @@ export class classController {
     static createClass = async (req: Request, res: Response) => {
         try {
             const { 
-                instituteName, 
                 subject, 
-                batch, 
                 grade, 
-                dateTime, 
-                teacherName, 
+                startTime, 
+                endTime, 
                 feePerMonth, 
-                teacherExperience, 
+                scheduleDay, 
                 numberOfStudents, 
-                teacherContactPhoneNumber, 
                 //modeOfTeaching 
             } = req.body;
     
             
             const newClass = new Class();
-            newClass.instituteName = instituteName;
             newClass.subject = subject;
-            //newClass.batch = batch;
             newClass.grade = grade;
-            //newClass.dateTime = dateTime;
-            newClass.teacherName = teacherName;
+            newClass.startTime = startTime;
+            newClass.endTime = endTime;
             newClass.feePerMonth = feePerMonth;
-            newClass.teacherExperience = teacherExperience;
+            newClass.scheduleDay = scheduleDay;
             newClass.numberOfStudents = numberOfStudents;
-            //newClass.teacherContactPhoneNumber = teacherContactPhoneNumber;
             //newClass.modeOfTeaching = modeOfTeaching;
     
             const classRepository = AppDataSource.getRepository(Class);
@@ -56,16 +50,13 @@ export class classController {
     // Update a class
     static updateClass = async (req: Request, res: Response) => {
         const {
-            instituteName,
-            subject,
-            batch,
-            grade,
-            dateTime,
-            teacherName,
-            feePerMonth,
-            teacherExperience,
-            numberOfStudents,
-            teacherContactPhoneNumber,
+            subject, 
+            grade, 
+            startTime, 
+            endTime, 
+            feePerMonth, 
+            scheduleDay, 
+            numberOfStudents, 
            // modeOfTeaching
         } = req.body;
 
@@ -76,17 +67,15 @@ export class classController {
 
         if (existingClass) {
             // Update class properties with the provided values
-            existingClass.instituteName = instituteName;
+            existingClass.subject = subject;
             existingClass.subject = subject;
             //existingClass.batch = batch;
             existingClass.grade = grade;
-            //existingClass.dateTime = dateTime;
-            existingClass.teacherName = teacherName;
+            existingClass.startTime = startTime;
+            existingClass.endTime = endTime;
+            existingClass.scheduleDay = scheduleDay;
             existingClass.feePerMonth = feePerMonth;
-            existingClass.teacherExperience = teacherExperience;
             existingClass.numberOfStudents = numberOfStudents;
-            //existingClass.teacherContactPhoneNumber = teacherContactPhoneNumber;
-            //existingClass.modeOfTeaching = modeOfTeaching;
 
             // Save the updated class to the database
             await classRepository.save(existingClass);

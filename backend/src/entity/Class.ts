@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'ty
 import { Institute } from './Institute';
 import { Teacher } from './Teacher';
 import { Student } from './Student';
+import { Assignment } from './Assignment';
 
 @Entity('classes')
 export class Class {
@@ -32,6 +33,9 @@ export class Class {
   @Column()
   numberOfStudents: number;
 
+  @Column({default: false})
+  isverify: boolean;
+
   @Column({ type: 'decimal', precision: 10, scale: 2 }) 
   feePerMonth: number;
 
@@ -49,4 +53,7 @@ export class Class {
 
   @OneToMany(() => Student, (student) => student.class)
   students: Student[];
+
+  @OneToMany(() => Assignment, (assignment) => assignment.class)
+  assignments: Assignment[];
 }

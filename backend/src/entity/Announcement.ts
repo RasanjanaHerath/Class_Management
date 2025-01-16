@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { User } from './User';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn ,DeleteDateColumn} from 'typeorm';
 import { Teacher } from './Teacher';
+
 
 @Entity()
 export class Announcement {
@@ -19,6 +19,9 @@ export class Announcement {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => Teacher, teacher => teacher.announcements)
-  teacher: Teacher;
+  @DeleteDateColumn({ nullable: true })
+  deletedAt: Date | null;
+
+  // @ManyToOne(() => Teacher, teacher => teacher.announcements)
+  // teacher: Teacher;
 }

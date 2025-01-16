@@ -1,11 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne ,CreateDateColumn, UpdateDateColumn, DeleteDateColumn} from 'typeorm';
 import { Teacher } from './Teacher';
 import { Result } from './Result';
+import { Institute } from './Institute';
+import { Class } from './Class';
 
 @Entity('assignments')
 export class Assignment {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
   title: string;
@@ -13,8 +15,32 @@ export class Assignment {
   @Column()
   description: string;
 
+  @Column()
+  dueDate: Date;
+  
+  @Column()
+  totalMarks: number;
+
+  @Column({ nullable: true })
+  assignmentFilePath: string; // Add this column to store the file path
+
+  @CreateDateColumn()
+  createdAt: Date;
+  
+  @UpdateDateColumn()
+  updatedAt: Date;
+  
+  @DeleteDateColumn({ nullable: true })
+  deletedAt: Date | null;
+
   @ManyToOne(() => Teacher, (teacher) => teacher.assignments)
   teacher: Teacher;
+
+  @ManyToOne(() => Institute, (institute) => institute.assignments)
+  institute: Institute;
+
+  @ManyToOne(() => Class, (classes) => classes.assignments)
+  class: Class;
 
   @OneToOne(() => Result, (result) => result.assignment)
   result: Result;

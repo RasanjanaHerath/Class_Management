@@ -1,20 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany , OneToOne, JoinColumn} from 'typeorm';
 import { Teacher } from './Teacher';
 import { Student } from './Student';
 import { Class } from './Class';
 import { Grade } from './Grade';
 import { Notice } from './Notice';
+import { Assignment } from './Assignment';
+import { User } from './User';
 
 @Entity('institutes')
 export class Institute {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: number
 
   @Column()
-  name: string
-
-  @Column()
-  email: string
+  phoneNumber: string
 
   @Column()
   city: string
@@ -33,5 +32,15 @@ export class Institute {
 
   @OneToMany(() => Notice, (notice) => notice.institute)
   notices: Notice[];
+
+  @OneToMany(() => Assignment, (assignment) => assignment.institute)
+  assignments: Assignment[];
+
+  @OneToOne(() => User, {
+    nullable: false,
+    onDelete: "CASCADE",
+  })
+  @JoinColumn()
+  user: User;
 }
 

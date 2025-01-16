@@ -79,7 +79,7 @@ export class TeacherController {
         return res.status(404).json({ message: "Teacher not found" });
       }
 
-      // Update the moh's details
+      // Update the teacher's details
       teacher.user.firstName = firstName ?? teacher.user.firstName;
       teacher.user.lastName = lastName ?? teacher.user.lastName;
       teacher.user.email = email ?? teacher.user.email;
@@ -88,21 +88,6 @@ export class TeacherController {
       teacher.description = description ?? teacher.description;
       teacher.experience = experience ?? teacher.experience;
       teacher.teacherId = teacherId ?? teacher.teacherId;
-
-      // console.log("phm ", userId);
-      // if (userId) {
-      //   const user = await this.userRepository.findOne({
-      //     where: { id: userId },
-      //   });
-      //   const phm = await this.phmRepository.findOne({
-      //     where: { user },
-      //     relations: ["user"],
-      //   });
-      //   if (!phm) {
-      //     return response.status(404).json({ message: "PHM not found" });
-      //   }
-      //   moh.phm = phm; // Update the PHM relationship
-      // }
 
       await teacherRepository.save(teacher);
       res.send(teacher);

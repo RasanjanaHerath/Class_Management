@@ -9,14 +9,8 @@ import { User } from './User';
 
 @Entity('institutes')
 export class Institute {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: number
-
-  @Column()
-  name: string
-
-  @Column()
-  email: string
 
   @Column()
   phoneNumber: string

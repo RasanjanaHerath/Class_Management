@@ -55,8 +55,8 @@ export class Teacher {
   @OneToMany(() => Assignment, (assignment) => assignment.teacher)
   assignments: Assignment[];
 
-  @OneToMany(() => Announcement, (announcement) => announcement.teacher)
-  announcements: Assignment[];
+  // @OneToMany(() => Announcement, (announcement) => announcement.teacher)
+  // announcements: Assignment[];
 
   @OneToMany(() => Notice, (notice) => notice.teacher)
   notices: Notice[];

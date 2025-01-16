@@ -22,6 +22,6 @@ export class Announcement {
   @DeleteDateColumn({ nullable: true })
   deletedAt: Date | null;
 
-  @ManyToOne(() => Teacher, teacher => teacher.announcements)
-  teacher: Teacher;
+  // @ManyToOne(() => Teacher, teacher => teacher.announcements)
+  // teacher: Teacher;
 }

@@ -12,7 +12,7 @@ export class InstituteController {
     //     const institute = await instituteRepository.find();
     //     res.json(institute);
     // };
-
+  
     static getAll = async (req: Request, res: Response, next: NextFunction) => {
         const instituteRepository = AppDataSource.getRepository(Teacher);
     
@@ -26,19 +26,19 @@ export class InstituteController {
     };
 
     // Create a new user
-    static createInstitute = async (req: Request, res: Response) => {
-        const { name, email, city } = req.body;
-        const institute = new Institute();
-        institute.name = name;
-        institute.email = email;
-        institute.city = city;
+    // static createInstitute = async (req: Request, res: Response) => {
+    //     const { name, email, city } = req.body;
+    //     const institute = new Institute();
+    //     institute.name = name;
+    //     institute.email = email;
+    //     institute.city = city;
 
-        const instituteRepository = AppDataSource.getRepository(Institute);
-        await instituteRepository.save(institute);
-        res.json({ message: "Institute created", institute });
-    };
+    //     const instituteRepository = AppDataSource.getRepository(Institute);
+    //     await instituteRepository.save(institute);
+    //     res.json({ message: "Institute created", institute });
+    // };
 
-    static save = async (req: Request, res: Response, next: NextFunction) => {
+    static createInstitute = async (req: Request, res: Response, next: NextFunction) => {
         const { city , phoneNumber} = req.body;
     
         if (req.user.userRole !== "institute") {
@@ -46,7 +46,7 @@ export class InstituteController {
           // return "You are not authorized to create a MOH";
           return res
             .status(403)
-            .json({ message: "You are not authorized to create a TEacher" });
+            .json({ message: "You are not authorized to create a Teacher" });
         }
     
         const userId = req.user?.userId;
@@ -91,23 +91,24 @@ export class InstituteController {
       };
 
     // Update a user
-    static updateInstitute = async (req: Request, res: Response) => {
-        const { name, email, city } = req.body;
-        const instituteRepository = AppDataSource.getRepository(Institute);
+//     static updateInstitute = async (req: Request, res: Response) => {
+//         const { name, email, city , phoneNumber} = req.body;
+//         const instituteRepository = AppDataSource.getRepository(Institute);
 
-        const institute = await instituteRepository.findOneBy({ id: parseInt(req.params.id) });
-        if (institute) {
-        institute.name = name;
-        institute.email = email;
-        institute.city = city;
+//         const institute = await instituteRepository.findOneBy({ id: parseInt(req.params.id) });
+//         if (institute) {
+//         // institute.name = name;
+//         // institute.email = email;
+//         institute.city = city;
+//         institute.city = city;
 
 
-        await instituteRepository.save(institute);
-        res.json({ message: "Institute updated", institute });
-        } else {
-        res.json({ message: "Institute not found" });
-        }
-    };
+//         await instituteRepository.save(institute);
+//         res.json({ message: "Institute updated", institute });
+//         } else {
+//         res.json({ message: "Institute not found" });
+//         }
+//     };
 
     // Delete a user
     static deleteInstitute = async (req: Request, res: Response) => {
@@ -121,6 +122,59 @@ export class InstituteController {
         res.json({ message: "Institute not found" });
        }
     };
+
+    static updateInstitute = async (req: Request, res: Response, next: NextFunction) => {
+      const instituteRepository = AppDataSource.getRepository(Institute);
+      //const instituteId = parseInt(req.params.id, 10);
+      //const updateData = req.body; // Expect the necessary fields in the body
+
+      // try {
+      //     // Find the teacher by ID
+      //     const teacher = await teacherRepository.findOneBy({ teacherId });
+      //     if (!teacher) {
+      //         return res.status(404).json({ message: 'Teacher not found' });
+      //     }
+
+      //     // Update teacher details
+      //     Object.assign(teacher, updateData); // Merge new data into existing entity
+      //     await teacherRepository.save(teacher);
+
+      //     return res.status(200).json({ message: 'Teacher updated successfully', teacher });
+      // } catch (error) {
+      //     console.error('Error updating teacher:', error);
+      //     return res.status(500).json({ message: 'An error occurred while updating the teacher.', error });
+      // }
+
+      const id = parseInt(req.params.id);
+      const { firstName, lastName, email, phoneNumber, city } =
+        req.body;
+
+      const userId = req.user?.userId;
+
+      try {
+        const institute = await instituteRepository.findOne({
+          where: { id },
+          relations: ["user"],
+        });
+
+        if (!institute) {
+          return res.status(404).json({ message: "Teacher not found" });
+        }
+
+        // Update the moh's details
+        institute.user.firstName = firstName ?? institute.user.firstName;
+        institute.user.lastName = lastName ?? institute.user.lastName;
+        institute.user.email = email ?? institute.user.email;
+        institute.phoneNumber = phoneNumber ?? institute.phoneNumber;
+        institute.city = city ?? institute.city;
+      
+        await instituteRepository.save(institute);
+        res.send(institute);
+        return;
+      } catch (error) {
+        return next(error);
+      }
+    };
 
 
     

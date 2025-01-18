@@ -1,139 +1,91 @@
 import React, { useState } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Tab, Tabs, Box } from '@mui/material';
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend } from 'chart.js';
 
-const AnalyticsAndReports = () => {
-  // Dummy data for charts
-  const data = [
-    { name: 'Jan', userGrowth: 30 },
-    { name: 'Feb', userGrowth: 50 },
-    { name: 'Mar', userGrowth: 70 },
-    { name: 'Apr', userGrowth: 90 },
-    { name: 'May', userGrowth: 120 },
-  ];
+// Register Chart.js components
+ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
 
-  const [dateRange, setDateRange] = useState('This Month');
-  const [userType, setUserType] = useState('All Users');
+const AnalyticsPage = () => {
+  const [selectedPeriod, setSelectedPeriod] = useState('daily');
 
-  // Handle date range change
-  const handleDateRangeChange = (e) => {
-    setDateRange(e.target.value);
+  const data = {
+    daily: {
+      institutes: [10, 15, 18, 25, 30, 35, 40, 45, 50, 55],
+      teachers: [50, 60, 70, 85, 90, 100, 110, 120, 130, 140],
+      students: [200, 220, 250, 280, 300, 320, 340, 360, 380, 400],
+    },
+    weekly: {
+      institutes: [70, 75, 85, 95, 110, 120, 130, 140, 150, 160],
+      teachers: [350, 380, 400, 440, 500, 550, 600, 650, 700, 750],
+      students: [1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300],
+    },
+    monthly: {
+      institutes: [300, 350, 400, 450, 500, 550, 600, 650, 700, 750],
+      teachers: [1500, 1600, 1700, 1800, 2000, 2200, 2400, 2600, 2800, 3000],
+      students: [6000, 6500, 7000, 7500, 8000, 8500, 9000, 9500, 10000, 10500],
+    },
   };
 
-  // Handle user type change
-  const handleUserTypeChange = (e) => {
-    setUserType(e.target.value);
+  // Generate labels based on the selected period
+  const generateLabels = () => {
+    switch (selectedPeriod) {
+      case 'daily':
+        return ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7', 'Day 8', 'Day 9', 'Day 10'];
+      case 'weekly':
+        return ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8', 'Week 9', 'Week 10'];
+      case 'monthly':
+        return ['Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5', 'Month 6', 'Month 7', 'Month 8', 'Month 9', 'Month 10'];
+      default:
+        return [];
+    }
+  };
+
+  const chartData = (type) => {
+    return {
+      labels: generateLabels(),
+      datasets: [
+        {
+          label: `${type.charAt(0).toUpperCase() + type.slice(1)} Growth`,
+          data: data[selectedPeriod][type],
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1,
+        },
+      ],
+    };
   };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6 md:ml-64">
-      {/* <h1 className="text-4xl font-semibold text-center text-gray-800 mb-8">Analytics & Reports</h1> */}
+      <h1 className="text-2xl font-semibold mb-6">Growth Rate Analytics</h1>
+      
+      <Box sx={{ width: '100%' }}>
+        <Tabs value={selectedPeriod} onChange={(e, newValue) => setSelectedPeriod(newValue)} centered>
+          <Tab label="Daily" value="daily" />
+          <Tab label="Weekly" value="weekly" />
+          <Tab label="Monthly" value="monthly" />
+        </Tabs>
+      </Box>
 
-      {/* Filter Section */}
-      <div className="bg-white p-6 rounded-lg shadow-lg mb-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Date Range */}
-          <div>
-            <label htmlFor="dateRange" className="block text-sm font-semibold text-gray-700">Date Range</label>
-            <select
-              id="dateRange"
-              value={dateRange}
-              onChange={handleDateRangeChange}
-              className="w-full p-3 border border-gray-300 rounded-lg"
-            >
-              <option value="This Month">This Month</option>
-              <option value="Last Month">Last Month</option>
-              <option value="This Year">This Year</option>
-              <option value="Custom Range">Custom Range</option>
-            </select>
-          </div>
-
-          {/* User Type */}
-          <div>
-            <label htmlFor="userType" className="block text-sm font-semibold text-gray-700">User Type</label>
-            <select
-              id="userType"
-              value={userType}
-              onChange={handleUserTypeChange}
-              className="w-full p-3 border border-gray-300 rounded-lg"
-            >
-              <option value="All Users">All Users</option>
-              <option value="Students">Students</option>
-              <option value="Teachers">Teachers</option>
-            </select>
-          </div>
-
-          {/* Export Button */}
-          <div className="flex justify-end items-center">
-            <button className="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
-              Export Report
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Charts and Key Metrics */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-        {/* User Growth Chart */}
-        <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">User Growth ({dateRange})</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="userGrowth" stroke="#4F46E5" />
-            </LineChart>
-          </ResponsiveContainer>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+        <div className="p-4 bg-white shadow-md rounded-lg">
+          <h3 className="text-xl font-medium mb-2">Institutes</h3>
+          <Line data={chartData('institutes')} />
         </div>
 
-        {/* Active Users Card */}
-        <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h3 className="text-lg font-semibold text-gray-700">Active Users</h3>
-          <p className="text-3xl font-bold text-blue-600">1,234</p>
+        <div className="p-4 bg-white shadow-md rounded-lg">
+          <h3 className="text-xl font-medium mb-2">Teachers</h3>
+          <Line data={chartData('teachers')} />
         </div>
 
-        {/* New Registrations Card */}
-        <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h3 className="text-lg font-semibold text-gray-700">New Registrations</h3>
-          <p className="text-3xl font-bold text-green-600">300</p>
+        <div className="p-4 bg-white shadow-md rounded-lg">
+          <h3 className="text-xl font-medium mb-2">Students</h3>
+          <Line data={chartData('students')} />
         </div>
-      </div>
-
-      {/* Detailed Reports Table */}
-      <div className="bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-4">Detailed Reports</h2>
-        <table className="min-w-full table-auto">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="p-3 text-left">User ID</th>
-              <th className="p-3 text-left">Name</th>
-              <th className="p-3 text-left">Email</th>
-              <th className="p-3 text-left">Date Registered</th>
-              <th className="p-3 text-left">User Type</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* Sample Data for Table */}
-            <tr className="border-b">
-              <td className="p-3">U12345</td>
-              <td className="p-3">John Doe</td>
-              <td className="p-3">johndoe@example.com</td>
-              <td className="p-3">2023-05-12</td>
-              <td className="p-3">Student</td>
-            </tr>
-            <tr className="border-b">
-              <td className="p-3">U12346</td>
-              <td className="p-3">Jane Smith</td>
-              <td className="p-3">janesmith@example.com</td>
-              <td className="p-3">2023-05-15</td>
-              <td className="p-3">Teacher</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
   );
 };
 
-export default AnalyticsAndReports;
+export default AnalyticsPage;

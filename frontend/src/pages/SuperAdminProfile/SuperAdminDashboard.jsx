@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Tab, Tabs, Box } from '@mui/material';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import Calendar from 'react-calendar'; // Ensure this line is at the top
+
 
 const SuperAdminDashboard = () => {
   // Dummy data
@@ -108,6 +110,7 @@ const SuperAdminDashboard = () => {
             </LineChart>
           </ResponsiveContainer>
         </div>
+
         <div className="bg-white p-6 rounded-lg shadow-lg w-full lg:w-3/3">
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">Popular Institutes & Teachers</h2>
           <Tabs value={tabIndexInstitutes} onChange={handleTabChangeInstitutes} centered>
@@ -193,6 +196,7 @@ const SuperAdminDashboard = () => {
             )}
           </Box>
         </div>
+        {/* Feedback Section */}
         <div className="bg-white p-6 rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">Feedback</h2>
           <ul className="space-y-4">
@@ -207,16 +211,6 @@ const SuperAdminDashboard = () => {
             ))}
           </ul>
         </div>
-
-        {/* Popular Institutes and Teachers */}
-        
-      </div>
-
-      {/* 4th Row: Calendar and Feedback Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-6">
-        {/* Feedback Section */}
-        
-
         {/* Event Calendar */}
         <div className="bg-white p-6 rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">Upcoming events</h2>
@@ -227,21 +221,12 @@ const SuperAdminDashboard = () => {
               <li className="text-gray-600">Event 3 - August 20, 2023</li>
             </ul>
           </div>
-        </div>
-      </div>
+        </div>  
 
-      {/* 5th Row: Calendar Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-6">
-        {/* Event Calendar */}
+        {/* React Calendar */}
         <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-semibold text-gray-700 mb-4">Upcoming events</h2>
-          <div className="bg-gray-100 p-6 rounded-lg">
-            <ul className="space-y-4">
-              <li className="text-gray-600">Event 1 - June 15, 2023</li>
-              <li className="text-gray-600">Event 2 - July 5, 2023</li>
-              <li className="text-gray-600">Event 3 - August 20, 2023</li>
-            </ul>
-          </div>
+          <h2 className="text-2xl font-semibold text-gray-700 mb-4">Event Calendar</h2>
+          <Calendar className="react-calendar rounded-lg shadow-md" />
         </div>
       </div>
     </div>

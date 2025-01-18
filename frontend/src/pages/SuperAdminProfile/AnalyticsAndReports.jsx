@@ -132,9 +132,7 @@ const AnalyticsPage = () => {
     <div className="min-h-screen bg-gray-300 p-6 md:ml-64">
 
       <div className="bg-gray-50 p-4 mt-0 rounded-lg">
-        {/* <h1 className="text-2xl font-semibold mb-6">Growth Rate Analytics</h1> */}
-        
-        <div className="h-4 ">
+        <div className="h-4">
           <Box sx={{ width: '100%' }}>
             <Tabs value={selectedPeriod} onChange={(e, newValue) => setSelectedPeriod(newValue)} centered>
               <Tab label="Daily" value="daily" />
@@ -143,9 +141,9 @@ const AnalyticsPage = () => {
             </Tabs>
           </Box>
         </div>
-          <h1 className="text-xl font-semibold mb-0">Growth Rate Analytics :</h1>
+        <h1 className="text-xl font-semibold mb-0">Growth Rate Analytics :</h1>
 
-
+        {/* Growth Rate Graphs */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
           <div className="p-4 bg-white shadow-md rounded-lg">
             <h3 className="text-xl font-medium mb-2">Institutes</h3>
@@ -164,25 +162,20 @@ const AnalyticsPage = () => {
         </div>
       </div>
 
-      {/* Income Rate, Doughnut Chart, and Reviews on One Line */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6 h-100 mt-5 ">
+      {/* Income Rate, Doughnut Chart, and Reviews */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6 mt-5">
         
         {/* Income Rate Graph */}
         <div className="flex flex-col p-4 bg-white shadow-md rounded-lg">
-          <div className="h-2">
-            <Box sx={{ width: '145%', marginTop: '2rem' }}>
-              <Tabs value={incomePeriod} onChange={(e, newValue) => setIncomePeriod(newValue)} centered>
-                <Tab label="Weekly" value="weekly" />
-                <Tab label="Monthly" value="monthly" />
-              </Tabs>
-            </Box>
-          </div>
-          <div className="p-4 mt-6 ">
+          <Box sx={{ width: '145%', marginTop: '2rem' }}>
+            <Tabs value={incomePeriod} onChange={(e, newValue) => setIncomePeriod(newValue)} centered>
+              <Tab label="Weekly" value="weekly" />
+              <Tab label="Monthly" value="monthly" />
+            </Tabs>
+          </Box>
+          <div className="p-4 mt-6">
             <h3 className="text-xl font-medium mb-2">Income Rate :</h3>
-            <div className="mt-8">
-              <Line data={incomeChartData()} />
-
-            </div>
+            <Line data={incomeChartData()} />
           </div>
         </div>
 
@@ -190,7 +183,7 @@ const AnalyticsPage = () => {
         <div className="flex flex-col items-center p-4 bg-white shadow-md rounded-lg mb-0">
           <h3 className="text-xl font-medium mb-2 mt-2">Customer Satisfaction</h3>
           <div className="p-6">
-            <div className="relative w-full" style={{ height: '270px' }}> {/* Set the height for the chart */}
+            <div className="relative w-full" style={{ height: '270px' }}>
               <Doughnut data={satisfactionData} options={satisfactionOptions} />
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xl font-semibold">
                 60%
@@ -202,37 +195,34 @@ const AnalyticsPage = () => {
         {/* Reviews Section */}
         <div className="p-8 bg-white shadow-md rounded-lg">
           <h3 className="text-xl font-medium mb-2">User Reviews</h3>
-            <div className="p-4 mt-6">
-            <p className="text-lg mb-4">Average Rating: {calculateAverageRating()} / 5</p>
-            <div className="space-y-4">
-              {reviews.map((review, index) => (
-                <div key={index} className="flex items-center space-x-2">
-                  <div className="text-sm font-semibold">{review.username}:</div>
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <svg
-                        key={i}
-                        className={`w-5 h-5 ${i < review.rating ? 'text-yellow-500' : 'text-gray-300'}`}
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        aria-hidden="true"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 15l-5.62 3.22 1.08-6.3-4.58-4.47 6.35-.92L10 0l2.67 5.53 6.35.92-4.58 4.47 1.08 6.3L10 15z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    ))}
-                  </div>
-                  <p className="ml-2 text-sm text-gray-600">{review.review}</p>
+          <p className="text-lg mb-4">Average Rating: {calculateAverageRating()} / 5</p>
+          <div className="space-y-4">
+            {reviews.map((review, index) => (
+              <div key={index} className="flex items-center space-x-2">
+                <div className="text-sm font-semibold">{review.username}:</div>
+                <div className="flex">
+                  {[...Array(5)].map((_, i) => (
+                    <svg
+                      key={i}
+                      className={`w-5 h-5 ${i < review.rating ? 'text-yellow-500' : 'text-gray-300'}`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 15l-5.62 3.22 1.08-6.3-4.58-4.47 6.35-.92L10 0l2.67 5.53 6.35.92-4.58 4.47 1.08 6.3L10 15z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  ))}
                 </div>
-              ))}
-            </div>
+                <p className="ml-2 text-sm text-gray-600">{review.review}</p>
+              </div>
+            ))}
           </div>
         </div>
-
       </div>
     </div>
   );

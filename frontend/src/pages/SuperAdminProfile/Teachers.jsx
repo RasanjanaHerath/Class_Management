@@ -56,7 +56,7 @@ const Teachers = () => {
         {/* Search Section */}
         <div className="bg-gray-100 p-6 rounded-lg shadow-sm">
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">Search Teacher</h2>
-          <div className="flex gap-4 mb-6">
+          <div className="flex flex-col sm:flex-row gap-4 mb-6">
             <input
               type="text"
               placeholder="Enter Teacher ID"
@@ -73,7 +73,7 @@ const Teachers = () => {
             />
             <button
               onClick={handleSearch}
-              className="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition"
+              className="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition mt-4 sm:mt-0"
             >
               Search
             </button>
@@ -86,7 +86,7 @@ const Teachers = () => {
             <h3 className="text-xl font-semibold text-gray-700 mb-6">Teacher Details</h3>
             {!isEditing ? (
               <div className="space-y-4">
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row justify-between">
                   <p><strong>Teacher ID:</strong> {teacherData.teacherID}</p>
                   <p><strong>NIC:</strong> {teacherData.nic}</p>
                 </div>
@@ -102,7 +102,7 @@ const Teachers = () => {
                     setFormData({ ...teacherData });
                     setIsEditing(true);
                   }}
-                  className="mt-6 w-full bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600 transition"
+                  className="mt-6 w-full sm:w-auto bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600 transition"
                 >
                   Edit Details
                 </button>
@@ -175,16 +175,16 @@ const Teachers = () => {
                   />
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-4">
                   <button
                     onClick={handleUpdate}
-                    className="w-full bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition"
+                    className="w-full sm:w-auto bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition"
                   >
                     Save Changes
                   </button>
                   <button
                     onClick={() => setIsEditing(false)}
-                    className="w-full bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition"
+                    className="w-full sm:w-auto bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition"
                   >
                     Cancel
                   </button>

@@ -1,41 +1,39 @@
-import React, { useState } from 'react';
-import { Tab, Tabs, Box } from '@mui/material';
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
-import Calendar from 'react-calendar'; // Ensure this line is at the top
-
+import React, { useState } from "react";
+import { Tab, Tabs, Box } from "@mui/material";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts";
+import Calendar from "react-calendar"; // Ensure this line is at the top
 
 const SuperAdminDashboard = () => {
-  // Dummy data
   const [tabIndexNotifications, setTabIndexNotifications] = useState(0); // For Notifications & Messages tabs
   const [tabIndexInstitutes, setTabIndexInstitutes] = useState(0); // For Popular Institutes & Teachers tabs
 
   const userData = [
-    { name: 'Active', value: 70 },
-    { name: 'Inactive', value: 30 },
+    { name: "Active", value: 70 },
+    { name: "Inactive", value: 30 },
   ];
 
   const genderData = [
-    { name: 'Male', value: 55 },
-    { name: 'Female', value: 45 },
+    { name: "Male", value: 55 },
+    { name: "Female", value: 45 },
   ];
 
   const studentAttendance = [
-    { name: 'Week 1', attendance: 80 },
-    { name: 'Week 2', attendance: 75 },
-    { name: 'Week 3', attendance: 85 },
-    { name: 'Week 4', attendance: 90 },
+    { name: "Week 1", attendance: 80 },
+    { name: "Week 2", attendance: 75 },
+    { name: "Week 3", attendance: 85 },
+    { name: "Week 4", attendance: 90 },
   ];
 
   const totalIncome = 50000;
 
-  const popularInstitutes = ['Institute A', 'Institute B', 'Institute C'];
-  const popularTeachers = ['Teacher 1', 'Teacher 2', 'Teacher 3'];
+  const popularInstitutes = ["Institute A", "Institute B", "Institute C"];
+  const popularTeachers = ["Teacher 1", "Teacher 2", "Teacher 3"];
 
   const feedbackData = [
-    { name: 'John Doe', rating: 4, feedback: 'Great platform, very user-friendly!' },
-    { name: 'Jane Smith', rating: 5, feedback: 'Excellent tools for managing classes.' },
-    { name: 'Mark Lee', rating: 3, feedback: 'Good, but needs more customization options.' },
+    { name: "John Doe", rating: 4, feedback: "Great platform, very user-friendly!" },
+    { name: "Jane Smith", rating: 5, feedback: "Excellent tools for managing classes." },
+    { name: "Mark Lee", rating: 3, feedback: "Good, but needs more customization options." },
   ];
 
   // Handle tab change for Notifications & Messages
@@ -71,14 +69,14 @@ const SuperAdminDashboard = () => {
       </div>
 
       {/* First Row: Gender, Active/Inactive Users, Student Attendance */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 h-100">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-semibold text-gray-700 mb-4 fo">Students Percentage by Gender</h2>
+          <h2 className="text-2xl font-semibold text-gray-700 mb-4">Students Percentage by Gender</h2>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie data={genderData} dataKey="value" nameKey="name" outerRadius={100} fill="#8884d8">
                 {genderData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={index === 0 ? '#1E40AF' : '#F59E0B'} />
+                  <Cell key={`cell-${index}`} fill={index === 0 ? "#1E40AF" : "#F59E0B"} />
                 ))}
               </Pie>
             </PieChart>
@@ -91,7 +89,7 @@ const SuperAdminDashboard = () => {
             <PieChart>
               <Pie data={userData} dataKey="value" nameKey="name" outerRadius={100} fill="#8884d8">
                 {userData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={index === 0 ? '#4CAF50' : '#FF6347'} />
+                  <Cell key={`cell-${index}`} fill={index === 0 ? "#4CAF50" : "#FF6347"} />
                 ))}
               </Pie>
             </PieChart>
@@ -111,7 +109,7 @@ const SuperAdminDashboard = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-lg w-full lg:w-3/3">
+        <div className="bg-white p-6 rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">Popular Institutes & Teachers</h2>
           <Tabs value={tabIndexInstitutes} onChange={handleTabChangeInstitutes} centered>
             <Tab label="Institutes" />
@@ -221,7 +219,7 @@ const SuperAdminDashboard = () => {
               <li className="text-gray-600">Event 3 - August 20, 2023</li>
             </ul>
           </div>
-        </div>  
+        </div>
 
         {/* React Calendar */}
         <div className="bg-white p-6 rounded-lg shadow-lg">

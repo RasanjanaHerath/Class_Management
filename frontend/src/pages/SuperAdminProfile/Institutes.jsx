@@ -6,13 +6,11 @@ const Institutes = () => {
   const [instituteName, setInstituteName] = useState('');
   const [email, setEmail] = useState('');
   const [city, setCity] = useState('');
-
   const [errors, setErrors] = useState({
     instituteName: '',
     email: '',
     city: ''
   });
-
   const [creationRequests, setCreationRequests] = useState([
     { instituteName: 'Institute A', email: 'a@institute.com', city: 'City A' },
     { instituteName: 'Institute B', email: 'b@institute.com', city: 'City B' },
@@ -23,8 +21,6 @@ const Institutes = () => {
   const [rejectedInstitutes, setRejectedInstitutes] = useState([
     { instituteName: 'Institute Y', email: 'y@institute.com', city: 'City Y' },
   ]);
-
-  // Snackbar state
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
@@ -133,7 +129,7 @@ const Institutes = () => {
             helperText={errors.instituteName}
             sx={{
               '& .MuiOutlinedInput-root': {
-                borderRadius: '10px', // Custom border radius
+                borderRadius: '10px',
               },
             }}
           />
@@ -147,11 +143,10 @@ const Institutes = () => {
             helperText={errors.email}
             sx={{
               '& .MuiOutlinedInput-root': {
-                borderRadius: '10px', // Custom border radius
+                borderRadius: '10px',
               },
             }}
           />
-
           <TextField
             label="City"
             value={city}
@@ -162,7 +157,7 @@ const Institutes = () => {
             helperText={errors.city}
             sx={{
               '& .MuiOutlinedInput-root': {
-                borderRadius: '10px', // Custom border radius
+                borderRadius: '10px',
               },
             }}
           />
@@ -172,25 +167,25 @@ const Institutes = () => {
             fullWidth
             sx={{
               backgroundColor: '#2d3748', // Matches the gray color from the drawer (bg-gray-800)
-              borderRadius: '10px', // Rounded corners
-              padding: '12px 24px', // Add padding to increase button size
-              fontSize: '16px', // Slightly larger font size
-              fontWeight: 'bold', // Bold text for emphasis
-              color: 'white', // Text color white for contrast
-              textTransform: 'none', // Prevents automatic text transformation (e.g., to uppercase)
-              transition: 'all 0.3s ease-in-out', // Smooth transition for hover effects
+              borderRadius: '10px',
+              padding: '12px 24px',
+              fontSize: '16px',
+              fontWeight: 'bold',
+              color: 'white',
+              textTransform: 'none',
+              transition: 'all 0.3s ease-in-out',
 
               // Hover effects
               '&:hover': {
-                backgroundColor: '#4a5568', // Darker gray on hover (matches hover in the drawer)
-                transform: 'scale(1.05)', // Slight scaling effect
-                boxShadow: '0 6px 15px rgba(0, 0, 0, 0.2)', // Larger shadow on hover
+                backgroundColor: '#4a5568',
+                transform: 'scale(1.05)',
+                boxShadow: '0 6px 15px rgba(0, 0, 0, 0.2)',
               },
 
               // Focused state
               '&:focus': {
-                outline: 'none', // Removes the outline when clicked
-                boxShadow: '0 0 10px rgba(63, 81, 181, 0.6)', // Blueish outline when focused
+                outline: 'none',
+                boxShadow: '0 0 10px rgba(63, 81, 181, 0.6)',
               },
             }}
           >
@@ -227,24 +222,24 @@ const Institutes = () => {
                       <TableCell sx={{ textAlign: 'center' }}>
                         <Button
                           variant="contained"
-                          color="success"  // Modern green color for "Approve"
+                          color="success"
                           onClick={() => handleApprove(index)}
                           sx={{
                             '&:hover': {
-                              backgroundColor: '#388e3c', // Darker green on hover
+                              backgroundColor: '#388e3c',
                             },
-                            marginRight: '8px', // Space between the buttons
+                            marginRight: '8px',
                           }}
                         >
                           Approve
                         </Button>
                         <Button
                           variant="contained"
-                          color="error"  // Modern red color for "Reject"
+                          color="error"
                           onClick={() => handleReject(index)}
                           sx={{
                             '&:hover': {
-                              backgroundColor: '#d32f2f', // Darker red on hover
+                              backgroundColor: '#d32f2f',
                             },
                           }}
                         >
@@ -261,8 +256,8 @@ const Institutes = () => {
       </TabPanel>
 
       <TabPanel value={selectedTab} index={1}>
-      <h3 className="text-xl font-medium font-bold mb-4">Institute List :</h3>
-      {/* Display Approved Institutes */}
+        <h3 className="text-xl font-medium font-bold mb-4">Institute List :</h3>
+        {/* Display Approved Institutes */}
         <Paper className="p-4 bg-white rounded-lg shadow-lg">
           {approvedInstitutes.length === 0 ? (
             <Typography variant="body1">No approved institutes yet.</Typography>
@@ -271,7 +266,7 @@ const Institutes = () => {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center'}}>Institute Name</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>Institute Name</TableCell>
                     <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>Email</TableCell>
                     <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>City</TableCell>
                   </TableRow>
@@ -302,7 +297,7 @@ const Institutes = () => {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center'  }}>Institute Name</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>Institute Name</TableCell>
                     <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>Email</TableCell>
                     <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>City</TableCell>
                   </TableRow>

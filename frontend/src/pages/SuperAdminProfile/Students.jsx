@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const Students = () => {
   const [studentID, setStudentID] = useState('');
@@ -56,7 +56,7 @@ const Students = () => {
         {/* Search Section */}
         <div className="bg-gray-100 p-6 rounded-lg shadow-sm">
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">Search Student</h2>
-          <div className="flex gap-4 mb-6">
+          <div className="flex flex-col sm:flex-row gap-4 mb-6">
             <input
               type="text"
               placeholder="Enter Student ID"
@@ -73,7 +73,7 @@ const Students = () => {
             />
             <button
               onClick={handleSearch}
-              className="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition"
+              className="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition mt-4 sm:mt-0"
             >
               Search
             </button>
@@ -86,7 +86,7 @@ const Students = () => {
             <h3 className="text-xl font-semibold text-gray-700 mb-6">Student Details</h3>
             {!isEditing ? (
               <div className="space-y-4">
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row justify-between">
                   <p><strong>Student ID:</strong> {studentData.studentID}</p>
                   <p><strong>NIC:</strong> {studentData.nic}</p>
                 </div>
@@ -175,7 +175,7 @@ const Students = () => {
                   />
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-4">
                   <button
                     onClick={handleUpdate}
                     className="w-full bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition"

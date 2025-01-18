@@ -49,7 +49,7 @@ const SuperAdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6 md:ml-64">
+    <div className="min-h-screen bg-gray-50 p-6 md:ml-64">
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         <div className="bg-white p-6 rounded-lg shadow-lg text-center">

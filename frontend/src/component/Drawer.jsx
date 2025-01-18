@@ -282,6 +282,15 @@ const Drawer = ({ role }) => {
       { path: "/t_messege", label: "Messeges" },
     ],
     admin: [
+      { path: "/super_admin_profile", label: "Dashboard" },
+      { path: "/institutes", label: "Institutes" },
+      { path: "/admin_teachers", label: "Teachers" },
+      { path: "/admin_students", label: "Students" },
+      { path: "/admin_reports", label: "Analytics and Reports" },
+      { path: "/admin_notifications", label: "Notifications" },
+
+    ],
+    institute: [
       { path: "/admin_profile", label: "Dashboard" },
       { path: "/i_class_management", label: "Manage Classes" },
       { path: "/teacher_details", label: "Teacher Details" },

@@ -1,270 +1,353 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { Tab, Tabs, Box, Typography, Paper, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Snackbar, Alert } from '@mui/material';
 
-const InstituteTable = () => {
-  const [institutes, setInstitutes] = useState([]);
-  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+const Institutes = () => {
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [instituteName, setInstituteName] = useState('');
+  const [email, setEmail] = useState('');
+  const [city, setCity] = useState('');
 
-  const [currentInstitute, setCurrentInstitute] = useState(null);
-  const [newInstituteData, setNewInstituteData] = useState({ name: '', email: '', city: '' });
-  const [updatedData, setUpdatedData] = useState({ name: '', email: '', city: '' });
+  const [errors, setErrors] = useState({
+    instituteName: '',
+    email: '',
+    city: ''
+  });
 
-  // Fetch Institutes from the Backend
-  useEffect(() => {
-    axios.get('http://localhost:3000/api/institute')  // Replace with your backend API endpoint
-      .then(response => {
-        setInstitutes(response.data);
-        console.log("Response:" + JSON.stringify(response.data, null, 2));
-      })
-      .catch(error => {
-        console.error("There was an error fetching the institutes!", error);
-      });
-  }, []);
+  const [creationRequests, setCreationRequests] = useState([
+    { instituteName: 'Institute A', email: 'a@institute.com', city: 'City A' },
+    { instituteName: 'Institute B', email: 'b@institute.com', city: 'City B' },
+  ]);
+  const [approvedInstitutes, setApprovedInstitutes] = useState([
+    { instituteName: 'Institute X', email: 'x@institute.com', city: 'City X' },
+  ]);
+  const [rejectedInstitutes, setRejectedInstitutes] = useState([
+    { instituteName: 'Institute Y', email: 'y@institute.com', city: 'City Y' },
+  ]);
 
-  // Handle Update Button
-  const handleUpdate = (institute) => {
-    setCurrentInstitute(institute); // Set the current institute to be updated
-    setUpdatedData(institute);      // Prepopulate the modal with current data
-    setIsUpdateModalOpen(true);     // Open the update modal
+  // Snackbar state
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const handleTabChange = (event, newValue) => {
+    setSelectedTab(newValue);
   };
 
-  // Handle Details Button
-  const handleDetails = (institute) => {
-    setCurrentInstitute(institute);
-    setIsDetailsModalOpen(true);
-  };
+  const handleCreateInstitute = () => {
+    let valid = true;
+    const newErrors = { instituteName: '', email: '', city: '' };
 
-  // Handle Input Change in the Update Form
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUpdatedData({ ...updatedData, [name]: value });
-  };
+    // Validate institute name
+    if (!instituteName) {
+      newErrors.instituteName = 'Institute name is required';
+      valid = false;
+    }
 
-  // Handle Update Submit with axios PUT
-  const handleUpdateSubmit = () => {
-    axios.put(`http://localhost:3000/api/institute/${currentInstitute.id}`, updatedData)  // Replace with your backend API endpoint
-      .then(response => {
-        // Update the institute list in the frontend
-        const updatedInstitutes = institutes.map((institute) =>
-          institute.id === currentInstitute.id ? response.data : institute
-        );
-        setInstitutes(updatedInstitutes);  // Update the state with the new institute data
-        setIsUpdateModalOpen(false);       // Close the modal after updating
-      })
-      .catch(error => {
-        console.error("There was an error updating the institute!", error);
-      });
-  };
+    // Validate email
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!email) {
+      newErrors.email = 'Email is required';
+      valid = false;
+    } else if (!emailPattern.test(email)) {
+      newErrors.email = 'Invalid email format';
+      valid = false;
+    }
 
-  // Handle Create Submit using axios
-  const handleCreateSubmit = () => {
-    axios.post('http://localhost:3000/api/institute', newInstituteData)  // Replace with your backend API endpoint
-      .then(response => {
-        setInstitutes([...institutes, response.data]);
-        setIsCreateModalOpen(false);  // Close the modal
-        setNewInstituteData({ name: '', email: '', city: '' });  // Reset the form
-      })
-      .catch(error => {
-        console.error("There was an error creating the institute!", error);
-      });
-  };
+    // Validate city
+    if (!city) {
+      newErrors.city = 'City is required';
+      valid = false;
+    }
 
-  // Handle Delete Request
-  const handleDelete = (id) => {
-    const confirmed = window.confirm("Are you sure you want to delete this institute?");
-    if (confirmed) {
-      axios.delete(`http://localhost:3000/api/institute/${id}`)  // Replace with your backend API endpoint
-        .then(() => {
-          const updatedInstitutes = institutes.filter((institute) => institute.id !== id);
-          setInstitutes(updatedInstitutes);
-        })
-        .catch(error => {
-          console.error("There was an error deleting the institute!", error);
-        });
+    // If form is valid, submit the form
+    if (valid) {
+      const newInstitute = { instituteName, email, city };
+      setApprovedInstitutes([...approvedInstitutes, newInstitute]);
+
+      // Reset form fields
+      setInstituteName('');
+      setEmail('');
+      setCity('');
+      setErrors({ instituteName: '', email: '', city: '' }); // Reset errors
+
+      // Set snackbar message and show it
+      setSnackbarMessage(`Institute ${instituteName} is created..!`);
+      setOpenSnackbar(true);
+    } else {
+      setErrors(newErrors); // Set validation errors
     }
   };
 
+  const handleApprove = (index) => {
+    const approved = creationRequests[index];
+    setApprovedInstitutes([...approvedInstitutes, approved]);
+    const updatedRequests = creationRequests.filter((_, i) => i !== index);
+    setCreationRequests(updatedRequests);
+
+    // Show approval Snackbar
+    setSnackbarMessage(`Institute ${approved.instituteName} is approved!`);
+    setOpenSnackbar(true);
+  };
+
+  const handleReject = (index) => {
+    const rejected = creationRequests[index];
+    setRejectedInstitutes([...rejectedInstitutes, rejected]);
+    const updatedRequests = creationRequests.filter((_, i) => i !== index);
+    setCreationRequests(updatedRequests);
+
+    // Show rejection Snackbar
+    setSnackbarMessage(`Institute ${rejected.instituteName} is rejected!`);
+    setOpenSnackbar(true);
+  };
+
+  // Close the Snackbar
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
   return (
-    <div className="container mx-auto my-8 p-6 bg-gray-50 rounded-lg shadow-md max-w-auto md:ml-64">
-      <h3 className="text-2xl mb-4">Institute List</h3>
+    <div className="min-h-screen bg-gray-50 p-6 md:ml-64">
+      <div className="text-center mb-6">
+        <Typography variant="h4" className="font-semibold text-gray-700">Institute Management</Typography>
+      </div>
 
-      {/* Create Institute Button */}
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mb-4"
-        onClick={() => setIsCreateModalOpen(true)}
+      {/* MUI Tabs for Navigation */}
+      <Box sx={{ width: '100%' }} className="mb-6">
+        <Tabs value={selectedTab} onChange={handleTabChange} centered textColor="primary" indicatorColor="primary">
+          <Tab label="Creation Requests" />
+          <Tab label="Institute List" />
+          <Tab label="Rejected Institutes" />
+        </Tabs>
+      </Box>
+
+      {/* Institute Creation Form for Super Admin */}
+      {selectedTab === 0 && (
+        <Paper className="p-6 rounded-lg shadow-lg bg-white">
+          <Typography variant="h6" className="mb-4 text-center">Create New Institute</Typography>
+          <TextField
+            label="Institute Name"
+            value={instituteName}
+            onChange={(e) => setInstituteName(e.target.value)}
+            fullWidth
+            className="mb-3"
+            error={Boolean(errors.instituteName)}
+            helperText={errors.instituteName}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderRadius: '10px', // Custom border radius
+              },
+            }}
+          />
+          <TextField
+            label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            fullWidth
+            className="mb-3"
+            error={Boolean(errors.email)}
+            helperText={errors.email}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderRadius: '10px', // Custom border radius
+              },
+            }}
+          />
+
+          <TextField
+            label="City"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            fullWidth
+            className="mb-3 "
+            error={Boolean(errors.city)}
+            helperText={errors.city}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                borderRadius: '10px', // Custom border radius
+              },
+            }}
+          />
+          <Button
+            variant="contained"
+            onClick={handleCreateInstitute}
+            fullWidth
+            sx={{
+              backgroundColor: '#2d3748', // Matches the gray color from the drawer (bg-gray-800)
+              borderRadius: '10px', // Rounded corners
+              padding: '12px 24px', // Add padding to increase button size
+              fontSize: '16px', // Slightly larger font size
+              fontWeight: 'bold', // Bold text for emphasis
+              color: 'white', // Text color white for contrast
+              textTransform: 'none', // Prevents automatic text transformation (e.g., to uppercase)
+              transition: 'all 0.3s ease-in-out', // Smooth transition for hover effects
+
+              // Hover effects
+              '&:hover': {
+                backgroundColor: '#4a5568', // Darker gray on hover (matches hover in the drawer)
+                transform: 'scale(1.05)', // Slight scaling effect
+                boxShadow: '0 6px 15px rgba(0, 0, 0, 0.2)', // Larger shadow on hover
+              },
+
+              // Focused state
+              '&:focus': {
+                outline: 'none', // Removes the outline when clicked
+                boxShadow: '0 0 10px rgba(63, 81, 181, 0.6)', // Blueish outline when focused
+              },
+            }}
+          >
+            Create Institute
+          </Button>
+
+        </Paper>
+      )}
+
+      {/* Tab Panels */}
+      <TabPanel value={selectedTab} index={0}>
+        <h3 className="text-xl font-medium mb-4">Creation Requests</h3>
+        {/* Display Creation Requests */}
+        <Paper className="p-4 bg-white rounded-lg shadow-lg">
+          {creationRequests.length === 0 ? (
+            <Typography variant="body1">No creation requests yet.</Typography>
+          ) : (
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>Institute Name</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>Email</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>City</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {creationRequests.map((request, index) => (
+                    <TableRow key={index}>
+                      <TableCell sx={{ textAlign: 'center' }}>{request.instituteName}</TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}>{request.email}</TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}>{request.city}</TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}>
+                        <Button
+                          variant="contained"
+                          color="success"  // Modern green color for "Approve"
+                          onClick={() => handleApprove(index)}
+                          sx={{
+                            '&:hover': {
+                              backgroundColor: '#388e3c', // Darker green on hover
+                            },
+                            marginRight: '8px', // Space between the buttons
+                          }}
+                        >
+                          Approve
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="error"  // Modern red color for "Reject"
+                          onClick={() => handleReject(index)}
+                          sx={{
+                            '&:hover': {
+                              backgroundColor: '#d32f2f', // Darker red on hover
+                            },
+                          }}
+                        >
+                          Reject
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </Paper>
+      </TabPanel>
+
+      <TabPanel value={selectedTab} index={1}>
+      <h3 className="text-xl font-medium font-bold mb-4">Institute List :</h3>
+      {/* Display Approved Institutes */}
+        <Paper className="p-4 bg-white rounded-lg shadow-lg">
+          {approvedInstitutes.length === 0 ? (
+            <Typography variant="body1">No approved institutes yet.</Typography>
+          ) : (
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center'}}>Institute Name</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>Email</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>City</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {approvedInstitutes.map((institute, index) => (
+                    <TableRow key={index}>
+                      <TableCell sx={{ textAlign: 'center' }}>{institute.instituteName}</TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}>{institute.email}</TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}>{institute.city}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </Paper>
+      </TabPanel>
+
+      <TabPanel value={selectedTab} index={2}>
+        <h3 className="text-xl font-medium mb-4">Rejected Institutes :</h3>
+        {/* Display Rejected Institutes */}
+        <Paper className="p-4 bg-white rounded-lg shadow-lg">
+          {rejectedInstitutes.length === 0 ? (
+            <Typography variant="body1">No rejected institutes yet.</Typography>
+          ) : (
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center'  }}>Institute Name</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>Email</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>City</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rejectedInstitutes.map((institute, index) => (
+                    <TableRow key={index}>
+                      <TableCell sx={{ textAlign: 'center' }}>{institute.instituteName}</TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}>{institute.email}</TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}>{institute.city}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </Paper>
+      </TabPanel>
+
+      {/* Snackbar for Success Message */}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
       >
-        Create Institute
-      </button>
-
-      <table className="w-full table-auto">
-        <thead>
-          <tr>
-            <th className="px-4 py-2">Name</th>
-            <th className="px-4 py-2">Email</th>
-            <th className="px-4 py-2">City</th>
-            <th className="px-4 py-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {institutes.map((institute) => (
-            <tr key={institute.id}>
-              <td className="border px-4 py-2">{institute.name}</td>
-              <td className="border px-4 py-2">{institute.email}</td>
-              <td className="border px-4 py-2">{institute.city}</td>
-              <td className="border px-4 py-2">
-                <button
-                  className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 mr-2"
-                  onClick={() => handleUpdate(institute)}
-                >
-                  Update
-                </button>
-                <button
-                  className="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600 mr-2"
-                  onClick={() => handleDetails(institute)}
-                >
-                  View Details
-                </button>
-                <button
-                  className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600"
-                  onClick={() => handleDelete(institute.id)}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* Modal for Creating New Institute */}
-      {isCreateModalOpen && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h3 className="text-lg mb-4">Create New Institute</h3>
-            <div className="mb-4">
-              <label className="block text-sm mb-2">Name</label>
-              <input
-                type="text"
-                name="name"
-                value={newInstituteData.name}
-                onChange={(e) => setNewInstituteData({ ...newInstituteData, name: e.target.value })}
-                className="w-full px-4 py-2 border rounded-md"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm mb-2">Email</label>
-              <input
-                type="email"
-                name="email"
-                value={newInstituteData.email}
-                onChange={(e) => setNewInstituteData({ ...newInstituteData, email: e.target.value })}
-                className="w-full px-4 py-2 border rounded-md"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm mb-2">City</label>
-              <input
-                type="text"
-                name="city"
-                value={newInstituteData.city}
-                onChange={(e) => setNewInstituteData({ ...newInstituteData, city: e.target.value })}
-                className="w-full px-4 py-2 border rounded-md"
-              />
-            </div>
-            <div className="flex justify-end">
-              <button
-                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mr-2"
-                onClick={handleCreateSubmit}
-              >
-                Create
-              </button>
-              <button
-                className="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400"
-                onClick={() => setIsCreateModalOpen(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Modal for Updating Institute */}
-      {isUpdateModalOpen && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h3 className="text-lg mb-4">Update Institute</h3>
-            <div className="mb-4">
-              <label className="block text-sm mb-2">Name</label>
-              <input
-                type="text"
-                name="name"
-                value={updatedData.name}
-                onChange={handleInputChange}
-                className="w-full px-4 py-2 border rounded-md"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm mb-2">Email</label>
-              <input
-                type="email"
-                name="email"
-                value={updatedData.email}
-                onChange={handleInputChange}
-                className="w-full px-4 py-2 border rounded-md"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm mb-2">City</label>
-              <input
-                type="text"
-                name="city"
-                value={updatedData.city}
-                onChange={handleInputChange}
-                className="w-full px-4 py-2 border rounded-md"
-              />
-            </div>
-            <div className="flex justify-end">
-              <button
-                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 mr-2"
-                onClick={handleUpdateSubmit}
-              >
-                Update
-              </button>
-              <button
-                className="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400"
-                onClick={() => setIsUpdateModalOpen(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Modal for Viewing Institute Details */}
-      {isDetailsModalOpen && currentInstitute && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h3 className="text-lg mb-4">Institute Details</h3>
-            <p><strong>Name:</strong> {currentInstitute.name}</p>
-            <p><strong>Email:</strong> {currentInstitute.email}</p>
-            <p><strong>City:</strong> {currentInstitute.city}</p>
-            <div className="flex justify-end mt-4">
-              <button
-                className="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400"
-                onClick={() => setIsDetailsModalOpen(false)}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
 
-export default InstituteTable;
+// TabPanel Component to handle the individual tab content
+function TabPanel(props) {
+  const { children, value, index } = props;
+  return (
+    <div role="tabpanel" hidden={value !== index}>
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+export default Institutes;

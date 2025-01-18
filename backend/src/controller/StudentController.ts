@@ -16,7 +16,7 @@ export class StudentController {
 
     // Create Student
   static save = async (req: Request, res: Response, next: NextFunction) => {
-    const { school,birthday,age,address,nic,telephone,parents_name,parents_number,classes,institute,teacher,notices } = req.body;
+    const { school,birthday,age,address,nic,telephone,parents_name,parents_number,classes } = req.body;
 
     if (req.user.userRole !== "student") {
       console.log("role from controller :", req.user.userRole);
@@ -54,9 +54,10 @@ export class StudentController {
       student.telephone = telephone;
       student.parents_name = parents_name;
       student.parents_number = parents_number;
-      student.institute = institute;
-      student.teacher = teacher;
-      student.notices = notices;
+      // student.institute = institute;
+      // student.teacher = teacher;
+      // student.notices = notices;
+      student.user = user
       student.classes = classes;
       
 

@@ -30,6 +30,7 @@ export const jwtMiddleware = (req: Request, res: Response, next: NextFunction) =
 
     req.user = decoded as { userId: number; userRole: string };
     
+    console.log('Decoded token 2 :', req.user); // Log the decoded token
 
     if (!req.user.userRole || !req.user.userId) {
       return res.status(401).json({ message: 'Invalid token payload' });

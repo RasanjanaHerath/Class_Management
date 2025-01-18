@@ -108,23 +108,12 @@ export class InstituteController {
 //         const { name, email, city , phoneNumber} = req.body;
 //         const instituteRepository = AppDataSource.getRepository(Institute);
 
-<<<<<<< HEAD
 //         const institute = await instituteRepository.findOneBy({ id: parseInt(req.params.id) });
 //         if (institute) {
 //         // institute.name = name;
 //         // institute.email = email;
 //         institute.city = city;
 //         institute.city = city;
-=======
-        // const institute = await instituteRepository.findOneBy({ id: parseInt(req.params.id) });
-        const institute = await instituteRepository.findOneBy({ id: req.params.id });
-
-
-        if (institute) {
-        institute.name = name;
-        institute.email = email;
-        institute.city = city;
->>>>>>> 545cf55 (wip)
 
 
 //         await instituteRepository.save(institute);
@@ -138,10 +127,7 @@ export class InstituteController {
     static deleteInstitute = async (req: Request, res: Response) => {
         const instituteRepository = AppDataSource.getRepository(Institute);
 
-        // const institute = await instituteRepository.findOneBy({ id: parseInt(req.params.id) });
-        const institute = await instituteRepository.findOneBy({ id: req.params.id });
-
-
+        const institute = await instituteRepository.findOneBy({ id: parseInt(req.params.id) });
         if (institute) {
         await instituteRepository.remove(institute);
         res.json({ message: "Institute deleted" });
@@ -203,6 +189,33 @@ export class InstituteController {
       }
     };
 
+
+    static getInstitutesByCity = async (req: Request, res: Response) => {
+      const { city } = req.params;
+      try {
+        const institutes = await AppDataSource.getRepository(Institute).find({
+          where: { city },
+        });
+        res.json(institutes);
+      } catch (error) {
+        res.status(500).json({ message: "Error fetching institutes", error });
+      }
+    };
+
+    static async getCities(req: Request, res: Response) {
+      try {
+        const cities = await AppDataSource
+          .getRepository(Institute)
+          .createQueryBuilder('institute')
+          .select('institute.city', 'city')
+          .distinct(true)
+          .getRawMany();
+  
+        res.status(200).json(cities.map((row) => row.city));
+      } catch (error) {
+        res.status(500).json({ message: 'Error fetching cities', error });
+      }
+    }
 
     
 

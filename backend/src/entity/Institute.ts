@@ -41,6 +41,5 @@ export class Institute {
     onDelete: "CASCADE",
   })
   @JoinColumn()
-  user: User;
+  user: User;
 }
-

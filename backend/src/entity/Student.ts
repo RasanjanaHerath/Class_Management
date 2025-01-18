@@ -1,19 +1,24 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, ManyToMany, JoinTable,OneToOne,JoinColumn } from 'typeorm';
 import { Class } from './Class';
 import { Institute } from './Institute';
 import { Teacher } from './Teacher';
 import { Notice } from './Notice';
 import { Assignment } from './Assignment';
+import { User } from './User';
+import { ClassCard } from './ClassCard';
+
+
 
 @Entity('students')
 export class Student {
+  
   @PrimaryGeneratedColumn()
   id: string;
 
   @Column()
   school: string;
 
-  @Column()
+  @Column({nullable:true})
   birthday: string
 
   @Column()
@@ -49,4 +54,14 @@ export class Student {
   @ManyToMany(() => Assignment, (assignment) => assignment.student, { nullable: true })
   @JoinTable()
   assignment: Assignment[];
+  @ManyToOne(() => ClassCard, (classCard) => classCard.student)
+  classCard : ClassCard
+
+  @OneToOne(() => User, {
+      nullable: false,
+      onDelete: "CASCADE",
+    })
+    @JoinColumn()
+    user: User;
+  
 }

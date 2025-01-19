@@ -256,7 +256,7 @@ const Institutes = () => {
       </TabPanel>
 
       <TabPanel value={selectedTab} index={1}>
-        <h3 className="text-xl font-medium font-bold mb-4">Institute List :</h3>
+        <h3 className="text-xl font-medium font-bold mb-4">Institute List:</h3>
         {/* Display Approved Institutes */}
         <Paper className="p-4 bg-white rounded-lg shadow-lg">
           {approvedInstitutes.length === 0 ? (
@@ -269,6 +269,7 @@ const Institutes = () => {
                     <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>Institute Name</TableCell>
                     <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>Email</TableCell>
                     <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>City</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -277,6 +278,23 @@ const Institutes = () => {
                       <TableCell sx={{ textAlign: 'center' }}>{institute.instituteName}</TableCell>
                       <TableCell sx={{ textAlign: 'center' }}>{institute.email}</TableCell>
                       <TableCell sx={{ textAlign: 'center' }}>{institute.city}</TableCell>
+                      <TableCell sx={{ textAlign: 'center' }}>
+                        <Button
+                          variant="contained"
+                          color="success"
+                          onClick={() => handleOpenUpdateModal(institute)} // Open update modal
+                          sx={{ marginRight: '8px' }}
+                        >
+                          Update
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="info"
+                          onClick={() => handleOpenDetailsModal(institute)} // Open details modal
+                        >
+                          View Details
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

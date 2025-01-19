@@ -13,12 +13,42 @@ const Students = () => {
     parentsName: '',
     parentsNumber: ''
   });
+  const [errors, setErrors] = useState({
+    studentID: '',
+    nic: '',
+  });
 
   // Function to handle search
   const handleSearch = () => {
+    // Validate Student ID and NIC before searching
+    let valid = true;
+    const newErrors = { studentID: '', nic: '' };
+
+    // Validate Student ID
+    if (!studentID) {
+      newErrors.studentID = 'Student ID is required';
+      valid = false;
+    }
+
+    // Validate NIC format (basic validation for simplicity)
+    const nicPattern = /^[0-9]{9}[VvXx]$/;
+    if (!nic) {
+      newErrors.nic = 'NIC is required';
+      valid = false;
+    } else if (!nicPattern.test(nic)) {
+      newErrors.nic = 'Invalid NIC format';
+      valid = false;
+    }
+
+    if (!valid) {
+      setErrors(newErrors);
+      return;
+    }
+
+    // If both fields are valid, proceed to search
     const mockData = {
       studentID: 'S123',
-      nic: '987654321V',
+      nic: '989999999V',
       school: 'XYZ High School',
       birthday: '2005-08-22',
       phoneNumber: '0712345678',
@@ -27,10 +57,12 @@ const Students = () => {
       parentsNumber: '0718765432'
     };
 
-    if (studentID === mockData.studentID || nic === mockData.nic) {
+    // Display student data only when both ID and NIC match the mock data
+    if (studentID === mockData.studentID && nic === mockData.nic) {
       setStudentData(mockData);
     } else {
       alert('Student not found.');
+      setStudentData(null);  // Clear any previous data if not found
     }
   };
 
@@ -46,6 +78,13 @@ const Students = () => {
     setIsEditing(false); // Exit editing mode
   };
 
+  // Function to handle Enter key press for search
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch(); // Trigger search on Enter
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-6 md:ml-64">
       <h1 className="text-4xl font-semibold text-center text-gray-800 mb-12">
@@ -57,26 +96,39 @@ const Students = () => {
         <div className="bg-gray-100 p-6 rounded-lg shadow-sm">
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">Search Student</h2>
           <div className="flex flex-col sm:flex-row gap-4 mb-6">
-            <input
-              type="text"
-              placeholder="Enter Student ID"
-              className="p-3 border border-gray-300 rounded-lg w-full"
-              value={studentID}
-              onChange={(e) => setStudentID(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Enter NIC"
-              className="p-3 border border-gray-300 rounded-lg w-full"
-              value={nic}
-              onChange={(e) => setNic(e.target.value)}
-            />
-            <button
-              onClick={handleSearch}
-              className="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-500 transition mt-4 sm:mt-0"
-            >
-              Search
-            </button>
+            <div className="relative w-full">
+              <input
+                type="text"
+                placeholder="Enter Student ID"
+                className="p-3 border border-gray-300 rounded-lg w-full"
+                value={studentID}
+                onChange={(e) => setStudentID(e.target.value)}
+                onKeyDown={handleKeyDown}  // Add the keydown event listener
+              />
+              {errors.studentID && <p className="absolute text-red-500 text-sm mt-1">{errors.studentID}</p>} {/* Error message for Student ID */}
+            </div>
+
+            <div className="relative w-full">
+              <input
+                type="text"
+                placeholder="Enter NIC"
+                className="p-3 border border-gray-300 rounded-lg w-full"
+                value={nic}
+                onChange={(e) => setNic(e.target.value)}
+                onKeyDown={handleKeyDown}  // Add the keydown event listener
+              />
+              {errors.nic && <p className="absolute text-red-500 text-sm mt-1">{errors.nic}</p>} {/* Error message for NIC */}
+            </div>
+
+            {/* Ensure Search button doesn't change size */}
+            <div className="w-full sm:w-auto mt-4 sm:mt-0">
+              <button
+                onClick={handleSearch}
+                className="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-500 transition"
+              >
+                Search
+              </button>
+            </div>
           </div>
         </div>
 
@@ -86,7 +138,7 @@ const Students = () => {
             <h3 className="text-xl font-semibold text-gray-700 mb-6">Student Details</h3>
             {!isEditing ? (
               <div className="space-y-4">
-                <div className="flex flex-col sm:flex-row justify-between">
+                <div className="flex flex-col sm:flex-row justify-between bg-gray-100 p-2 rounded-lg">
                   <p><strong>Student ID:</strong> {studentData.studentID}</p>
                   <p><strong>NIC:</strong> {studentData.nic}</p>
                 </div>
@@ -102,7 +154,7 @@ const Students = () => {
                     setFormData({ ...studentData });
                     setIsEditing(true);
                   }}
-                  className="mt-6 w-full bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600 transition"
+                  className="mt-6 w-full sm:w-auto bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600 transition"
                 >
                   Edit Details
                 </button>
@@ -178,13 +230,13 @@ const Students = () => {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <button
                     onClick={handleUpdate}
-                    className="w-full bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition"
+                    className="w-full sm:w-auto bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition"
                   >
                     Save Changes
                   </button>
                   <button
                     onClick={() => setIsEditing(false)}
-                    className="w-full bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition"
+                    className="w-full sm:w-auto bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition"
                   >
                     Cancel
                   </button>

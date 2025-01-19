@@ -83,7 +83,7 @@ const Notifications = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6 md:ml-64">
+    <div className="min-h-screen bg-gray-50 p-6 md:ml-64">
       <h1 className="text-xl font-bold mb-6">Send Notifications</h1>
 
       {/* Notification Form */}

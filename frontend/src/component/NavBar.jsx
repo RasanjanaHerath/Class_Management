@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const NavBar = () => {
   return (
-    <div>
+    <div className="">
       <div>
       <nav className="bg-white shadow-md px-24 py-3.5">
       <div className="container mx-auto flex justify-between items-center p-4">
@@ -12,11 +12,29 @@ const NavBar = () => {
           <img src={logo} alt="Logo" className="h-15 w-24 mr-4" />
           <span className="font-bold text-2xl text-blue-800 ">Class Master</span>
         </div>
-        <div className="flex space-x-6 ">
-          <Link to="/" className="text-gray-800 hover:text-blue-500 pr-11">HOME</Link>
-          <Link to="/about" className="text-gray-800 hover:text-blue-500 pr-11">ABOUT</Link>
-          <Link to="/contact" className="text-gray-800 hover:text-blue-500 pr-11">CONTACT US</Link>
-        </div>
+         <div className="flex space-x-8">
+                <Link
+                  to="/"
+                  className="text-lg font-semibold text-gray-800 relative group"
+                >
+                  HOME
+                  <span className="absolute block w-0 h-0.5 bg-blue-600 left-0 bottom-0 transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+                <Link
+                  to="/about"
+                  className="text-lg font-semibold text-gray-800 relative group"
+                >
+                  ABOUT
+                  <span className="absolute block w-0 h-0.5 bg-blue-600 left-0 bottom-0 transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+                <Link
+                  to="/contact"
+                  className="text-lg font-semibold text-gray-800 relative group"
+                >
+                  CONTACT US
+                  <span className="absolute block w-0 h-0.5 bg-blue-600 left-0 bottom-0 transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              </div>
         
       </div>
     </nav>

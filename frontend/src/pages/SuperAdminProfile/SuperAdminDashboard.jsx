@@ -71,7 +71,7 @@ const SuperAdminDashboard = () => {
       {/* First Row: Gender, Active/Inactive Users, Student Attendance */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-semibold text-gray-700 mb-4">Students Percentage by Gender</h2>
+          <h2 className="text-2xl font-semibold text-gray-700 mb-4">Students by Gender</h2>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie data={genderData} dataKey="value" nameKey="name" outerRadius={100} fill="#8884d8">

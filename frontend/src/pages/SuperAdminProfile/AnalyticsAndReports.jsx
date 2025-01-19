@@ -129,9 +129,9 @@ const AnalyticsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-300 p-6 md:ml-64">
+    <div className="min-h-screen bg-gray-50 p-6 md:ml-64">
 
-      <div className="bg-gray-50 p-4 mt-0 rounded-lg">
+      <div className="bg-gray-300 p-4 mt-0 rounded-lg">
         <div className="h-4">
           <Box sx={{ width: '100%' }}>
             <Tabs value={selectedPeriod} onChange={(e, newValue) => setSelectedPeriod(newValue)} centered>
@@ -166,16 +166,21 @@ const AnalyticsPage = () => {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6 mt-5">
         
         {/* Income Rate Graph */}
-        <div className="flex flex-col p-4 bg-white shadow-md rounded-lg">
-          <Box sx={{ width: '145%', marginTop: '2rem' }}>
-            <Tabs value={incomePeriod} onChange={(e, newValue) => setIncomePeriod(newValue)} centered>
-              <Tab label="Weekly" value="weekly" />
-              <Tab label="Monthly" value="monthly" />
-            </Tabs>
-          </Box>
-          <div className="p-4 mt-6">
+        <div className="flex flex-col p-4 bg-gray-300 shadow-md rounded-lg">
+          <div className="h-4 mb-8">
+            <Box sx={{ width: '145%', marginTop: '2rem' }}>
+              <Tabs value={incomePeriod} onChange={(e, newValue) => setIncomePeriod(newValue)} centered>
+                <Tab label="Weekly" value="weekly" />
+                <Tab label="Monthly" value="monthly" />
+              </Tabs>
+            </Box>
+          </div>
+          <div className="p-0 mt-1 mb-4">
             <h3 className="text-xl font-medium mb-2">Income Rate :</h3>
-            <Line data={incomeChartData()} />
+            <div className="p-3 ml-1 bg-white shadow-md rounded-lg mt-8">
+             <Line data={incomeChartData()} />
+
+            </div>
           </div>
         </div>
 

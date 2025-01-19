@@ -47,7 +47,7 @@ const Teachers = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6 md:ml-64">
+    <div className="min-h-screen bg-gray-50 p-6 md:ml-64">
       <h1 className="text-4xl font-semibold text-center text-gray-800 mb-12">
         Teacher Management
       </h1>
@@ -73,7 +73,7 @@ const Teachers = () => {
             />
             <button
               onClick={handleSearch}
-              className="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition mt-4 sm:mt-0"
+              className="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-500 transition mt-4 sm:mt-0"
             >
               Search
             </button>

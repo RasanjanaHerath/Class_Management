@@ -350,8 +350,8 @@ const Drawer = ({ role }) => {
                   <NavLink
                     to={item.path}
                     className={({ isActive }) =>
-                      `py-2 px-4 block hover:bg-gray-700 ${
-                        isActive ? "bg-gray-700" : ""
+                      `py-2 px-4 block hover:bg-gray-600 ${
+                        isActive ? "bg-gray-900" : ""
                       }`
                     }
                     onClick={toggleDrawer}

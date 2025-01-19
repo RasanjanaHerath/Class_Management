@@ -22,12 +22,12 @@ AppDataSource.initialize().then(async () => {
     app.use(cors());
 
     // Use routes
-    app.use("/api", userRoutes);
-    app.use("/api", instituteRoutes);
-    app.use("/api", notice_router);
-    app.use("/api", classRoutes);
-    app.use("/api", teacherRoutes);
-    app.use("/api", assignmentRoutes);
+    app.use("/api/user", userRoutes);
+    app.use("/api/institute", instituteRoutes);
+    app.use("/api/notice", notice_router);
+    app.use("/api/class",classRoutes);
+    app.use("/api/teacher", teacherRoutes);
+    app.use("/api/assignment", assignmentRoutes);5
 
     app.listen(3000, () => {
         console.log("Server is running on port 3000");

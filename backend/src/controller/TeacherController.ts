@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction} from 'express';
 import { AppDataSource } from '../data-source';
-
 import { Teacher } from '../entity/Teacher';
 import { User } from '../entity/User';
 import { Institute } from '../entity/Institute';

@@ -18,21 +18,21 @@ const NavBar = () => {
                   className="text-lg font-semibold text-gray-800 relative group"
                 >
                   HOME
-                  <span className="absolute block w-0 h-0.5 bg-blue-600 left-0 bottom-0 transition-all duration-300 group-hover:w-full"></span>
+                  <span className="absolute block w-0 h-0.5 bg-gray-800 left-0 bottom-0 transition-all duration-300 group-hover:w-full"></span>
                 </Link>
                 <Link
                   to="/about"
                   className="text-lg font-semibold text-gray-800 relative group"
                 >
                   ABOUT
-                  <span className="absolute block w-0 h-0.5 bg-blue-600 left-0 bottom-0 transition-all duration-300 group-hover:w-full"></span>
+                  <span className="absolute block w-0 h-0.5 bg-gray-800 left-0 bottom-0 transition-all duration-300 group-hover:w-full"></span>
                 </Link>
                 <Link
                   to="/contact"
                   className="text-lg font-semibold text-gray-800 relative group"
                 >
                   CONTACT US
-                  <span className="absolute block w-0 h-0.5 bg-blue-600 left-0 bottom-0 transition-all duration-300 group-hover:w-full"></span>
+                  <span className="absolute block w-0 h-0.5 bg-gray-800 left-0 bottom-0 transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               </div>
         

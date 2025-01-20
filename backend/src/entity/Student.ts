@@ -1,8 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, ManyToMany, JoinTable } from 'typeorm';
 import { Class } from './Class';
 import { Institute } from './Institute';
 import { Teacher } from './Teacher';
 import { Notice } from './Notice';
+import { Assignment } from './Assignment';
 
 @Entity('students')
 export class Student {
@@ -23,4 +24,8 @@ export class Student {
 
   @OneToMany(() => Notice, (notice) => notice.student, { nullable: true })
   notices: Notice[];
+
+  @ManyToMany(() => Assignment, (assignment) => assignment.student, { nullable: true })
+  @JoinTable()
+  assignment: Assignment[];
 }

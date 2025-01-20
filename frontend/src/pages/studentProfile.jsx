@@ -14,7 +14,7 @@ import axios from "axios";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const BASE_URL = "http://localhost:3000/api/class";
+const BASE_URL = "http://localhost:3000/api/";
 
 const ResultsHistogram = () => {
   const data = {
@@ -74,7 +74,7 @@ const StudentProfile = () => {
     // Fetch classes data
     const fetchClasses = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/get-all`);
+        const response = await axios.get(`${BASE_URL}class/get-all`);
         const validClasses = response.data.filter(cls => 
           cls && 
           cls.institute && 
@@ -96,6 +96,24 @@ const StudentProfile = () => {
       }
     };
 
+
+    const fetchMyClasses = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`${BASE_URL}class_card/get-all-my`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log("My classes:", response.data);
+        setMyClasses(response.data);
+      } catch (error) {
+        console.error("Error fetching my classes:", error);
+        setMyClasses([]);
+      }
+    };
+
+    fetchMyClasses();
     fetchClasses();
   }, []);
 
@@ -122,6 +140,7 @@ const StudentProfile = () => {
       setSelectedTeacher("");
     }
   }, [selectedCity, classes]);
+
 
   // Update classes when institute is selected
   useEffect(() => {
@@ -151,12 +170,23 @@ const StudentProfile = () => {
 
   const handleEnroll = () => {
     if (selectedCity && selectedInstitute && selectedClass && selectedTeacher) {
-      alert(
-        `Enrolled in class at ${selectedCity} institute with teacher ID ${selectedTeacher}`
-      );
-      setShowModal(false);
+    
+      const token = localStorage.getItem("token");
+      // Enroll in class
+      const classId = parseInt(selectedClass);
+      const data = { classId };
       
-      // Reset selections
+      axios.post(`${BASE_URL}class_card/create`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+        .then(response => {
+          console.log("Enrollment response:", response.data);
+          alert("Enrolled successfully!");
+          setShowModal(false);
+          setMyClasses([...myClasses, response.data]);
+        })
       setSelectedCity("");
       setSelectedInstitute("");
       setSelectedClass("");
@@ -184,18 +214,18 @@ const StudentProfile = () => {
         </div>
 
         <div className="grid grid-cols-3 gap-6 h-[calc(33.33%-50px)]">
-          {myClasses.map((cls) => cls && cls.institute && (
-            <Link
-              to={`/institute-${cls.institute.id}-${cls.subject?.toLowerCase()}`}
-              key={cls.id}
-            >
-              <button className="w-full bg-gray-500 p-6 text-center font-bold rounded-lg shadow-lg hover:bg-gray-400">
-                {cls.institute.city} <br /> 
-                Institute {cls.institute.id} <br />
-                {cls.subject} - Grade {cls.grade}
-              </button>
-            </Link>
-          ))}
+        {myClasses.map((cls) => cls && cls.classObject && cls.classObject.institute && (
+  <Link
+    to={`/institute-${cls.classObject.institute.id}-${cls.classObject.subject?.toLowerCase()}`}
+    key={cls.id}
+  >
+    <button className="w-full bg-gray-500 p-6 text-center font-bold rounded-lg shadow-lg hover:bg-gray-400">
+      {cls.classObject.institute.city} <br /> 
+      Institute {cls.classObject.institute.id} <br />
+      {cls.classObject.subject} - Grade {cls.classObject.grade}
+    </button>
+  </Link>
+))}
         </div>
 
         <div className="h-2/3 bg-gray-600 p-2 mt-5 flex-grow rounded-lg">

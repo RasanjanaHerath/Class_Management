@@ -12,12 +12,12 @@ export class ClassCardController {
 // Get ClassCards for a specific student with populated relations
 static getAllMyclasses = async (req: Request, res: Response) => {
     try {
-        const studentId = req.params.studentId; // or from auth token
-
+        const studentId = req.user.userId; // or from auth token
+        const student = await AppDataSource.getRepository(Student).findOne({ where: { user: { id: studentId } } });
         const classCardRepository = AppDataSource.getRepository(ClassCard);
         const classCards = await classCardRepository.find({
             where: {
-                student: { id: studentId }
+                student: student
             },
             relations: {
                 classObject: {
@@ -50,6 +50,7 @@ static getAllMyclasses = async (req: Request, res: Response) => {
 
         res.json(classCards);
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: "Error fetching class cards", error });
     }
 };
@@ -62,21 +63,22 @@ static getAllMyclasses = async (req: Request, res: Response) => {
         const userId = req.user.userId;
         const user = await AppDataSource.getRepository(User).findOne({ where: { id: userId } });
 
-
         if(!classId){
-            res.json({message: "Please provide classId"})
+            res.status(400).json({message: "Please provide classId"});
+            return;
         }
         const student = await AppDataSource.getRepository(Student).findOne({ where: { user: user } });
-
         if(!student){
-            res.json({message: "Student not found"})
+            res.status(400).json({message: "Studnet not found"});
+            return;
         }
 
         const classData = await AppDataSource.getRepository(Class).findOne({ where: { id: classId } });
         try {
             const existingClassCard = await AppDataSource.getRepository(ClassCard).findOne({ where: { student: student, classObject: classData } });
             if (existingClassCard) {
-            return res.json({ message: "You are already enrolled in this class" });
+            res.json({ message: "You are already enrolled in this class" });
+            return
             }
 
             const classCard = new ClassCard();

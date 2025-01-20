@@ -2,7 +2,7 @@ import React from 'react'
 
 const Notifications = () => {
   return (
-    <div className="min-h-screen bg-gray-100 p-10 md:ml-64 md:mr-64">
+    <div className="min-h-screen bg-gray-100 p-10 md:ml-64">
       <h1 className="text-2xl font-bold mb-6 text-center">Students and Teachers Requests</h1>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Student Requests */}

@@ -1,34 +1,6 @@
-// // src/Header.js
-// import React from 'react';
-// import notification from "../assets/notification.jpg";
-// import logo from "../assets/logo1.png";
-// import dp from "../assets/dp1.jpg";
-
-
-// const Header = () => {
-//   return (
-//     <header className="flex justify-between items-center p-6 bg-white shadow md:ml-64">
-//       <div className="flex items-center space-x-2">
-//         <img src={logo} alt="Logo" className="w-14 h-auto" />
-//         <h1 className="text-xl font-bold">Class Master</h1>
-//       </div>
-
-//       <div className="flex items-center space-x-4">
-//         <input type="text" placeholder="Search..." className="border p-2 rounded" />
-//         <div className="relative">
-//           <div className="absolute right-0 top-0 bg-red-500 text-white text-xs rounded-full px-1">3</div>
-//           <img src={notification} alt="Notifications" className="w-8 h-8 rounded-full" />
-//         </div>
-//         <img src={dp} alt="User" className="w-10 h-10 rounded-full border" />
-//         <div>Jane Cooper</div>
-//       </div>
-//     </header>
-//   );
-// };
-
-// export default Header;
-
-import React, { useState } from 'react';
+// src/Header.js
+import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom for routing
 import notification from "../assets/notification.jpg";
 import logo from "../assets/logo1.png";
 import dp from "../assets/dp1.jpg";
@@ -45,49 +17,64 @@ const Header = () => {
   };
 
   return (
-    <header className="flex justify-between items-center p-6 bg-white shadow md:ml-64">
-      <div className="flex items-center space-x-2">
-        <img src={logo} alt="Logo" className="w-14 h-auto" />
-        <h1 className="text-xl font-bold">Class Master</h1>
+    <header className="flex justify-between items-center p-6 bg-white shadow-md md:ml-64 h-20">
+      {/* Left Section: Logo and Title */}
+      <div className="flex items-center space-x-4">
+        <img src={logo} alt="Logo" className="w-16 h-auto" />
+        <h1 className="text-2xl font-bold text-gray-700 tracking-wide">Class Master</h1>
       </div>
 
-      <div className="flex items-center space-x-4">
-        <div className="relative">
-          <div className="absolute right-0 top-0 bg-red-500 text-white text-xs rounded-full px-1">3</div>
-          <img src={notification} alt="Notifications" className="w-8 h-8 rounded-full" />
+      {/* Center Section: Navigation Links (placed near to the search bar) */}
+      <div className="flex items-center space-x-20 ml-80">
+        <Link
+          to="/"
+          className="font-semibold text-gray-800 relative group"
+        >
+          HOME
+          <span className="absolute block w-0 h-0.5 bg-gray-800 left-0 bottom-0 transition-all duration-300 group-hover:w-full"></span>
+        </Link>
+        <Link
+          to="/about"
+          className="font-semibold text-gray-800 relative group"
+        >
+          ABOUT
+          <span className="absolute block w-0 h-0.5 bg-gray-800 left-0 bottom-0 transition-all duration-300 group-hover:w-full"></span>
+        </Link>
+        <Link
+          to="/contact"
+          className="font-semibold text-gray-800 relative group"
+        >
+          CONTACT US
+          <span className="absolute block w-0 h-0.5 bg-gray-800 left-0 bottom-0 transition-all duration-300 group-hover:w-full"></span>
+        </Link>
+      </div>
+
+      {/* Right Section: Search Bar, Notifications, and User Profile */}
+      <div className="flex items-center space-x-8 ml-0">
+        <div className="mr-4">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="border border-gray-300 p-2 rounded-full text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition duration-200"
+          />
         </div>
         <div className="relative">
+          <div className="absolute right-0 top-0 bg-red-500 text-white text-xs rounded-full px-1 py-0.5">3</div>
+          <img
+            src={notification}
+            alt="Notifications"
+            className="w-8 h-8 rounded-full cursor-pointer hover:opacity-75 transition duration-300"
+          />
+        </div>
+
+        <div className="flex items-center space-x-2">
           <img
             src={dp}
             alt="User"
-            className="w-12 h-12 rounded-full border cursor-pointer"
-            onClick={togglePopup}
+            className="w-10 h-10 rounded-full border-2 border-gray-300 shadow-sm cursor-pointer hover:opacity-80 transition duration-300"
           />
-          {isPopupVisible && (
-            <div className="absolute right-0 mt-2 w-96 bg-gray-800 text-white rounded-xl shadow-2xl p-8">
-              <div className="flex items-center space-x-6 mb-6">
-                <img src={dp} alt="User" className="w-16 h-16 rounded-full border" />
-                <div>
-                  <h3 className="text-lg font-semibold">Hi, Jane Cooper!</h3>
-                  <p className="text-sm text-gray-400">jane.cooper@example.com</p>
-                </div>
-              </div>
-              <hr className="border-gray-600 mb-6" />
-              <button
-                className="block w-full text-left text-lg text-gray-400 hover:text-white mb-3"
-                onClick={closePopup}
-              >
-                Close
-              </button>
-              <button className="block w-full text-left text-lg text-gray-400 hover:text-white">
-                Sign out
-              </button>
-              <hr className="border-gray-600 mt-6 mb-4" />
-              <p className="text-xs text-gray-500 text-center">Privacy Policy • Terms of Service</p>
-            </div>
-          )}
+          <span className="text-sm text-gray-700">Jane Cooper</span>
         </div>
-        <div>Jane Cooper (ID: 123456)</div>
       </div>
     </header>
   );

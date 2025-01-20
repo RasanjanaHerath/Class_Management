@@ -11,7 +11,7 @@ import StudentProfile from "./pages/studentProfile";
 import TeacherProfile from "./pages/teacher_profile/TeacherProfile";
 import AdminProfile from "./pages/AdminProfile";
 import DrawerLayout from "./layout/DrawerLayout";
-import SuperAdminProfile from "./pages/SuperAdminProfile/SuperAdminProfile";
+import SuperAdminProfile from "./pages/SuperAdminProfile/SuperAdminDashboard";
 import Institutes from "./pages/SuperAdminProfile/Institutes";
 import Drawer from "./component/Drawer";
 import AdminNotices from "./pages/dashboard_buttons/AdminNotices";
@@ -30,6 +30,11 @@ import PaymentDetails from "./pages/admin_profile/PaymentDetails";
 import Notifications from "./pages/admin_profile/Notifications";
 import StudentRegister from "./pages/studentRegister";
 import TeacherRegister from "./pages/TeacherRegister";
+import Teachers from "./pages/SuperAdminProfile/Teachers";
+import Students from "./pages/SuperAdminProfile/Students";
+import AnalyticsAndReports from "./pages/SuperAdminProfile/AnalyticsAndReports";
+import Notifications from "./pages/SuperAdminProfile/Notifications";
+import SuperAdminDashboard from "./pages/SuperAdminProfile/SuperAdminDashboard";
 
 const router = createBrowserRouter([
   {
@@ -230,7 +235,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: 
-        <SuperAdminProfile />,
+        <SuperAdminDashboard />,
       },
     ],
   },
@@ -242,6 +247,50 @@ const router = createBrowserRouter([
         index: true,
         element: 
         <Institutes />,
+      },
+    ],
+  },
+  {
+    path: "/admin_teachers",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: 
+        <Teachers />,
+      },
+    ],
+  },
+  {
+    path: "/admin_students",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: 
+        <Students />,
+      },
+    ],
+  },
+  {
+    path: "/admin_reports",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: 
+        <AnalyticsAndReports />,
+      },
+    ],
+  },
+  {
+    path: "/admin_notifications",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: 
+        <Notifications />,
       },
     ],
   },

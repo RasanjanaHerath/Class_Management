@@ -14,7 +14,7 @@ import axios from "axios";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const BASE_URL = "http://localhost:3000/api";
+const BASE_URL = "http://localhost:3000/api/class";
 
 const ResultsHistogram = () => {
   const data = {
@@ -47,15 +47,23 @@ const ResultsHistogram = () => {
 
 const StudentProfile = () => {
   const [showModal, setShowModal] = useState(false);
+  const [user, setUser] = useState(null);
+  
+  // Selection states
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedInstitute, setSelectedInstitute] = useState("");
-  const [selectedCourse, setSelectedCourse] = useState("");
+  const [selectedClass, setSelectedClass] = useState("");
   const [selectedTeacher, setSelectedTeacher] = useState("");
-  const [cities, setCities] = useState([]);
-  const [institutes, setInstitutes] = useState([]);
-  const [courses, setCourses] = useState([]);
-  const [teachers, setTeachers] = useState([]);
-  const [user, setUser] = useState(null);
+  
+  // Available options states
+  const [availableCities, setAvailableCities] = useState([]);
+  const [availableInstitutes, setAvailableInstitutes] = useState([]);
+  const [availableClasses, setAvailableClasses] = useState([]);
+  const [availableTeachers, setAvailableTeachers] = useState([]);
+  
+  // All classes data
+  const [classes, setClasses] = useState([]);
+  const [myClasses, setMyClasses] = useState([]);
 
   useEffect(() => {
     // Fetch user data from localStorage
@@ -63,40 +71,96 @@ const StudentProfile = () => {
     const userData = userItem ? JSON.parse(userItem) : null;
     setUser(userData);
 
-    // Fetch cities data
-    axios
-      .get(`${BASE_URL}/institute/cities`)
-      .then((response) => setCities(response.data))
-      .catch((error) => console.error("Error fetching cities:", error));
+    // Fetch classes data
+    const fetchClasses = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/get-all`);
+        const validClasses = response.data.filter(cls => 
+          cls && 
+          cls.institute && 
+          cls.institute.city && 
+          cls.institute.id
+        );
+        setClasses(validClasses);
+        
+        // Extract unique cities from valid classes
+        const uniqueCities = [...new Set(validClasses
+          .map(cls => cls.institute?.city)
+          .filter(city => city)
+        )];
+        setAvailableCities(uniqueCities);
+      } catch (error) {
+        console.error("Error fetching classes:", error);
+        setClasses([]);
+        setAvailableCities([]);
+      }
+    };
+
+    fetchClasses();
   }, []);
 
-  const fetchInstitutes = (city) => {
-    axios
-      .get(`${BASE_URL}/institute/institutes/${city}`)
-      .then((response) => setInstitutes(response.data))
-      .catch((error) => console.error("Error fetching institutes:", error));
-  };
+  // Update institutes when city is selected
+  useEffect(() => {
+    if (selectedCity && classes.length > 0) {
+      const filteredInstitutes = classes
+        .filter(cls => cls.institute?.city === selectedCity)
+        .map(cls => ({
+          id: cls.institute?.id,
+          name: `Institute ${cls.institute?.id}`,
+          phoneNumber: cls.institute?.phoneNumber || 'N/A'
+        }))
+        .filter(inst => inst.id); // Only include institutes with valid IDs
+      
+      // Remove duplicates based on institute ID
+      const uniqueInstitutes = Array.from(
+        new Map(filteredInstitutes.map(item => [item.id, item])).values()
+      );
+      
+      setAvailableInstitutes(uniqueInstitutes);
+      setSelectedInstitute("");
+      setSelectedClass("");
+      setSelectedTeacher("");
+    }
+  }, [selectedCity, classes]);
 
-  const fetchCourses = (instituteId) => {
-    axios
-      .get(`${BASE_URL}/institute/classes/${instituteId}`)
-      .then((response) => setCourses(response.data))
-      .catch((error) => console.error("Error fetching courses:", error));
-  };
+  // Update classes when institute is selected
+  useEffect(() => {
+    if (selectedInstitute && classes.length > 0) {
+      const filteredClasses = classes.filter(
+        cls => cls.institute?.id?.toString() === selectedInstitute
+      );
+      setAvailableClasses(filteredClasses);
+      setSelectedClass("");
+      setSelectedTeacher("");
+    }
+  }, [selectedInstitute, classes]);
 
-  const fetchTeachers = (classId) => {
-    axios
-      .get(`${BASE_URL}/institute/teachers/${classId}`)
-      .then((response) => setTeachers(response.data))
-      .catch((error) => console.error("Error fetching teachers:", error));
-  };
+  // Update teachers when class is selected
+  useEffect(() => {
+    if (selectedClass && availableClasses.length > 0) {
+      const selectedClassData = availableClasses.find(
+        cls => cls.id?.toString() === selectedClass
+      );
+      if (selectedClassData?.teacher) {
+        setAvailableTeachers([selectedClassData.teacher]);
+      } else {
+        setAvailableTeachers([]);
+      }
+    }
+  }, [selectedClass, availableClasses]);
 
   const handleEnroll = () => {
-    if (selectedCity && selectedInstitute && selectedCourse && selectedTeacher) {
+    if (selectedCity && selectedInstitute && selectedClass && selectedTeacher) {
       alert(
-        `Enrolled in ${selectedCourse} at ${selectedInstitute} with ${selectedTeacher}`
+        `Enrolled in class at ${selectedCity} institute with teacher ID ${selectedTeacher}`
       );
       setShowModal(false);
+      
+      // Reset selections
+      setSelectedCity("");
+      setSelectedInstitute("");
+      setSelectedClass("");
+      setSelectedTeacher("");
     } else {
       alert("Please complete all selections before enrolling.");
     }
@@ -120,18 +184,18 @@ const StudentProfile = () => {
         </div>
 
         <div className="grid grid-cols-3 gap-6 h-[calc(33.33%-50px)]">
-          {institutes.flatMap((inst) =>
-            courses.map((course, index) => (
-              <Link
-                to={`/institute-${inst.id}-${course.name.toLowerCase()}`}
-                key={`${inst.id}-${course.name}-${index}`}
-              >
-                <button className="w-full bg-gray-500 p-6 text-center font-bold rounded-lg shadow-lg hover:bg-gray-400">
-                  {inst.city} <br /> {inst.name} <br /> {course.name}
-                </button>
-              </Link>
-            ))
-          )}
+          {myClasses.map((cls) => cls && cls.institute && (
+            <Link
+              to={`/institute-${cls.institute.id}-${cls.subject?.toLowerCase()}`}
+              key={cls.id}
+            >
+              <button className="w-full bg-gray-500 p-6 text-center font-bold rounded-lg shadow-lg hover:bg-gray-400">
+                {cls.institute.city} <br /> 
+                Institute {cls.institute.id} <br />
+                {cls.subject} - Grade {cls.grade}
+              </button>
+            </Link>
+          ))}
         </div>
 
         <div className="h-2/3 bg-gray-600 p-2 mt-5 flex-grow rounded-lg">
@@ -149,15 +213,12 @@ const StudentProfile = () => {
               <label className="block text-gray-700 font-bold mb-2">Select City:</label>
               <select
                 value={selectedCity}
-                onChange={(e) => {
-                  setSelectedCity(e.target.value);
-                  fetchInstitutes(e.target.value);
-                }}
+                onChange={(e) => setSelectedCity(e.target.value)}
                 className="w-full p-2 border border-gray-300 rounded-md focus:outline-none"
               >
                 <option value="">Choose City</option>
-                {cities.map((city, index) => (
-                  <option key={index} value={city}>
+                {availableCities.map((city) => (
+                  <option key={city} value={city}>
                     {city}
                   </option>
                 ))}
@@ -165,21 +226,17 @@ const StudentProfile = () => {
             </div>
 
             <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2">
-                Select Institute:
-              </label>
+              <label className="block text-gray-700 font-bold mb-2">Select Institute:</label>
               <select
                 value={selectedInstitute}
-                onChange={(e) => {
-                  setSelectedInstitute(e.target.value);
-                  fetchCourses(e.target.value);
-                }}
+                onChange={(e) => setSelectedInstitute(e.target.value)}
                 className="w-full p-2 border border-gray-300 rounded-md focus:outline-none"
+                disabled={!selectedCity}
               >
                 <option value="">Choose Institute</option>
-                {institutes.map((inst) => (
+                {availableInstitutes.map((inst) => (
                   <option key={inst.id} value={inst.id}>
-                    {inst.name}
+                    Institute {inst.id} - {inst.phoneNumber}
                   </option>
                 ))}
               </select>
@@ -188,33 +245,32 @@ const StudentProfile = () => {
             <div className="mb-4">
               <label className="block text-gray-700 font-bold mb-2">Select Class:</label>
               <select
-                value={selectedCourse}
-                onChange={(e) => {
-                  setSelectedCourse(e.target.value);
-                  fetchTeachers(e.target.value);
-                }}
+                value={selectedClass}
+                onChange={(e) => setSelectedClass(e.target.value)}
                 className="w-full p-2 border border-gray-300 rounded-md focus:outline-none"
+                disabled={!selectedInstitute}
               >
                 <option value="">Choose Class</option>
-                {courses.map((course, index) => (
-                  <option key={index} value={course.id}>
-                    {course.name}
+                {availableClasses.map((cls) => (
+                  <option key={cls.id} value={cls.id}>
+                    {cls.subject} - Grade {cls.grade} ({cls.scheduleDay} {cls.startTime}-{cls.endTime})
                   </option>
                 ))}
               </select>
             </div>
 
             <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2">Select Teacher:</label>
+              <label className="block text-gray-700 font-bold mb-2">Teacher:</label>
               <select
                 value={selectedTeacher}
                 onChange={(e) => setSelectedTeacher(e.target.value)}
                 className="w-full p-2 border border-gray-300 rounded-md focus:outline-none"
+                disabled={!selectedClass}
               >
                 <option value="">Choose Teacher</option>
-                {teachers.map((teacher, index) => (
-                  <option key={index} value={teacher}>
-                    {teacher}
+                {availableTeachers.map((teacher) => (
+                  <option key={teacher.teacherId} value={teacher.teacherId}>
+                    Teacher {teacher.teacherId} - {teacher.phoneNumber}
                   </option>
                 ))}
               </select>
@@ -230,6 +286,7 @@ const StudentProfile = () => {
               <button
                 className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
                 onClick={handleEnroll}
+                disabled={!selectedTeacher}
               >
                 Enroll
               </button>

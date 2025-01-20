@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction} from 'express';
 import { AppDataSource } from '../data-source';
-
 import { Teacher } from '../entity/Teacher';
 import { User } from '../entity/User';
 import { Institute } from '../entity/Institute';
@@ -162,7 +161,7 @@ export class TeacherController {
     const teacherId = parseInt(req.params.id, 10);
 
     try {
-      const teacher = await teacherRepository.findOneBy({ teacherId });
+      const teacher = await teacherRepository.findOne({ where: { teacherId: teacherId } });
       if (!teacher) return res.status(404).json({ message: 'Teacher not found' });
 
       await teacherRepository.remove(teacher);

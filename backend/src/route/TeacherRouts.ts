@@ -5,22 +5,20 @@ import { jwtMiddleware } from '../middleware/jwtMiddleware';
 
 const teacherRoutes = Router();
 
-// Middleware to protect all routes
-teacherRoutes.use(jwtMiddleware);
 
 // get teachers
-teacherRoutes.get('/teacher/:id',TeacherController.getTeacher);
+teacherRoutes.get('/getById/:id',TeacherController.getTeacher);
 
 // getAll teachers
-teacherRoutes.get('/teacher/',TeacherController.getAll);
+teacherRoutes.get('/getAll',TeacherController.getAll);
 
-// Create a new teacher with validation
-teacherRoutes.post('/users/teacher/', TeacherController.save);
+// Create a new teacher with validation and jwtMiddleware
+teacherRoutes.post('/save',jwtMiddleware, TeacherController.save);
 
 // Update a teacher's details with validation
-teacherRoutes.put('/teacher/:id', TeacherController.updateTeacher);
+teacherRoutes.put('/update/:id', TeacherController.updateTeacher);
 
 // delete teacher
-teacherRoutes.delete('/teacher/:id',TeacherController.deleteTeacher);
+teacherRoutes.delete('/delete/:id',TeacherController.deleteTeacher);
 
 export default teacherRoutes;

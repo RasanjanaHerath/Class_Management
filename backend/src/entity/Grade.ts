@@ -3,7 +3,7 @@ import { Institute } from './Institute';
 
 @Entity('grades')
 export class Grade {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: string;
 
   @Column()

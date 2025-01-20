@@ -1,8 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne ,CreateDateColumn, UpdateDateColumn, DeleteDateColumn} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne ,CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToMany,JoinTable} from 'typeorm';
 import { Teacher } from './Teacher';
 import { Result } from './Result';
 import { Institute } from './Institute';
 import { Class } from './Class';
+import { Student } from './Student';
 
 @Entity('assignments')
 export class Assignment {
@@ -44,4 +45,8 @@ export class Assignment {
 
   @OneToOne(() => Result, (result) => result.assignment)
   result: Result;
+
+  @ManyToMany(() => Student, (student) => student.assignment)
+  @JoinTable()
+  student: Student;
 }

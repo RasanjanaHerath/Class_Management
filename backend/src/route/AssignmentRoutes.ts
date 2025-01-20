@@ -1,21 +1,21 @@
 import {Router} from "express";
-import { AssignmentmentController } from '../controller/AssignmentmentController';
+import { AssignmentController } from '../controller/AssignmentmentController';
 
 const assignmentRoutes = Router();
 
 // Route to get all assignments
-assignmentRoutes.get('/assignment/', AssignmentmentController.getAll);
+assignmentRoutes.get('/getAll', AssignmentController.getAll);
 
 // Route to assignments by ID
-assignmentRoutes.get('/assignment/:id', AssignmentmentController.getAssignmentById);
+assignmentRoutes.get('/getById/:id', AssignmentController.getById);
 
 // Route to create a new announcement
-assignmentRoutes.post('/assignments/', AssignmentmentController.createAssignment);
+assignmentRoutes.post('/create', AssignmentController.createAssignment);
 
 // Route to update an existing assignments
-//assignmentRoutes.put('/assignment:id', AssignmentmentController.);
+assignmentRoutes.put('/update/:id', AssignmentController.updateAssignment);
 
-// Route to delete an assignments
-//assignmentRoutes.delete('/assignment:id', AssignmentmentController);
+//Route to delete an assignments
+assignmentRoutes.delete('/delete/:id', AssignmentController.deleteAssignment);
 
 export default assignmentRoutes;

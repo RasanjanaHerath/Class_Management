@@ -3,7 +3,7 @@ import { Assignment } from './Assignment';
 
 @Entity('results')
 export class Result {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: string;
 
   @Column()

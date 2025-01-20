@@ -5,18 +5,14 @@ import { jwtMiddleware } from '../middleware/jwtMiddleware';
 
 const instituteRoutes = Router();
 
-// Middleware to protect all routes
-instituteRoutes.use(jwtMiddleware);
-
-
 // Get all users
-instituteRoutes.get("/institute", InstituteController.getAll);
+instituteRoutes.get("/getAll", InstituteController.getAll);
 
 // Create a new user
-instituteRoutes.post("/institute", InstituteController.createInstitute);
+instituteRoutes.post("/create",jwtMiddleware, InstituteController.createInstitute);
 
-instituteRoutes.put("/institute/:id", InstituteController.updateInstitute);
+instituteRoutes.put("/update/:id", InstituteController.updateInstitute);
 
-instituteRoutes.delete("/institute/:id", InstituteController.deleteInstitute);
+instituteRoutes.delete("/delete/:id", InstituteController.deleteInstitute);
 
 export default instituteRoutes;

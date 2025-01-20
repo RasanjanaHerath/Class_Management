@@ -6,26 +6,14 @@ import { Assignment } from './Assignment';
 
 @Entity('classes')
 export class Class {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: number;
-
-  @Column()
-  teacherId: number;
-
-  @Column()
-  teacherName: string;
 
   @Column()
   scheduleDay: string;
 
   @Column()
   subject: string;
-
-  @Column()
-  teacherExperience: string;
-  
-  @Column()
-  instituteName: string;
 
   @Column()
   grade: string;

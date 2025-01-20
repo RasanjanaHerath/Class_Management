@@ -5,19 +5,19 @@ import { UserController } from "../controller/UserController";
 const userRoutes = Router();
 
 // Get all users
-userRoutes.get("/users", UserController.getAll);
+userRoutes.get("/getAll", UserController.getAll);
 
 // Create a new user
-userRoutes.post("/users", UserController.createUser);
+userRoutes.post("/create", UserController.createUser);
 
 //Delete a User
-userRoutes.delete("/users/:id", UserController.deleteUser);
+userRoutes.delete("/delete/:id", UserController.deleteUser);
 
 // Update a user
-userRoutes.put("/users/:id",UserController.updateUser);
+userRoutes.put("/update/:id",UserController.updateUser);
 
 // Get a single user by ID
-userRoutes.get("/users/:id",UserController.getById);
+userRoutes.get("/getById/:id",UserController.getById);
 
 // User login
 userRoutes.post("/login", UserController.login);

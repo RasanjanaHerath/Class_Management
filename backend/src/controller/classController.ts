@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { Class } from "../entity/Class";
 import { Teacher } from "../entity/Teacher";
+import { Institute } from "../entity/Institute";
 
 
 
@@ -91,16 +92,27 @@ export class classController {
     // };
 
     static createClass = async (req: Request, res: Response) => {
-        const { subject, teacherId, numberOfStudents, grade, startTime, endTime, feePerMonth, scheduleDay} = req.body;
+        const { subject, teacherId, numberOfStudents, grade, startTime, endTime, feePerMonth, scheduleDay,InstituteId} = req.body;
         const classRepository = AppDataSource.getRepository(Class);
         const teacherRepository = AppDataSource.getRepository(Teacher);
+        const instituteRepository = AppDataSource.getRepository(Institute);
     
         try {
           // Find the teacher by ID
           const teacher = await teacherRepository.findOne({ where: { teacherId } });
+
+          if(!InstituteId){
+            return res.status(404).json({ message: 'Institute is Required' });
+          }
+          const institute = await instituteRepository.findOne({ where: {  id:InstituteId } });
     
           if (!teacher) {
             return res.status(404).json({ message: 'Teacher not found' });
+          }
+
+          
+          if(!institute){
+            return res.status(404).json({ message: 'Institute not found' });
           }
     
           // Create a new class
@@ -113,6 +125,7 @@ export class classController {
             newClass.scheduleDay = scheduleDay;
             newClass.numberOfStudents = numberOfStudents;
             newClass.teacher = teacher;
+            newClass.institute = institute;
     
           // Save the new class
           await classRepository.save(newClass);

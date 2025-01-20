@@ -10,7 +10,7 @@ const teacherRoutes = Router();
 teacherRoutes.get('/getById/:id',TeacherController.getTeacher);
 
 // getAll teachers
-teacherRoutes.get('/getAll',TeacherController.getAll);
+teacherRoutes.get('/get-all',TeacherController.getAll);
 
 // Create a new teacher with validation and jwtMiddleware
 teacherRoutes.post('/save',jwtMiddleware, TeacherController.save);

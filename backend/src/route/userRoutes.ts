@@ -5,7 +5,7 @@ import { UserController } from "../controller/UserController";
 const userRoutes = Router();
 
 // Get all users
-userRoutes.get("/getAll", UserController.getAll);
+userRoutes.get("/get-all", UserController.getAll);
 
 // Create a new user
 userRoutes.post("/create", UserController.createUser);

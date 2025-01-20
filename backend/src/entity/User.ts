@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, OneToMany } from "typeorm"
 import { Teacher } from "./Teacher"
+import { Institute } from "./Institute"
 
 @Entity()
 export class User {
@@ -30,4 +31,8 @@ export class User {
 
     @OneToOne(() => Teacher, (teacher) => teacher.user)
     teacher:Teacher
+
+    @OneToOne(() => Institute, (institute) => institute.user)
+    institute: Institute;
+
 }

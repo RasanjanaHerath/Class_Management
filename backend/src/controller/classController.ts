@@ -5,7 +5,7 @@ import { Teacher } from "../entity/Teacher";
 
 
 
-export class ClassController {
+export class classController {
   static getClassesByInstitute = async (req: Request, res: Response) => {
     const { instituteId } = req.params;
     try {
@@ -31,8 +31,6 @@ export class ClassController {
       res.status(500).json({ message: "Error fetching teachers", error });
     }
   };
-
-
 
 
     // Get all classes

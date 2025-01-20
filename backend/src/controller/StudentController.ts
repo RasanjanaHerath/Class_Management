@@ -8,6 +8,8 @@ import { User } from "../entity/User";
 export class StudentController {
     // Get all Students
     static getAll = async (req: Request, res: Response) => {
+      console.log("here console")
+
         const studentRepository = AppDataSource.getRepository(Student);
         const Students = await studentRepository.find();
         res.json(Students);

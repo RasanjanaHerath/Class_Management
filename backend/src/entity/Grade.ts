@@ -12,6 +12,6 @@ export class Grade {
   @Column()
   value: string;
 
-  @ManyToOne(() => Institute, (institute) => institute.grades)
-  institute: Institute;
+  // @ManyToOne(() => Institute, (institute) => institute.grades)
+  // institute: Institute;
 }

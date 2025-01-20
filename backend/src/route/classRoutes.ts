@@ -4,7 +4,7 @@ import { classController } from "../controller/classController";
 const classRoutes = Router();
 
 //get all users
-classRoutes.get("/getAll",classController.getAll);
+classRoutes.get("/get-all",classController.getAll);
 
 //create a new user
 classRoutes.post("/createClass",classController.createClass);

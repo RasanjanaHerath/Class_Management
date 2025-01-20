@@ -42,9 +42,6 @@ export class Student {
   @ManyToOne(() => Class, (classEntity) => classEntity.students, { nullable: true })
   classes: Class;
 
-  @ManyToOne(() => Institute, (institute) => institute.students, { nullable: true })
-  institute: Institute;
-
   @ManyToOne(() => Teacher, (teacher) => teacher.students, { nullable: true })
   teacher: Teacher;
 
@@ -56,6 +53,12 @@ export class Student {
   assignment: Assignment[];
   @ManyToOne(() => ClassCard, (classCard) => classCard.student)
   classCard : ClassCard
+
+  @ManyToMany(() => Institute)
+  @JoinTable()
+  institute : Institute[]
+
+    
 
   @OneToOne(() => User, {
       nullable: false,

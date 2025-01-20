@@ -3,13 +3,15 @@ import { StudentController } from "../controller/StudentController";
 import { jwtMiddleware } from "../middleware/jwtMiddleware";
 
 const student_router = Router();
-student_router.use(jwtMiddleware);
+// student_router.use(jwtMiddleware);
 
 // Get all students
-student_router.get("/students", StudentController.getAll);
+
+student_router.get("/all", StudentController.getAll);
+
 
 // Create a new student
-student_router.post("/student", StudentController.save);
+student_router.post("/create", StudentController.save);
 
 // // Updates
 // student_router.put("/notice/:id", StudentController.updateNotice);

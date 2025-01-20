@@ -21,14 +21,13 @@ export class Institute {
   @OneToMany(() => Teacher, (teacher) => teacher.institute)
   teachers: Teacher[];
 
-  @OneToMany(() => Student, (student) => student.institute)
-  students: Student[];
+
 
   @OneToMany(() => Class, (classEntity) => classEntity.institute)
   classes: Class[];
 
-  @OneToMany(() => Grade, (grade) => grade.institute)
-  grades: Grade[];
+  // @OneToMany(() => Grade, (grade) => grade.institute)
+  // grades: Grade[];
 
   @OneToMany(() => Notice, (notice) => notice.institute)
   notices: Notice[];
@@ -37,9 +36,9 @@ export class Institute {
   assignments: Assignment[];
 
   @OneToOne(() => User, {
-    nullable: false,
+    nullable: true,
     onDelete: "CASCADE",
   })
   @JoinColumn()
-  user: User;
+  user: User;
 }

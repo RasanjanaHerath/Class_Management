@@ -31,6 +31,7 @@ AppDataSource.initialize().then(async () => {
     app.use("/api/class",classRoutes);
     app.use("/api/assignment", assignmentRoutes);
     app.use("/api/class_card", classCard_router)
+    app.use("/api/student", student_router);
 
     app.listen(3000, () => {
         console.log("Server is running on port 3000");

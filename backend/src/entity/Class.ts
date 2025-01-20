@@ -3,6 +3,7 @@ import { Institute } from './Institute';
 import { Teacher } from './Teacher';
 import { Student } from './Student';
 import { Assignment } from './Assignment';
+import { ClassCard } from './ClassCard';
 
 @Entity('classes')
 export class Class {
@@ -44,4 +45,7 @@ export class Class {
 
   @OneToMany(() => Assignment, (assignment) => assignment.class)
   assignments: Assignment[];
+
+  @OneToMany(() => ClassCard, (classCard) => classCard.classObject)
+  classCards: ClassCard[];
 }

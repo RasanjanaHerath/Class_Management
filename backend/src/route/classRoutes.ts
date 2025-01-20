@@ -7,10 +7,10 @@ const classRoutes = Router();
 classRoutes.get("/get-all",classController.getAll);
 
 //create a new user
-classRoutes.post("/createClass",classController.createClass);
+classRoutes.post("/create",classController.createClass);
 
-classRoutes.put("/updateClass/:id",classController.updateClass);
+classRoutes.put("/update/:id",classController.updateClass);
 
-classRoutes.delete("/deleteClass/:id",classController.deleteClass);
+classRoutes.delete("/delete/:id",classController.deleteClass);
 
 export default classRoutes;

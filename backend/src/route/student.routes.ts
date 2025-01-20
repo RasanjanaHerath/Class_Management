@@ -11,7 +11,7 @@ student_router.get("/all", StudentController.getAll);
 
 
 // Create a new student
-student_router.post("/create", StudentController.save);
+student_router.post("/create",jwtMiddleware, StudentController.save);
 
 // // Updates
 // student_router.put("/notice/:id", StudentController.updateNotice);

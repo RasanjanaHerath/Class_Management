@@ -117,6 +117,7 @@ export class InstituteController {
           institute.city = city;
           institute.phoneNumber = phoneNumber;
           institute.user = user; // Set the user to the institute
+          institute.name=user.firstName;
   
           await instituteRepository.save(institute);
   

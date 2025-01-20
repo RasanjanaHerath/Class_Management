@@ -23,11 +23,9 @@ import Announcement from "./pages/teacher_profile/Announcement";
 import StudentReport from "./pages/teacher_profile/StudentReport";
 import Messege from "./pages/teacher_profile/Messege";
 import StudentClass from "./pages/studentClass";
-
 import TeacherDetails from "./pages/admin_profile/TeacherDetails";
 import StudentDetails from "./pages/admin_profile/StudentDetails";
 import PaymentDetails from "./pages/admin_profile/PaymentDetails";
-import Notifications from "./pages/admin_profile/Notifications";
 import StudentRegister from "./pages/studentRegister";
 import TeacherRegister from "./pages/TeacherRegister";
 import Teachers from "./pages/SuperAdminProfile/Teachers";

@@ -51,12 +51,14 @@ export class Student {
   @ManyToMany(() => Assignment, (assignment) => assignment.student, { nullable: true })
   @JoinTable()
   assignment: Assignment[];
-  @ManyToOne(() => ClassCard, (classCard) => classCard.student)
-  classCard : ClassCard
+
 
   @ManyToMany(() => Institute)
   @JoinTable()
   institute : Institute[]
+
+  @OneToMany(() => ClassCard, (classCard) => classCard.student)
+  classCards: ClassCard[];
 
     
 

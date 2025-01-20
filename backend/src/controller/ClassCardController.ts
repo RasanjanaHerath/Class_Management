@@ -2,6 +2,10 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { ClassCard } from "../entity/ClassCard";
+import { Student } from "../entity/Student";
+import { User } from "../entity/User";
+import { Class } from "../entity/Class";
+
 
 
 export class ClassCardController {
@@ -15,17 +19,37 @@ export class ClassCardController {
     // Create a new ClassCard
     static createClassCard = async (req: Request, res: Response) => {
         console.log("ggtdy")
-        const {city,institiute,calssName,teacher } = req.body;
-        const classCard = new ClassCard();
-        classCard.city = city;
-        classCard.institiute = institiute;
-        classCard.calssName = calssName;
-        classCard.teacher = teacher;
-    
+        const {classId} = req.body;
 
-        const noticeRepository = AppDataSource.getRepository(ClassCard);
-        await noticeRepository.save(classCard);
-        res.json({ message: "Notice created", classCard });
+        const userId = req.user.userId;
+        const user = await AppDataSource.getRepository(User).findOne({ where: { id: userId } });
+
+
+        if(!classId){
+            res.json({message: "Please provide classId"})
+        }
+        const student = await AppDataSource.getRepository(Student).findOne({ where: { user: user } });
+
+        if(!student){
+            res.json({message: "Student not found"})
+        }
+
+        const classData = await AppDataSource.getRepository(Class).findOne({ where: { id: classId } });
+        try {
+            const existingClassCard = await AppDataSource.getRepository(ClassCard).findOne({ where: { student: student, classObject: classData } });
+            if (existingClassCard) {
+            return res.json({ message: "You are already enrolled in this class" });
+            }
+
+            const classCard = new ClassCard();
+            classCard.student = student;
+            classCard.classObject = classData;
+
+            await AppDataSource.getRepository(ClassCard).save(classCard);
+            res.json({ message: "ClassCard created", classCard });
+        } catch (err) {
+            res.json({ message: "Error", error: err.message });
+        }
     };
 
     // // Update a ClassCard

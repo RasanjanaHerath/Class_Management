@@ -1,29 +1,27 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, Unique } from 'typeorm';
 import { Student } from './Student';
+import { Class } from './Class';
 
-@Entity()
+@Entity('class_cards')
 export class ClassCard {
-
     @PrimaryGeneratedColumn()
-    id : number
+    id: number;
 
-    @Column()
-    city : string
+    @ManyToOne(() => Student, (student) => student.classCards, {
+        nullable: false,
+        onDelete: "CASCADE"
+    })
+    student: Student;
 
-    @Column()
-    institiute : String
+    @ManyToOne(() => Class, (classEntity) => classEntity.classCards, {
+        nullable: false,
+        onDelete: "CASCADE"
+    })
+    classObject: Class;
 
-    @Column()
-    calssName : string
+    @CreateDateColumn()
+    createdAt: Date;
 
-    @Column()
-    teacher : string
-  
-    @OneToMany(() => Student, (student) => student.classCard)
-    student : Student;
-
-    
-
+    @UpdateDateColumn()
+    updatedAt: Date;
 }
-
-

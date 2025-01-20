@@ -6,7 +6,7 @@ import { classController } from "../controller/classController";
 const instituteRoutes = Router();
 
 // Get all users
-instituteRoutes.get("/getAll", InstituteController.getAll);
+instituteRoutes.get("/get-all", InstituteController.getAll);
 
 // Create a new user
 instituteRoutes.post("/create",jwtMiddleware, InstituteController.createInstitute);

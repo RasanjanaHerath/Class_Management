@@ -129,6 +129,7 @@ export class TeacherController {
 
       // Create new teacher entity
       const teacher = new Teacher();
+      teacher.name = user.firstName;
       teacher.birthday = birthday;
       teacher.nic = nic;
       teacher.phoneNumber = phoneNumber;

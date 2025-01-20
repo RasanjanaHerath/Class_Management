@@ -12,6 +12,9 @@ export class Teacher {
   @PrimaryGeneratedColumn()
   teacherId: number;
 
+  @Column()
+  name: string;
+
   @Column({ nullable: true })
   description : string;
 

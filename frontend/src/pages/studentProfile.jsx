@@ -79,7 +79,7 @@ const StudentProfile = () => {
           cls && 
           cls.institute && 
           cls.institute.city && 
-          cls.institute.id
+          cls.institute.id 
         );
         setClasses(validClasses);
         
@@ -106,7 +106,7 @@ const StudentProfile = () => {
         .filter(cls => cls.institute?.city === selectedCity)
         .map(cls => ({
           id: cls.institute?.id,
-          name: `Institute ${cls.institute?.id}`,
+          name: cls.institute?.name || `Institute ${cls.institute?.id}`,
           phoneNumber: cls.institute?.phoneNumber || 'N/A'
         }))
         .filter(inst => inst.id); // Only include institutes with valid IDs
@@ -236,7 +236,7 @@ const StudentProfile = () => {
                 <option value="">Choose Institute</option>
                 {availableInstitutes.map((inst) => (
                   <option key={inst.id} value={inst.id}>
-                    Institute {inst.id} - {inst.phoneNumber}
+                  {inst.name}
                   </option>
                 ))}
               </select>
@@ -270,7 +270,7 @@ const StudentProfile = () => {
                 <option value="">Choose Teacher</option>
                 {availableTeachers.map((teacher) => (
                   <option key={teacher.teacherId} value={teacher.teacherId}>
-                    Teacher {teacher.teacherId} - {teacher.phoneNumber}
+                    {teacher.name}
                   </option>
                 ))}
               </select>

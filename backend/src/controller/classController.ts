@@ -12,7 +12,7 @@ export class classController {
     try {
       const classes = await AppDataSource.getRepository(Class).find({
         where: { institute: { id: parseInt(instituteId) } },
-        relations: ["teachers"],
+        
       });
       res.json(classes);
     } catch (error) {

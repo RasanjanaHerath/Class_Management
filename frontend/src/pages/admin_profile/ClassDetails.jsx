@@ -63,7 +63,8 @@ const ClassDetails = () => {
   );
   
   return (
-    <div className="min-h-screen bg-gray-100 p-10 md:ml-64 md:mr-64">
+    <div className="min-h-screen bg-gray-100 p-10 md:ml-64 ">
+    <h1 className="text-2xl font-bold mb-6 text-center">Class Details</h1>
     <div className="mb-8 flex justify-between items-center"> {/* Flex container */}
       <input
         type="text"
@@ -74,12 +75,12 @@ const ClassDetails = () => {
       />
       
       {/* Button to trigger new class modal */}
-      <NewClass onSubmit={addNewClass} />
+      {/* <NewClass onSubmit={addNewClass} /> */}
     </div>
   
     <div className="overflow-x-auto p-6">
-      <table className="min-w-full bg-white border border-gray-300">
-        <thead>
+      <table className="table-auto w-full bg-white shadow-lg rounded-lg">
+        <thead className="bg-gray-400 text-white">
           <tr>
             <th className="px-4 py-2 border-b">ID</th>
             <th className="px-4 py-2 border-b">Subject</th>

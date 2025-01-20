@@ -1,25 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const TeacherDetails = () => {
-  const teachers = ["Teacher 01", "Teacher 01", "Teacher 01", "Teacher 01", "Teacher 01", "Teacher 01"];
 
   return (
-    <div className="p-6 md:ml-64">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-semibold">Teacher Details</h2>
-        <button className="bg-blue-300 text-black px-4 py-2 rounded-md">ADD ME</button>
-      </div>
-
-      <div className="grid grid-cols-3 gap-4">
-        {teachers.map((teacher, index) => (
-          <div key={index} className="bg-blue-950 text-white p-4 rounded-lg shadow-lg">
-            <h3 className="text-lg mb-4">{teacher}</h3>
-            <div className="flex justify-end">
-              <button className="bg-gray-200 text-black px-4 py-1 mx-2 rounded-md">edit</button>
-              <button className="bg-gray-200 text-black px-4 py-1 mx-2 rounded-md">delete</button>
-            </div>
-          </div>
-        ))}
+    <div className="min-h-screen bg-gray-100 p-10 md:ml-64 ">
+      <h1 className="text-2xl font-bold mb-6 text-center">Teacher Details</h1>
+      
+      <div className="overflow-x-auto">
+        <table className="table-auto w-full bg-white shadow-lg rounded-lg">
+          <thead className="bg-gray-400 text-white">
+            <tr>
+              <th className="p-4">Teacher ID</th>
+              <th className="p-4">Student Name</th>
+              <th className="p-4">Subject</th>
+              <th className="p-4">Class Time</th>
+              <th className="p-4">Grade or Batch</th>
+            </tr>
+          </thead>
+          {/* <tbody>
+            
+          </tbody> */}
+        </table>
       </div>
     </div>
   );

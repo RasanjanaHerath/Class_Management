@@ -14,81 +14,94 @@ export class InstituteController {
     // };
   
     static getAll = async (req: Request, res: Response, next: NextFunction) => {
-        const instituteRepository = AppDataSource.getRepository(Teacher);
+        const instituteRepository = AppDataSource.getRepository(Institute);
     
         try {
           const institutes = await instituteRepository.find({ relations: ['user'] });
           return res.json(institutes);
         } catch (error) {
-          console.error('Error fetching teachers:', error);
-          return res.status(500).json({ message: 'An error occurred while fetching teachers.' });
+          console.error('Error fetching institutes:', error);
+          return res.status(500).json({ message: 'An error occurred while fetching institutes.' });
         }
     };
 
-    // Create a new user
-    // static createInstitute = async (req: Request, res: Response) => {
-    //     const { name, email, city } = req.body;
-    //     const institute = new Institute();
-    //     institute.name = name;
-    //     institute.email = email;
-    //     institute.city = city;
+    // static createInstitute = async (req: Request, res: Response, next: NextFunction) => {
+    //     const { city , phoneNumber} = req.body;
+    
+    //     if (req.user.userRole !== "institute") {
+    //       console.log("role from controller :", req.user.userRole);
+    //       // return "You are not authorized to create a MOH";
+    //       return res
+    //         .status(403)
+    //         .json({ message: "You are not authorized to create a Institute" });
+    //     }
+    
+    //     const userId = req.user?.userId;
+    
+    //     if (!userId) {
+    //       return res
+    //         .status(400)
+    //         .json({ error: "User ID is missing or invalid" });
+    //     }
+    
+    
+    //     try {
+    //       const userRepository = AppDataSource.getRepository(User);
+    //       //const teacherRepository = AppDataSource.getRepository(Teacher);
+    //       const instituteRepository = AppDataSource.getRepository(Institute);
+    
+    //       // Ensure the user exists
+    //       const user = await userRepository.findOneBy({ id: req.user?.userId });
+    //       if (!user) return res.status(404).json({ message: 'User not found' });
+    
+    //       // Create new teacher entity
+    //       const institute = new Institute();
+    //       institute.city = city;
+    //       institute.phoneNumber = phoneNumber;
+    //       institute.user = user;
 
-    //     const instituteRepository = AppDataSource.getRepository(Institute);
-    //     await instituteRepository.save(institute);
-    //     res.json({ message: "Institute created", institute });
-    // };
-
-    static createInstitute = async (req: Request, res: Response, next: NextFunction) => {
-        const { city , phoneNumber} = req.body;
+    //       // Associate institute if provided
+    //       // if (instituteId) {
+    //       //   const institute = await instituteRepository.findOneBy({ id: instituteId });
+    //       //   if (!institute) return res.status(404).json({ message: 'Institute not found' });
     
-        if (req.user.userRole !== "institute") {
-          console.log("role from controller :", req.user.userRole);
-          // return "You are not authorized to create a MOH";
-          return res
-            .status(403)
-            .json({ message: "You are not authorized to create a Teacher" });
+    //       //   teacher.institute = institute;
+    //       // }
+    
+    //       await instituteRepository.save(institute);
+    //       return res.status(201).json(institute);
+    //     } catch (error) {
+    //       console.error('Error creating institute:', error);
+    //       return res.status(500).json({ message: 'An error occurred while saving the institutes.' });
+    //     }
+    
+    //   };
+    static createInstitute = async (req: Request, res: Response) => {
+      const { city, phoneNumber, userId } = req.body;
+      const instituteRepository = AppDataSource.getRepository(Institute);
+      const userRepository = AppDataSource.getRepository(User);
+  
+      try {
+        // Find the user by ID
+        const user = await userRepository.findOne({ where: { id: userId } });
+        if (!user) {
+          return res.status(404).json({ message: 'User not found' });
         }
-    
-        const userId = req.user?.userId;
-    
-        if (!userId) {
-          return res
-            .status(400)
-            .json({ error: "User ID is missing or invalid" });
-        }
-    
-    
-        try {
-          const userRepository = AppDataSource.getRepository(User);
-          const teacherRepository = AppDataSource.getRepository(Teacher);
-          const instituteRepository = AppDataSource.getRepository(Institute);
-    
-          // Ensure the user exists
-          const user = await userRepository.findOneBy({ id: req.user?.userId });
-          if (!user) return res.status(404).json({ message: 'User not found' });
-    
-          // Create new teacher entity
-          const institute = new Institute();
-          institute.city = city;
-          institute.phoneNumber = phoneNumber;
-          institute.user = user;
-
-          // Associate institute if provided
-          // if (instituteId) {
-          //   const institute = await instituteRepository.findOneBy({ id: instituteId });
-          //   if (!institute) return res.status(404).json({ message: 'Institute not found' });
-    
-          //   teacher.institute = institute;
-          // }
-    
-          await instituteRepository.save(institute);
-          return res.status(201).json(institute);
-        } catch (error) {
-          console.error('Error creating teacher:', error);
-          return res.status(500).json({ message: 'An error occurred while saving the teacher.' });
-        }
-    
-      };
+  
+        // Create new institute entity
+        const institute = new Institute();
+        institute.city = city;
+        institute.phoneNumber = phoneNumber;
+        institute.user = user;
+  
+        // Save the new institute
+        await instituteRepository.save(institute);
+        return res.status(201).json(institute);
+      } catch (error) {
+        console.error('Error creating institute:', error);
+        return res.status(500).json({ message: 'An error occurred while saving the institutes.', error: error.toString() });
+      }
+    };
 
     // Update a user
 //     static updateInstitute = async (req: Request, res: Response) => {
@@ -158,7 +171,7 @@ export class InstituteController {
         });
 
         if (!institute) {
-          return res.status(404).json({ message: "Teacher not found" });
+          return res.status(404).json({ message: "Institute not found" });
         }
 
         // Update the moh's details

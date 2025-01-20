@@ -5,10 +5,24 @@ import { Teacher } from "../entity/Teacher";
 
 export class classController {
     // Get all classes
+    // static getAll = async (req: Request, res: Response) => {
+    //     const classRepository = AppDataSource.getRepository(Class);
+    //     const classes = await classRepository.find();
+    //     res.json(classes);
+    // };
+
     static getAll = async (req: Request, res: Response) => {
-        const classRepository = AppDataSource.getRepository(Class);
-        const classes = await classRepository.find();
-        res.json(classes);
+      const classRepository = AppDataSource.getRepository(Class);
+      try {
+        const classes = await classRepository.find({ relations: ['teacher', 'institute', 'students', 'assignments'] });
+        if (!Array.isArray(classes)) {
+          return res.status(500).json({ message: 'Error fetching classes' });
+        }
+        return res.status(200).json(classes);
+      } catch (error) {
+        console.error('Error fetching classes:', error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+      }
     };
 
     // Create a new class
@@ -69,7 +83,7 @@ export class classController {
             newClass.feePerMonth = feePerMonth;
             newClass.scheduleDay = scheduleDay;
             newClass.numberOfStudents = numberOfStudents;
-             newClass.teacher = teacher;
+            newClass.teacher = teacher;
     
           // Save the new class
           await classRepository.save(newClass);

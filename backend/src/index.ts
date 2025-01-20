@@ -23,10 +23,10 @@ AppDataSource.initialize().then(async () => {
 
     // Use routes
     app.use("/api/user", userRoutes);
+    app.use("/api/teacher", teacherRoutes);
     app.use("/api/institute", instituteRoutes);
     app.use("/api/notice", notice_router);
     app.use("/api/class",classRoutes);
-    app.use("/api/teacher", teacherRoutes);
     app.use("/api/assignment", assignmentRoutes);5
 
     app.listen(3000, () => {

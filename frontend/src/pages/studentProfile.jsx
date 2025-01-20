@@ -14,6 +14,8 @@ import axios from "axios";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
+const BASE_URL = "http://localhost:3000/api";
+
 const ResultsHistogram = () => {
   const data = {
     labels: ["Science", "Mathematics", "Literature", "Sinhala", "English"],
@@ -62,46 +64,30 @@ const StudentProfile = () => {
     setUser(userData);
 
     // Fetch cities data
-    axios.get("http://localhost:3000/api/cities")
-      .then((response) => {
-        setCities(response.data);
-      })
+    axios
+      .get(`${BASE_URL}/institute/cities`)
+      .then((response) => setCities(response.data))
       .catch((error) => console.error("Error fetching cities:", error));
   }, []);
 
-  const handleCityChange = (city) => {
-    setSelectedCity(city);
-    setSelectedInstitute("");
-    setSelectedCourse("");
-    setSelectedTeacher("");
-
-    axios.get(`http://localhost:3000/api/institutes?city=${city}`)
-      .then((response) => {
-        setInstitutes(response.data);
-      })
+  const fetchInstitutes = (city) => {
+    axios
+      .get(`${BASE_URL}/institute/institutes/${city}`)
+      .then((response) => setInstitutes(response.data))
       .catch((error) => console.error("Error fetching institutes:", error));
   };
 
-  const handleInstituteChange = (institute) => {
-    setSelectedInstitute(institute);
-    setSelectedCourse("");
-    setSelectedTeacher("");
-
-    axios.get(`http://localhost:3000/api/courses?institute=${institute}`)
-      .then((response) => {
-        setCourses(response.data);
-      })
+  const fetchCourses = (instituteId) => {
+    axios
+      .get(`${BASE_URL}/institute/classes/${instituteId}`)
+      .then((response) => setCourses(response.data))
       .catch((error) => console.error("Error fetching courses:", error));
   };
 
-  const handleCourseChange = (course) => {
-    setSelectedCourse(course);
-    setSelectedTeacher("");
-
-    axios.get(`http://localhost:3000/api/teachers?course=${course}`)
-      .then((response) => {
-        setTeachers(response.data);
-      })
+  const fetchTeachers = (classId) => {
+    axios
+      .get(`${BASE_URL}/institute/teachers/${classId}`)
+      .then((response) => setTeachers(response.data))
       .catch((error) => console.error("Error fetching teachers:", error));
   };
 
@@ -118,6 +104,7 @@ const StudentProfile = () => {
 
   return (
     <div className="flex min-h-screen bg-zinc-50 gap-10 p-4 md:ml-64 ml-0">
+      {/* Main Section */}
       <div className="w-3/4 bg-gray-200 p-6 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold mb-6 text-center">
           Welcome {user ? user.firstName : "Guest"}
@@ -152,6 +139,7 @@ const StudentProfile = () => {
         </div>
       </div>
 
+      {/* Enrollment Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white rounded-lg p-6 shadow-lg max-w-md w-full">
@@ -161,26 +149,38 @@ const StudentProfile = () => {
               <label className="block text-gray-700 font-bold mb-2">Select City:</label>
               <select
                 value={selectedCity}
-                onChange={(e) => handleCityChange(e.target.value)}
+                onChange={(e) => {
+                  setSelectedCity(e.target.value);
+                  fetchInstitutes(e.target.value);
+                }}
                 className="w-full p-2 border border-gray-300 rounded-md focus:outline-none"
               >
                 <option value="">Choose City</option>
                 {cities.map((city, index) => (
-                  <option key={index} value={city}>{city}</option>
+                  <option key={index} value={city}>
+                    {city}
+                  </option>
                 ))}
               </select>
             </div>
 
             <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2">Select Institute:</label>
+              <label className="block text-gray-700 font-bold mb-2">
+                Select Institute:
+              </label>
               <select
                 value={selectedInstitute}
-                onChange={(e) => handleInstituteChange(e.target.value)}
+                onChange={(e) => {
+                  setSelectedInstitute(e.target.value);
+                  fetchCourses(e.target.value);
+                }}
                 className="w-full p-2 border border-gray-300 rounded-md focus:outline-none"
               >
                 <option value="">Choose Institute</option>
                 {institutes.map((inst) => (
-                  <option key={inst.id} value={inst.name}>{inst.name}</option>
+                  <option key={inst.id} value={inst.id}>
+                    {inst.name}
+                  </option>
                 ))}
               </select>
             </div>
@@ -189,12 +189,17 @@ const StudentProfile = () => {
               <label className="block text-gray-700 font-bold mb-2">Select Class:</label>
               <select
                 value={selectedCourse}
-                onChange={(e) => handleCourseChange(e.target.value)}
+                onChange={(e) => {
+                  setSelectedCourse(e.target.value);
+                  fetchTeachers(e.target.value);
+                }}
                 className="w-full p-2 border border-gray-300 rounded-md focus:outline-none"
               >
                 <option value="">Choose Class</option>
                 {courses.map((course, index) => (
-                  <option key={index} value={course.name}>{course.name}</option>
+                  <option key={index} value={course.id}>
+                    {course.name}
+                  </option>
                 ))}
               </select>
             </div>
@@ -208,7 +213,9 @@ const StudentProfile = () => {
               >
                 <option value="">Choose Teacher</option>
                 {teachers.map((teacher, index) => (
-                  <option key={index} value={teacher}>{teacher}</option>
+                  <option key={index} value={teacher}>
+                    {teacher}
+                  </option>
                 ))}
               </select>
             </div>

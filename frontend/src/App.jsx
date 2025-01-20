@@ -202,6 +202,16 @@ const router = createBrowserRouter([
     ],
   },
   {
+    path: "/admin_notice",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <AdminNotices/>,
+      },
+    ],
+  },
+  {
     path: "/dashboard",
     element: <DrawerLayout/>,
     children: [

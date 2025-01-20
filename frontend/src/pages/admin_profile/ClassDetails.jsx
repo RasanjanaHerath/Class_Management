@@ -75,7 +75,7 @@ const ClassDetails = () => {
       />
       
       {/* Button to trigger new class modal */}
-      <NewClass onSubmit={addNewClass} />
+      {/* <NewClass onSubmit={addNewClass} /> */}
     </div>
   
     <div className="overflow-x-auto p-6">

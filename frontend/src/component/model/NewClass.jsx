@@ -161,3 +161,4 @@ const NewClass = ({ onSubmit }) => {
 };
 
 export default NewClass;
+

@@ -9,12 +9,50 @@ import { Class } from "../entity/Class";
 
 
 export class ClassCardController {
-    // Get all ClassCards
-    static getAll = async (req: Request, res: Response) => {
+// Get ClassCards for a specific student with populated relations
+static getAllMyclasses = async (req: Request, res: Response) => {
+    try {
+        const studentId = req.params.studentId; // or from auth token
+
         const classCardRepository = AppDataSource.getRepository(ClassCard);
-        const classCards = await classCardRepository.find();
+        const classCards = await classCardRepository.find({
+            where: {
+                student: { id: studentId }
+            },
+            relations: {
+                classObject: {
+                    institute: true,
+                    teacher: {
+                        user: true
+                    }
+                }
+            },
+            select: {
+                classObject: {
+                    subject: true,
+                    grade: true,
+                    scheduleDay: true,
+                    startTime: true,
+                    endTime: true,
+                    institute: {
+                        city: true,
+                        name: true
+                    },
+                    teacher: {
+                        user: {
+                            firstName: true,
+                            lastName: true
+                        }
+                    }
+                }
+            }
+        });
+
         res.json(classCards);
-    };
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching class cards", error });
+    }
+};
 
     // Create a new ClassCard
     static createClassCard = async (req: Request, res: Response) => {

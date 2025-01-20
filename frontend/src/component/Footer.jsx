@@ -93,7 +93,7 @@ const Footer = () => {
             <img
               src={whatsapp}
               alt="User"
-              className="w-10 h-10 rounded-full border-2  shadow-sm cursor-pointer hover:opacity-80 transition duration-300"
+              className="w-10 h-10 rounded-full border-2 border-gray-300 shadow-sm cursor-pointer hover:opacity-80 transition duration-300"
             />            
             </a>
           </div>

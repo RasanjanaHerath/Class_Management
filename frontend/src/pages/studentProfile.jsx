@@ -175,6 +175,14 @@ const StudentProfile = () => {
       // Enroll in class
       const classId = parseInt(selectedClass);
       const data = { classId };
+
+      //create a new my class type object with selected data
+      const myClass = {
+        classObject: availableClasses.find(cls => cls.id === classId),
+        teacher: availableTeachers.find(teacher => teacher.teacherId === selectedTeacher),
+        institute: availableInstitutes.find(inst => inst.id === parseInt(selectedInstitute))
+      };
+
       
       axios.post(`${BASE_URL}class_card/create`, data, {
         headers: {
@@ -184,9 +192,11 @@ const StudentProfile = () => {
         .then(response => {
           console.log("Enrollment response:", response.data);
           alert("Enrolled successfully!");
+          setMyClasses([...myClasses, myClass]);
           setShowModal(false);
-          setMyClasses([...myClasses, response.data]);
         })
+
+      
       setSelectedCity("");
       setSelectedInstitute("");
       setSelectedClass("");

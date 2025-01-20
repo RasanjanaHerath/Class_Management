@@ -133,9 +133,9 @@ const Reports = () => {
     "Class 3",
   ]);
   const [students, setStudents] = useState([
-    { id: 1, name: "John Doe" },
-    { id: 2, name: "Jane Smith" },
-    { id: 3, name: "Alice Brown" },
+    { id: 1, name: "Rasanjana Herath" },
+    { id: 2, name: "Sumith Prasanna" },
+    { id: 3, name: "Sarath Perera" },
   ]);
 
   const [selectedInstitute, setSelectedInstitute] = useState(null);

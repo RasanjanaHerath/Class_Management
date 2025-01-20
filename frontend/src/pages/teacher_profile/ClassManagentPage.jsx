@@ -9,10 +9,10 @@ const ClassManagement = () => {
       grade: "11",
       instituteName: "Susipone",
       scheduleDay: "Monday",
-      startTime: "10:00 PM",
-      endTime: "11:00 PM",
+      startTime: "10:00",
+      endTime: "11:00",
       feePerMonth: "1500",
-      numerOnumberOfStudents: "1000",
+      numerOnumberOfStudents: "15",
     },
   ]);
 
@@ -189,7 +189,7 @@ const ClassManagement = () => {
                 <label className="block text-gray-700">Start Time</label>
                 <input
                   type="time"
-                  name="scheduleTime"
+                  name="startTime"
                   value={formData.startTime}
                   onChange={handleChange}
                   className="w-full px-3 py-2 border rounded"
@@ -200,7 +200,7 @@ const ClassManagement = () => {
                 <label className="block text-gray-700">End Time</label>
                 <input
                   type="time"
-                  name="scheduleTime"
+                  name="endTime"
                   value={formData.endTime}
                   onChange={handleChange}
                   className="w-full px-3 py-2 border rounded"
@@ -211,7 +211,7 @@ const ClassManagement = () => {
                 <label className="block text-gray-700">Fee Per Month</label>
                 <input
                   type="number"
-                  name="scheduleTime"
+                  name="feePerMonth"
                   value={formData.feePerMonth}
                   onChange={handleChange}
                   className="w-full px-3 py-2 border rounded"

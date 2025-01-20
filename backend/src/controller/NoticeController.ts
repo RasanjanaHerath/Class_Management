@@ -1,4 +1,4 @@
-// src/controllers/UserController.ts
+
 import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { Notice } from "../entity/Notice";

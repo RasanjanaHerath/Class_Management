@@ -10,6 +10,8 @@ require('dotenv').config();
 import classRoutes from "./route/classRoutes"; 
 import teacherRoutes from "./route/TeacherRouts";
 import assignmentRoutes from "./route/AssignmentRoutes";
+import student_router from "./route/student.routes";
+import classCard_router from "./route/classCard.routes";
 
 
 AppDataSource.initialize().then(async () => {
@@ -27,7 +29,8 @@ AppDataSource.initialize().then(async () => {
     app.use("/api/institute", instituteRoutes);
     app.use("/api/notice", notice_router);
     app.use("/api/class",classRoutes);
-    app.use("/api/assignment", assignmentRoutes);5
+    app.use("/api/assignment", assignmentRoutes);
+    app.use("/api/class_card", classCard_router)
 
     app.listen(3000, () => {
         console.log("Server is running on port 3000");

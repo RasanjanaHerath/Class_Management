@@ -5,7 +5,7 @@ import { FaTrashAlt, FaEdit } from "react-icons/fa"; // Importing FontAwesome ic
 
 
 const AdminNotices = () => {
-  const BASE_URL = "http://localhost:3000/api/";
+  const BASE_URL = "http://localhost:3000/api/notice";
   const [notices, setNotices] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [role, setRole] = useState("");
@@ -16,7 +16,7 @@ const AdminNotices = () => {
 
   useEffect(() => {
     axios
-      .get(`${BASE_URL}notice`)
+      .get(`${BASE_URL}/all`)
       .then((response) => {
         setNotices(response.data);
       })
@@ -48,7 +48,7 @@ const AdminNotices = () => {
     const newNotice = { role, title, message };
     if (isUpdateMode && noticeIdToUpdate) {
       axios
-        .put(`${BASE_URL}notice/${noticeIdToUpdate}`, newNotice)
+        .put(`${BASE_URL}/update${noticeIdToUpdate}`, newNotice)
         .then((response) => {
           setNotices((prevNotices) =>
             prevNotices.map((n) =>
@@ -60,7 +60,7 @@ const AdminNotices = () => {
         .catch((error) => console.error("Error updating notice:", error));
     } else {
       axios
-        .post(`${BASE_URL}notice`, newNotice)
+        .post(`${BASE_URL}/create`, newNotice)
         .then((response) => {
           setNotices((prevNotices) => [...prevNotices, response.data]);
           closeModal();

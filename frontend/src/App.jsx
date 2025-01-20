@@ -28,6 +28,8 @@ import TeacherDetails from "./pages/admin_profile/TeacherDetails";
 import StudentDetails from "./pages/admin_profile/StudentDetails";
 import PaymentDetails from "./pages/admin_profile/PaymentDetails";
 import Notifications from "./pages/admin_profile/Notifications";
+import StudentRegister from "./pages/studentRegister";
+import TeacherRegister from "./pages/TeacherRegister";
 
 const router = createBrowserRouter([
   {
@@ -275,6 +277,29 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/student_registation",
+    //element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <StudentRegister/>,
+      },
+    ],
+  },
+
+  {
+    path: "/teacher_registation",
+    //element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <TeacherRegister/>,
+      },
+    ],
+  },
+
+
   {
     path: "/t_student_report",
     element: <DrawerLayout/>,

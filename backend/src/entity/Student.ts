@@ -6,6 +6,7 @@ import { Notice } from './Notice';
 import { Assignment } from './Assignment';
 import { User } from './User';
 import { ClassCard } from './ClassCard';
+import { StudentMessege } from './StudentMesseges';
 
 
 
@@ -47,6 +48,9 @@ export class Student {
 
   @OneToMany(() => Notice, (notice) => notice.student, { nullable: true })
   notices: Notice[];
+
+  @OneToMany(() => StudentMessege, (studentMessege) => studentMessege.student, { nullable: true })
+  studentMesseges: StudentMessege[];
 
   @ManyToMany(() => Assignment, (assignment) => assignment.student, { nullable: true })
   @JoinTable()

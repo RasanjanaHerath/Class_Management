@@ -33,6 +33,7 @@ import Students from "./pages/SuperAdminProfile/Students";
 import AnalyticsAndReports from "./pages/SuperAdminProfile/AnalyticsAndReports";
 import Notifications from "./pages/SuperAdminProfile/Notifications";
 import SuperAdminDashboard from "./pages/SuperAdminProfile/SuperAdminDashboard";
+import StudentMesseges from "./pages/StudentNotices";
 
 const router = createBrowserRouter([
   {
@@ -367,6 +368,16 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+  path: "/student_messeges",
+  element: <DrawerLayout/>,
+  children: [
+    {
+      index: true,
+      element: <StudentMesseges/>,
+    },
+  ],
+},
 
 ]);
 

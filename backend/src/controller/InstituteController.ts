@@ -95,7 +95,7 @@ export class InstituteController {
       const { phoneNumber, city } = req.body;
   
       if (req.user.userRole !== "institute") {
-          console.log("role from controller :", req.user.userRole);
+          console.log("role from controller new :", req.user.userRole);
           return res.status(403).json({ message: "You are not authorized to create Institute" });
       }
   

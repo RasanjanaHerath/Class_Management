@@ -14,6 +14,7 @@ const StudentMesseges = () => {
   const [messege, setMessege] = useState("");
   const [recipientRole, setRecipientRole] = useState("");
   const [recipientName, setRecipientName] = useState("");
+    const [myClasses, setMyClasses] = useState([]);
 
   useEffect(() => {
     axios
@@ -51,6 +52,29 @@ const StudentMesseges = () => {
   const cardColors = ["bg-yellow-200", "bg-blue-300", "bg-green-300", "bg-red-200", "bg-purple-300"];
 
 console.log("blaa",receivedMesseges)
+
+
+
+
+useEffect(() => {
+  const fetchMyClasses = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(`http://localhost:3000/api/class_card/get-all-my`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log("My classes:", response.data);
+      setMyClasses(response.data);
+    } catch (error) {
+      console.error("Error fetching my classes:", error);
+      setMyClasses([]);
+    }
+  };
+
+  fetchMyClasses();
+}, []);
 
   return (
     <div className="bg-gray-100 min-h-screen p-8 flex md:ml-64 flex-row gap-8">
@@ -167,15 +191,18 @@ console.log("blaa",receivedMesseges)
             <h2 className="text-xl font-bold mb-4">Send Messege</h2>
             <form onSubmit={handleSendMessege}>
               <div className="mb-4">
-                <label className="block text-gray-700 font-bold mb-2">Select Institute:</label>
+                <label className="block text-gray-700 font-bold mb-2">Select Class:</label>
                 <select
                   value={recipientRole}
                   onChange={(e) => setRecipientRole(e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-md"
                 >
-                  <option value="">Choose Role</option>
-                  <option value="institute">Institute 1</option>
-                  <option value="teacher">Institute 2</option>
+                  <option value="">Choose Class</option>
+                  {myClasses.map((cls) => (
+                    <option key={cls.classObject.id} value={cls.classObject.institute.city}>
+                      {cls.classObject.institute.name}  {cls.classObject.institute.city} {cls.classObject.subject}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="mb-4">

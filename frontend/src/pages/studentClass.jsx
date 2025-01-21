@@ -1,4 +1,34 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+
+
+async function initiatePayment() {
+
+try{   
+    // Fetch the payload from your backend
+    const response = await axios.get("http://localhost:3000/api/payments/initiate/7")
+    
+    const payload = response.data.payload;
+    console.log(payload);
+    // Create a form and submit it to the PayHere API
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "https://sandbox.payhere.lk/pay/checkout";
+
+    for (const [key, value] of Object.entries(payload)) {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = key;
+      input.value = value;
+      form.appendChild(input);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+  } catch (error) {
+    console.error("Error initiating payment:", error);
+  }
+}
 
 const StudentClass = () => {
   const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
@@ -81,6 +111,9 @@ const StudentClass = () => {
               className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
             >
               Close
+            </button>
+            <button onClick={() => initiatePayment()} className="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 ml-2">
+              Proceeed To Payment
             </button>
           </div>
         </div>

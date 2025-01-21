@@ -40,16 +40,18 @@ export class PaymentController {
             const hashSource = `${appId}${orderId}${amount}${currency}${createHash('md5').update(merchantSecret).digest('hex').toUpperCase()}`;
             const hashValue = createHash('md5').update(hashSource).digest('hex').toUpperCase();
 
+    
+
             // Prepare payment payload
             const payload = {
                 merchant_id: appId,
                 return_url: `${process.env.CLIENT_URL}/courses/`,
                 cancel_url: `${process.env.CLIENT_URL}/courses/`,
-                notify_url: `${process.env.CLIENT_URLL}/api/payments/notify`,
+                notify_url: `${process.env.CLIENT_URL}/api/payments/notify`,
                 order_id: orderId,
                 items: "Course Enrollment",
                 currency: currency,
-                amount: amount,
+                amount: 100,
                 first_name: user.firstName,
                 last_name: user.lastName,
                 email: user.email,
@@ -60,6 +62,9 @@ export class PaymentController {
                 custom_1: userId,
                 custom_2: student.id,
             };
+
+        
+            
 
             return res.status(200).json({
                 payload

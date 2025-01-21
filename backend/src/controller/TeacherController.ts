@@ -157,16 +157,33 @@ export class TeacherController {
   };
 
   // Delete teacher by ID
+  // static deleteTeacher = async (req: Request, res: Response) => {
+  //   const teacherRepository = AppDataSource.getRepository(Teacher);
+  //   const teacherId = parseInt(req.params.id, 10);
+
+  //   try {
+  //     const teacher = await teacherRepository.findOne({ where: { teacherId: teacherId } });
+  //     if (!teacher) return res.status(404).json({ message: 'Teacher not found' });
+
+  //     await teacherRepository.remove(teacher);
+  //     return res.status(204).send();
+  //   } catch (error) {
+  //     console.error('Error deleting teacher:', error);
+  //     return res.status(500).json({ message: 'An error occurred while deleting the teacher.' });
+  //   }
+  // };
   static deleteTeacher = async (req: Request, res: Response) => {
     const teacherRepository = AppDataSource.getRepository(Teacher);
     const teacherId = parseInt(req.params.id, 10);
 
     try {
       const teacher = await teacherRepository.findOne({ where: { teacherId: teacherId } });
-      if (!teacher) return res.status(404).json({ message: 'Teacher not found' });
+      if (!teacher) {
+        return res.status(404).json({ message: 'Teacher not found' });
+      }
 
       await teacherRepository.remove(teacher);
-      return res.status(204).send();
+      return res.status(200).json({ message: 'Teacher deleted successfully' });
     } catch (error) {
       console.error('Error deleting teacher:', error);
       return res.status(500).json({ message: 'An error occurred while deleting the teacher.' });

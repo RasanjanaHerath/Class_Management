@@ -1,6 +1,9 @@
 import React from "react";
 
 const ClassForm = ({ formData, handleChange, handleSave, togglePopup, isEditing,  institutes }) => {
+
+  const scheduleDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
@@ -44,7 +47,7 @@ const ClassForm = ({ formData, handleChange, handleSave, togglePopup, isEditing,
               ))}
             </select>
           </label>
-          <label className="block mb-2">
+          {/* <label className="block mb-2">
             Schedule Day:
             <input
               type="text"
@@ -53,6 +56,22 @@ const ClassForm = ({ formData, handleChange, handleSave, togglePopup, isEditing,
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded"
             />
+          </label> */}
+          <label className="block mb-2">
+            Schedule Day:
+            <select
+              name="scheduleDay"
+              value={formData.scheduleDay}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border rounded"
+            >
+              <option value="">Select a day</option>
+              {scheduleDays.map(day => (
+                <option key={day} value={day}>
+                  {day}
+                </option>
+              ))}
+            </select>
           </label>
           <label className="block mb-2">
             Start Time:
@@ -85,7 +104,7 @@ const ClassForm = ({ formData, handleChange, handleSave, togglePopup, isEditing,
             />
           </label>
           <label className="block mb-2">
-            Number of Students:
+            Expected Number of Students:
             <input
               type="number"
               name="numberOfStudents"

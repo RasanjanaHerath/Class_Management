@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import e, { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { Class } from "../entity/Class";
 import { Teacher } from "../entity/Teacher";
@@ -67,6 +67,40 @@ export class classController {
     }
   };
 
+  //get by teacher and show pages if isverify is true
+  static getClassesByTeacher = async (req: Request, res: Response) => {
+    try {
+      const teacherRepository = AppDataSource.getRepository(Teacher);
+      const classRepository = AppDataSource.getRepository(Class);
+
+      // Fetch the teacherId using the userId
+      const teacher = await teacherRepository.findOne({ where: { user: { id: req.user.userId } } });
+
+      if (!teacher) {
+        return res.status(404).json({ message: 'Teacher not found' });
+      }
+
+      const teacherId = teacher.teacherId;
+
+      // Fetch verified classes
+      const verifiedClasses = await classRepository.find({
+        where: { teacher: { teacherId: teacherId }, isverify: true },
+      });
+
+      // Fetch pending classes
+      const pendingClasses = await classRepository.find({
+        where: { teacher: { teacherId: teacherId }, isverify: false },
+      });
+
+      res.status(200).json({
+        verifiedClasses,
+        pendingClasses,
+      });
+    } catch (error) {
+      console.error('Error fetching classes:', error);
+      res.status(500).json({ message: 'Error fetching classes', error });
+    }
+  };
  
     // static createClass = async (req: Request, res: Response) => {
     //     const { subject, teacherId, numberOfStudents, grade, startTime, endTime, feePerMonth, scheduleDay,InstituteId} = req.body;
@@ -156,7 +190,7 @@ export class classController {
     //   };
 
     static createClass = async (req: Request, res: Response) => {
-      const { subject, grade, instituteId, scheduleDay, startTime, endTime, feePerMonth, numberOfStudents } = req.body;
+      const { subject, grade, instituteId, scheduleDay, startTime, endTime, feePerMonth, numberOfStudents,isverify } = req.body;
   
       try {
 
@@ -194,9 +228,6 @@ export class classController {
           return res.status(404).json({ message: 'Institute not found' });
         }
   
-        // console.log("Received tId:", tId);
-        // const teacher = await teacherRepository.findOne({ where: { teacherId: tId } });
-  
         if (!teacher) {
           return res.status(404).json({ message: 'Teacher not found' });
         }
@@ -212,6 +243,7 @@ export class classController {
         newClass.endTime = endTime;
         newClass.feePerMonth = feePerMonth;
         newClass.numberOfStudents = numberOfStudents;
+        newClass.isverify = false;
        
 
   
@@ -224,87 +256,76 @@ export class classController {
         return res.status(500).json({ message: 'An error occurred while creating the class.' });
       }
     };
-    
- // Update a class
-    // static updateClass = async (req: Request, res: Response) => {
-    //     const {
-    //         subject, 
-    //         grade, 
-    //         startTime, 
-    //         endTime, 
-    //         feePerMonth, 
-    //         scheduleDay, 
-    //         numberOfStudents, 
-    //        // modeOfTeaching
-    //     } = req.body;
-
-    //     const classRepository = AppDataSource.getRepository(Class);
-
-    //     // Find the class by ID from the request parameters
-    //     const existingClass = await classRepository.findOneBy({ id: parseInt(req.params.id) });
-
-    //     if (existingClass) {
-    //         // Update class properties with the provided values
-    //         existingClass.subject = subject;
-    //         existingClass.subject = subject;
-    //         //existingClass.batch = batch;
-    //         existingClass.grade = grade;
-    //         existingClass.startTime = startTime;
-    //         existingClass.endTime = endTime;
-    //         existingClass.scheduleDay = scheduleDay;
-    //         existingClass.feePerMonth = feePerMonth;
-    //         existingClass.numberOfStudents = numberOfStudents;
-
-    //         // Save the updated class to the database
-    //         await classRepository.save(existingClass);
-
-    //         // Respond with a success message and the updated class
-    //         res.json({ message: "Class updated", class: existingClass });
-    //     } else {
-    //         // If class not found, respond with a message
-    //         res.status(404).json({ message: "Class not found" });
-    //     }
-    // };
 
     static updateClass = async (req: Request, res: Response) => {
-        const { subject, teacherId, numberOfStudents, grade, startTime, endTime, feePerMonth, scheduleDay } = req.body;
-        const classRepository = AppDataSource.getRepository(Class);
-        const teacherRepository = AppDataSource.getRepository(Teacher);
-    
-        try {
-          // Find the class by ID from the request parameters
-          const existingClass = await classRepository.findOne({ where: { id: parseInt(req.params.id) } });
-    
-          if (!existingClass) {
-            return res.status(404).json({ message: 'Class not found' });
-          }
-    
-          // Find the teacher by ID
-          const teacher = await teacherRepository.findOne({ where: { teacherId } });
-    
-          if (!teacher) {
-            return res.status(404).json({ message: 'Teacher not found' });
-          }
-    
-          // Update the class properties
-          existingClass.subject = subject;
-          existingClass.grade = grade;
-          existingClass.startTime = startTime;
-          existingClass.endTime = endTime;
-          existingClass.scheduleDay = scheduleDay;
-          existingClass.feePerMonth = feePerMonth;
-          existingClass.numberOfStudents = numberOfStudents;
-          existingClass.teacher = teacher; // Update the teacher for the class
-
-          // Save the updated class to the database
-          await classRepository.save(existingClass);
-
-          // Respond with a success message and the updated class
-          res.json({ message: 'Class updated', class: existingClass });
-        } catch (error) {
-          console.error('Error updating class:', error);
-          res.status(500).json({ message: 'Error updating class', error: error.toString() });
+      const { subject, instituteId, numberOfStudents, grade, startTime, endTime, feePerMonth, scheduleDay, isverify } = req.body;
+      const classRepository = AppDataSource.getRepository(Class);
+      const teacherRepository = AppDataSource.getRepository(Teacher);
+  
+      try {
+        if(!instituteId){
+          return res.status(404).json({ message: 'Institute is Required' });
         }
+
+        const instituteRepository = AppDataSource.getRepository(Institute);
+        const institute = await instituteRepository.findOne({ where: { id: instituteId } });
+        const teacherRepository = AppDataSource.getRepository(Teacher);
+        const userRepository = AppDataSource.getRepository(User);
+        
+        const userId = req.user?.userId;
+
+        if(!userId){
+          return res.status(404).json({ message: 'User not found' });
+        }
+
+        const user = await userRepository.findOne({
+          where: { id: userId },
+        });
+
+        const userInst = await userRepository.findOne({
+          where: { institute },
+        });
+
+        const teacher = await teacherRepository.findOne({
+          where: { user },
+          relations: ["user"],
+        });
+
+        if (!institute) {
+          return res.status(404).json({ message: 'Institute not found' });
+        }
+  
+        if (!teacher) {
+          return res.status(404).json({ message: 'Teacher not found' });
+        }
+        // Find the class by ID from the request parameters
+        const existingClass = await classRepository.findOne({ where: { id: parseInt(req.params.id) } });
+  
+        if (!existingClass) {
+          return res.status(404).json({ message: 'Class not found' });
+        }
+  
+        // Update the class properties
+        existingClass.subject = subject;
+        existingClass.grade = grade;
+        existingClass.startTime = startTime;
+        existingClass.endTime = endTime;
+        existingClass.scheduleDay = scheduleDay;
+        existingClass.feePerMonth = feePerMonth;
+        existingClass.numberOfStudents = numberOfStudents;
+        existingClass.isverify = isverify;
+        existingClass.institute = institute;
+        existingClass.teacher = teacher; // Update the teacher for the class
+  
+        // Save the updated class to the database
+        await classRepository.save(existingClass);
+  
+        // Respond with a success message and the updated class
+        res.json({ message: 'Class updated', class: existingClass });
+      } catch (error) {
+        console.error('Error updating class:', error);
+        res.status(500).json({ message: 'Error updating class', error: error.toString() });
+      }
     };
 
 

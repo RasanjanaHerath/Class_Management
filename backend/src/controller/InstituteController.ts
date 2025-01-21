@@ -150,17 +150,34 @@ export class InstituteController {
 //     };
 
     // Delete a user
-    static deleteInstitute = async (req: Request, res: Response) => {
-        const instituteRepository = AppDataSource.getRepository(Institute);
+//     static deleteInstitute = async (req: Request, res: Response) => {
+//         const instituteRepository = AppDataSource.getRepository(Institute);
 
+//         const institute = await instituteRepository.findOneBy({ id: parseInt(req.params.id) });
+//         if (institute) {
+//         await instituteRepository.remove(institute);
+//         res.json({ message: "Institute deleted" });
+//         } else {
+//         res.json({ message: "Institute not found" });
+//        }
+//     };
+    static deleteInstitute = async (req: Request, res: Response) => {
+      const instituteRepository = AppDataSource.getRepository(Institute);
+
+      try {
         const institute = await instituteRepository.findOneBy({ id: parseInt(req.params.id) });
-        if (institute) {
+
+        if (!institute) {
+          return res.status(404).json({ message: "Institute not found" });
+        }
+
         await instituteRepository.remove(institute);
-        res.json({ message: "Institute deleted" });
-        } else {
-        res.json({ message: "Institute not found" });
-       }
-    };
+        return res.status(200).json({ message: "Institute deleted" });
+      } catch (error) {
+        console.error("Error deleting institute:", error);
+        return res.status(500).json({ message: "Internal Server Error" });
+      }
+    };
 
     static updateInstitute = async (req: Request, res: Response, next: NextFunction) => {
       const instituteRepository = AppDataSource.getRepository(Institute);

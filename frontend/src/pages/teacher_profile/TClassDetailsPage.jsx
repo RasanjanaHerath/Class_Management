@@ -65,8 +65,8 @@ const TClassDetailsPage = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:3000/api/class/deleteClass/${classId}`);
-      navigate('/class_management');
+      await axios.delete(`http://localhost:3000/api/class/delete/${classId}`);
+      navigate('/t_class_management');
     } catch (error) {
       console.error("Error deleting class:", error);
     }

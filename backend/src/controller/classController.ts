@@ -57,8 +57,7 @@ export class classController {
       const classes = await classRepository.find({ relations: ['teacher', 'institute', 'students', 'assignments'] });
       if (!Array.isArray(classes)) {
         return res.status(500).json({ message: 'Error fetching classes' });
-      }
-      // console.log('Classes from cobtroller getAll:', classes);
+      } // console.log('Classes from cobtroller getAll:', classes);
       const lastClass = classes[classes.length - 1];
       console.log('Last class:', lastClass);
       return res.status(200).json(classes);

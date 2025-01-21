@@ -15,8 +15,7 @@ export class UserController {
         res.json(users);
 
     };
-
-    // Get a single user by ID
+// Get a single user by ID
     static getById = async (req: Request, res: Response) => {
         const userRepository = AppDataSource.getRepository(User);
         const user = await userRepository.findOneBy({ id: parseInt(req.params.id) });
@@ -27,6 +26,25 @@ export class UserController {
     static createUser = async (req: Request, res: Response) => {
         const { firstName, lastName, email, userName, role , password} = req.body;
         const userRepository = AppDataSource.getRepository(User);
+
+        // validattions
+        if (!firstName || !email || !userName || !role || !password) {
+            return res.status(400).json({ message: "Please enter all fields" });
+        }
+
+        //user with email already exists
+        const userExists = await userRepository.findOne({ where: { email } });
+        if (userExists) {
+            return res.status(400).json({ message: "User with this email already exists" });
+        }
+
+        // check username
+        const userNameExists = await userRepository.findOne({ where: { userName } });
+        if (userNameExists) {
+            return res.status(400).json({ message: "Username already exists" });
+        }
+
+
 
         try {
             const hashedPassword = await bcrypt.hash(password, 10);
@@ -91,8 +109,7 @@ export class UserController {
         res.json({ message: "User not found" });
         }
     };
-
-    // Login function
+// Login function
     static login = async (req: Request, res: Response) => {
         const { email, password } = req.body;
         const userRepository = AppDataSource.getRepository(User);

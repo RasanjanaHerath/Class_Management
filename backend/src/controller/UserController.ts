@@ -15,7 +15,14 @@ export class UserController {
         res.json(users);
 
     };
-// Get a single user by ID
+
+    static getInstituteUsers = async (req: Request, res: Response) => {
+        const userRepository = AppDataSource.getRepository(User);
+        const users = await userRepository.find({where: {role: 'institute'}});
+        res.json(users);
+    }
+
+    // Get a single user by ID
     static getById = async (req: Request, res: Response) => {
         const userRepository = AppDataSource.getRepository(User);
         const user = await userRepository.findOneBy({ id: parseInt(req.params.id) });

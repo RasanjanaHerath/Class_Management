@@ -27,38 +27,12 @@ const Header = () => {
 
       {/* Center Section: Navigation Links (placed near to the search bar) */}
       <div className="flex items-center space-x-20 ml-80">
-        <Link
-          to="/"
-          className="font-semibold text-gray-800 relative group"
-        >
-          HOME
-          <span className="absolute block w-0 h-0.5 bg-gray-800 left-0 bottom-0 transition-all duration-300 group-hover:w-full"></span>
-        </Link>
-        <Link
-          to="/about"
-          className="font-semibold text-gray-800 relative group"
-        >
-          ABOUT
-          <span className="absolute block w-0 h-0.5 bg-gray-800 left-0 bottom-0 transition-all duration-300 group-hover:w-full"></span>
-        </Link>
-        <Link
-          to="/contact"
-          className="font-semibold text-gray-800 relative group"
-        >
-          CONTACT US
-          <span className="absolute block w-0 h-0.5 bg-gray-800 left-0 bottom-0 transition-all duration-300 group-hover:w-full"></span>
-        </Link>
+        
       </div>
 
       {/* Right Section: Search Bar, Notifications, and User Profile */}
       <div className="flex items-center space-x-8 ml-0">
-        <div className="mr-4">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="border border-gray-300 p-2 rounded-full text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition duration-200"
-          />
-        </div>
+
         <div className="relative">
           <div className="absolute right-0 top-0 bg-red-500 text-white text-xs rounded-full px-1 py-0.5">3</div>
           <img

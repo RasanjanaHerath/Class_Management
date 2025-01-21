@@ -75,7 +75,14 @@ export class UserController {
                 process.env.JWT_SECRET! || 'default_secret'
             );
             console.log('Generated token:', token); // Log the generated token
-            res.status(201).json({ message: "User registered successfully", token });
+
+            const resData = {
+                message: "User registered successfully",
+                token : token,
+                user : user
+            }
+
+            res.status(201).json(resData);
         } catch (error) {
             console.error('Error registering user:', error); // Log the error
             res.status(500).json({ message: "Error registering user", error });

@@ -1,6 +1,7 @@
 import React, { useState ,useEffect} from 'react';
 import { Tab, Tabs, Box, Typography, Paper, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Snackbar, Alert } from '@mui/material';
 import axios from 'axios';
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 const Institutes = () => {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -24,6 +25,7 @@ const Institutes = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const [users,setUsers] = useState([]);
+  const [selectedUser,setSelectedUser] = useState(null)
   
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -106,6 +108,8 @@ const Institutes = () => {
     setOpenSnackbar(false);
   };
 
+  
+
   return (
     <div className="min-h-screen bg-gray-50 p-6 md:ml-64">
       <div className="text-center mb-6">
@@ -123,56 +127,77 @@ const Institutes = () => {
 
       {/* Institute Creation Form for Super Admin */}
       {selectedTab === 0 && (
-        <Paper className="p-6 rounded-lg shadow-lg bg-white">
-          <Typography variant="h6" className="mb-4 text-center">Create New Institute</Typography>
-          <TextField
-            label="Phone Number"
-            value={phoneNo}
-            onChange={(e) => setPhoneNo(e.target.value)}
-            fullWidth
-            className="mb-3"
-            error={Boolean(errors.phoneNo)}
-            helperText={errors.phoneNo}
-            sx={{ '& .MuiOutlinedInput-root': { borderRadius: '10px' } }}
-          />
-          <TextField
-            label="City"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            fullWidth
-            className="mb-3"
-            error={Boolean(errors.city)}
-            helperText={errors.city}
-            sx={{ '& .MuiOutlinedInput-root': { borderRadius: '10px' } }}
-          />
-          <Button
-            variant="contained"
-            onClick={handleCreateInstitute}
-            fullWidth
-            sx={{
-              backgroundColor: '#2d3748',
-              borderRadius: '10px',
-              padding: '12px 24px',
-              fontSize: '16px',
-              fontWeight: 'bold',
-              color: 'white',
-              textTransform: 'none',
-              transition: 'all 0.3s ease-in-out',
-              '&:hover': {
-                backgroundColor: '#4a5568',
-                transform: 'scale(1.05)',
-                boxShadow: '0 6px 15px rgba(0, 0, 0, 0.2)'
-              },
-              '&:focus': {
-                outline: 'none',
-                boxShadow: '0 0 10px rgba(63, 81, 181, 0.6)'
-              }
-            }}
-          >
-            Create Institute
-          </Button>
-        </Paper>
-      )}
+  <Paper className="p-6 rounded-lg shadow-lg bg-white">
+    <Typography variant="h6" className="mb-4 text-center">Create New Institute</Typography>
+    <TextField
+      label="Phone Number"
+      value={phoneNo}
+      onChange={(e) => setPhoneNo(e.target.value)}
+      fullWidth
+      className="mb-3"
+      error={Boolean(errors.phoneNo)}
+      helperText={errors.phoneNo}
+      sx={{ '& .MuiOutlinedInput-root': { borderRadius: '10px' } }}
+    />
+    <TextField
+      label="City"
+      value={city}
+      onChange={(e) => setCity(e.target.value)}
+      fullWidth
+      className="mb-3"
+      error={Boolean(errors.city)}
+      helperText={errors.city}
+      sx={{ '& .MuiOutlinedInput-root': { borderRadius: '10px' } }}
+    />
+    <FormControl 
+      fullWidth 
+      className="mb-3"
+      sx={{ '& .MuiOutlinedInput-root': { borderRadius: '10px' } }}
+    >
+      <InputLabel>Select User</InputLabel>
+      <Select
+        value={selectedUser || ''}
+        onChange={(e) => setSelectedUser(e.target.value)}
+        label="Select User"
+      >
+        <MenuItem value="">
+          <em>None</em>
+        </MenuItem>
+        {users.map((user) => (
+          <MenuItem key={user.id} value={user.id}>
+            {user.name || user.email}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+    <Button
+      variant="contained"
+      onClick={handleCreateInstitute}
+      fullWidth
+      sx={{
+        backgroundColor: '#2d3748',
+        borderRadius: '10px',
+        padding: '12px 24px',
+        fontSize: '16px',
+        fontWeight: 'bold',
+        color: 'white',
+        textTransform: 'none',
+        transition: 'all 0.3s ease-in-out',
+        '&:hover': {
+          backgroundColor: '#4a5568',
+          transform: 'scale(1.05)',
+          boxShadow: '0 6px 15px rgba(0, 0, 0, 0.2)'
+        },
+        '&:focus': {
+          outline: 'none',
+          boxShadow: '0 0 10px rgba(63, 81, 181, 0.6)'
+        }
+      }}
+    >
+      Create Institute
+    </Button>
+  </Paper>
+)}
 
       {/* Tab Panels */}
       <TabPanel value={selectedTab} index={0}>

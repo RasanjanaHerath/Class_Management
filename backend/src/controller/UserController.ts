@@ -28,8 +28,19 @@ export class UserController {
         const userRepository = AppDataSource.getRepository(User);
 
         // validattions
-        if (!firstName || !email || !userName || !role || !password) {
-            return res.status(400).json({ message: "Please enter all fields" });
+        
+        if (!firstName) {
+            return res.status(400).json({ message: "First name is required" });
+        }
+        if (!email) {
+            return res.status(400).json({ message: "Email is required" });
+        }
+        if (!userName) {
+            console.log('Username is required:', userName); // Log the username
+            return res.status(400).json({ message: "Username is required" });
+        }
+        if (!password) {
+            return res.status(400).json({ message: "Password is required" });
         }
 
         //user with email already exists

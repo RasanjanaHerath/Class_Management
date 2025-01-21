@@ -1,8 +1,11 @@
+"use-client"
 import React from 'react'
 import { Outlet } from "react-router-dom";
 import NavBar from '../component/NavBar';
 import Footer from '../component/Footer';
 import { useLocation } from 'react-router-dom';
+import {Toaster} from "sonner"
+
 
 const BaseLayout = () => {
 
@@ -13,6 +16,8 @@ const BaseLayout = () => {
     <div className="flex flex-col h-screen">
       {/* Header */}
       <div className="w-full fixed top-0 left-0 right-0 z-20">
+      <Toaster richColors closeButton position='top-right' />
+
         <NavBar />
       </div>
 

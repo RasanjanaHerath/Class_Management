@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { Tab, Tabs, Box, Typography, Paper, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Snackbar, Alert } from '@mui/material';
+import axios from 'axios';
 
 const Institutes = () => {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -22,9 +23,23 @@ const Institutes = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
+  const [users,setUsers] = useState([]);
+  
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
+
+  useEffect(() => {
+    const fetchUsers = async (users) => {
+      // const token = localStorage.getItem('token');
+      const response = await axios.get('http://localhost:3000/api/user/institute-users');
+      setUsers(response.data);
+    }
+
+
+    fetchUsers();
+  },[])
+
 
   const handleCreateInstitute = () => {
     let valid = true;

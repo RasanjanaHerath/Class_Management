@@ -193,6 +193,44 @@ export class InstituteController {
           return res.status(500).json({ message: "An error occurred while saving the Institute." });
       }
   };
+
+  static createInstituteAdmin = async (req: Request, res: Response, next: NextFunction) => {
+    const { phoneNumber, city,userId } = req.body;
+    console.log(req.body)
+
+    if (req.user.userRole !== "admin") {
+        console.log("role from controller :", req.user.userRole);
+        return res.status(403).json({ message: "You are not authorized to create Institute" });
+    }
+
+    
+
+    if (!userId) {
+        return res.status(403).json({ message: "You are not authorized to create Institute" });
+    }
+
+    try {
+        const instituteRepository = AppDataSource.getRepository(Institute);
+        const userRepository = AppDataSource.getRepository(User);
+
+        // Find the user by userId without loading the institute relation
+        const user = await userRepository.findOne({ where: { id: userId } });
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        const institute = new Institute();
+        institute.city = city;
+        institute.phoneNumber = phoneNumber;
+        institute.user = user; // Set the user to the institute
+        institute.isverified =true;
+
+        await instituteRepository.save(institute);
+
+        return res.status(201).json(institute);
+    } catch (error) {
+        console.error("Error creating Institute:", error);
+        return res.status(500).json({ message: "An error occurred while saving the Institute." });
+    }
+};
   
 
     // Update a user

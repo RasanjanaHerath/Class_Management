@@ -14,6 +14,8 @@ instituteRoutes.get("/get-by-teacher",jwtMiddleware,InstituteController.getInsti
 // Create a new user
 instituteRoutes.post("/create",jwtMiddleware, InstituteController.createInstitute);
 
+instituteRoutes.post("/create-by-admin",jwtMiddleware, InstituteController.createInstituteAdmin);
+
 instituteRoutes.put("/update/:id", InstituteController.updateInstitute);
 
 instituteRoutes.delete("/delete/:id", InstituteController.deleteInstitute);

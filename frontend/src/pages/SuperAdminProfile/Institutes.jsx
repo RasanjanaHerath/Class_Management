@@ -73,8 +73,28 @@ const Institutes = () => {
       setCity('');
       setErrors({ phoneNo: '', city: '' }); // Reset errors
 
+      const token = localStorage.getItem('token');
+
+      const data = {
+        phoneNumber:phoneNo,
+        city,
+        userId:selectedUser
+      }
+
+      axios.post('http://localhost:3000/api/institute/create-by-admin', data, {
+        headers: {
+        Authorization: `Bearer ${token}`
+        }
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
       // Set snackbar message and show it
-      setSnackbarMessage(`Institute with phone number ${phoneNo} is created..!`);
+      setSnackbarMessage(`Institute with  is created..!`);
       setOpenSnackbar(true);
     } else {
       setErrors(newErrors); // Set validation errors
@@ -108,7 +128,10 @@ const Institutes = () => {
     setOpenSnackbar(false);
   };
 
-  
+
+
+
+
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 md:ml-64">

@@ -34,6 +34,7 @@ import AnalyticsAndReports from "./pages/SuperAdminProfile/AnalyticsAndReports";
 import Notifications from "./pages/SuperAdminProfile/Notifications";
 import SuperAdminDashboard from "./pages/SuperAdminProfile/SuperAdminDashboard";
 import TClassDetailsPage from "./pages/teacher_profile/TClassDetailsPage";
+import UpdateClassForm from "./component/UpdateClassForm";
 
 const router = createBrowserRouter([
   {
@@ -378,6 +379,16 @@ const router = createBrowserRouter([
       },
     ],
   },
+  // {
+  //   path: "/t_update_class",
+  //   element: <DrawerLayout />,
+  //   children: [
+  //     {
+  //       index: true,
+  //       element: <UpdateClassForm />,
+  //     },
+  //   ],
+  // },
 
 
 

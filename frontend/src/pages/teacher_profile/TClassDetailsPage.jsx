@@ -3,11 +3,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import UpdateClassForm from '../../component/UpdateClassForm';
 
 const TClassDetailsPage = () => {
   const [classDetails, setClassDetails] = useState({});
   const [students, setStudents] = useState([]);
   const [assignments, setAssignments] = useState([]);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [formData, setFormData] = useState({});
+  const [institutes, setInstitutes] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
   const { classId } = location.state;
@@ -16,6 +20,7 @@ const TClassDetailsPage = () => {
     fetchClassDetails();
     fetchStudents();
     fetchAssignments();
+    fetchInstitutes();
   }, []);
 
   const fetchClassDetails = async () => {
@@ -45,8 +50,17 @@ const TClassDetailsPage = () => {
     }
   };
 
+  const fetchInstitutes = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/institute/get-all");
+      setInstitutes(response.data);
+    } catch (error) {
+      console.error("Error fetching institutes:", error);
+    }
+  };
+
   const handleEdit = () => {
-    navigate(`/edit-class/${classId}`);
+    setIsPopupOpen(true);
   };
 
   const handleDelete = async () => {
@@ -57,6 +71,27 @@ const TClassDetailsPage = () => {
       console.error("Error deleting class:", error);
     }
   };
+
+  const handleSave = async () => {
+    try {
+      await axios.put(`http://localhost:3000/api/class/update/${classId}`, formData);
+      setIsPopupOpen(false);
+      fetchClassDetails(); // Refresh class details after update
+    } catch (error) {
+      console.error("Error updating class:", error);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const togglePopup = () => {
+    setIsPopupOpen(!isPopupOpen);
+  };
+
+console.log("formData", formData);
 
   return (
     <div className="container mx-auto p-4  md:ml-64 ml-0">
@@ -99,6 +134,18 @@ const TClassDetailsPage = () => {
           ))}
         </ul>
       </div>
+
+      {isPopupOpen && (
+        <UpdateClassForm
+          formData={formData}
+          handleChange={handleChange}
+          handleSave={handleSave}
+          togglePopup={togglePopup}
+          isEditing={true}
+          institutes={institutes}
+          classDetails ={classDetails}
+        />
+      )}
     </div>
   );
 };

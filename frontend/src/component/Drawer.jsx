@@ -290,12 +290,12 @@ const Drawer = ({ role }) => {
       { path: "/admin_notifications", label: "Notifications" },
 
     ],
-    institute: [
-      { path: "/admin_profile", label: "Dashboard" },
-      { path: "/i_class_management", label: "Manage Classes" },
-      { path: "/teacher_details", label: "Teacher Details" },
-      { path: "/student_details", label: "Student Details" },
-    ],
+    // institute: [
+    //   { path: "/admin_profile", label: "Dashboard" },
+    //   { path: "/i_class_management", label: "Manage Classes" },
+    //   { path: "/teacher_details", label: "Teacher Details" },
+    //   { path: "/student_details", label: "Student Details" },
+    // ],
     institute: [
       { path: "/dashboard", label: "Dashboard" },
       { path: "/class_details", label: "Class Details" },

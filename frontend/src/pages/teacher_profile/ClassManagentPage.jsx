@@ -157,7 +157,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faEdit, faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
+import { faPlus,  faEye } from "@fortawesome/free-solid-svg-icons";
 import ClassForm from "../../component/ClassForm";
 
 const ClassManagement = () => {
@@ -209,18 +209,63 @@ const ClassManagement = () => {
     }
   };
 
+  // const handleSave = async () => {
+  //   try {
+  //     console.log("Saving class with data:", formData);
+  //     // Retrieve token from local storage
+  //     const token = localStorage.getItem('token');
+      
+  //     // Set token in request headers
+  //     const config = {
+  //       headers: {
+  //         'Authorization': `Bearer ${token}`
+  //       }
+  //     };
+  //     await axios.post("http://localhost:3000/api/class/create", formData);
+  //     fetchClasses();
+  //     togglePopup();
+  //   } catch (error) {
+  //     console.error("Error saving class:", error);
+  //   }
+  // };
+
   const handleSave = async () => {
     try {
       console.log("Saving class with data:", formData);
-      if (isEditing) {
-        await axios.put(`http://localhost:3000/api/class/updateClass/${formData.id}`, formData);
-      } else {
-        await axios.post("http://localhost:3000/api/class/createClass", formData);
+      
+      // Retrieve token from local storage
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        throw new Error("No token found in local storage");
       }
+      
+      // Set token in request headers
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      };
+      
+      await axios.post("http://localhost:3000/api/class/create", formData, config);
       fetchClasses();
       togglePopup();
     } catch (error) {
-      console.error("Error saving class:", error);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error("Error response:", error.response.data);
+        console.error("Error status:", error.response.status);
+        console.error("Error headers:", error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("Error request:", error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error message:", error.message);
+      }
+      console.error("Error config:", error.config);
     }
   };
 

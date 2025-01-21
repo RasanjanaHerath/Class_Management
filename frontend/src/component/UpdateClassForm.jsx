@@ -1,6 +1,10 @@
 import React from "react";
 
-const ClassForm = ({ formData, handleChange, handleSave, togglePopup, isEditing,  institutes }) => {
+const UpdateClassForm = ({ formData, handleChange, handleSave, togglePopup, isEditing, institutes,classDetails }) => {
+    const selectedInstitute = institutes.find(institute => institute.id === formData.instituteId);
+
+console.log("isntitute name ", formData.institute?.name);
+
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
@@ -30,19 +34,13 @@ const ClassForm = ({ formData, handleChange, handleSave, togglePopup, isEditing,
           </label>
           <label className="block mb-2">
             Institute:
-            <select
-              name="instituteId"
-              value={formData.instituteId}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded"
-            >
-              <option value="">Select Institute</option>
-              {institutes.map((institute) => (
-                <option key={institute.id} value={institute.id}>
-                  {institute.user.firstName}
-                </option>
-              ))}
-            </select>
+            <input
+              type="text"
+              name="instituteName"
+              value={classDetails.institute?.name}
+              readOnly
+              className="w-full px-3 py-2 border rounded bg-gray-100"
+            />
           </label>
           <label className="block mb-2">
             Schedule Day:
@@ -114,4 +112,4 @@ const ClassForm = ({ formData, handleChange, handleSave, togglePopup, isEditing,
   );
 };
 
-export default ClassForm;
+export default UpdateClassForm;

@@ -27,6 +27,9 @@ export class Institute {
   @Column({default: false})
   isverified: boolean;
 
+  @Column()
+  isRejected: boolean;
+
 
   @OneToMany(() => Class, (classEntity) => classEntity.institute)
   classes: Class[];

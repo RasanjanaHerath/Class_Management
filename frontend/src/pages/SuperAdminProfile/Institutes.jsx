@@ -117,6 +117,16 @@ const Institutes = () => {
     const updatedRequests = creationRequests.filter((_, i) => i !== index);
     setCreationRequests(updatedRequests);
 
+    const token = localStorage.getItem('token');
+
+    axios.patch(`http://localhost:3000/api/institute/approve/verify/${approved.id}`, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+
+
     // Show approval Snackbar
     setSnackbarMessage(`Institute with phone number ${approved.phoneNo} is approved!`);
     setOpenSnackbar(true);
@@ -124,9 +134,16 @@ const Institutes = () => {
 
   const handleReject = (index) => {
     const rejected = creationRequests[index];
-    setRejectedInstitutes([...rejectedInstitutes, rejected]);
     const updatedRequests = creationRequests.filter((_, i) => i !== index);
     setCreationRequests(updatedRequests);
+
+    const token = localStorage.getItem('token');
+    console.log(rejected.id)
+    axios.patch(`http://localhost:3000/api/institute/approve/reject/${rejected.id}`, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
 
     // Show rejection Snackbar
     setSnackbarMessage(`Institute with phone number ${rejected.phoneNo} is rejected!`);

@@ -374,10 +374,36 @@ export class InstituteController {
           .createQueryBuilder('institute')
           .innerJoinAndSelect('institute.user', 'user')
           .where('institute.isverified = :isverified', { isverified: false })
+          .andWhere('institute.isRejected = :isRejected', { isRejected: false })
           .getMany();
-  
         res.status(200).json(institutes);
       } catch (error) {
+        res.status(500).json({ message: 'Error fetching institutes', error });
+      }
+    }
+
+    static async verifyOrReject(req: Request, res: Response){
+
+      const action = req.params.action;
+      try{
+        if(action === 'verify'){
+          const institute = await AppDataSource.getRepository(Institute).findOne({ where: { id: parseInt(req.params.id) } });
+          if(!institute) return res.status(404).json({ message: 'Institute not found' });
+          institute.isverified = true;
+          await AppDataSource.getRepository(Institute).save(institute);
+          return res.status(200).json({ message: 'Institute verified successfully', institute });
+        }else if(action === 'reject'){
+      
+          const institute = await AppDataSource.getRepository(Institute).findOne({ where: { id: parseInt(req.params.id) } });
+          if(!institute) return res.status(404).json({ message: 'Institute not found' });
+          institute.isRejected = true;
+          await AppDataSource.getRepository(Institute).save(institute);
+          console.log(institute);
+          return res.status(200).json({ message: 'Institute rejected successfully', institute });
+        }
+
+
+      }catch(error){
         res.status(500).json({ message: 'Error fetching institutes', error });
       }
     }

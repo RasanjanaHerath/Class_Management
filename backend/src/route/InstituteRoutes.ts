@@ -13,6 +13,8 @@ instituteRoutes.get("/get-by-teacher",jwtMiddleware,InstituteController.getInsti
 instituteRoutes.get("/get-all-approved", InstituteController.getApprovedInstitutes);
 instituteRoutes.get("/get-all-pending", InstituteController.getUnapprovedInstitutes);
 
+instituteRoutes.patch("/approve/:action/:id", InstituteController.verifyOrReject);
+
 // Create a new user
 instituteRoutes.post("/create",jwtMiddleware, InstituteController.createInstitute);
 

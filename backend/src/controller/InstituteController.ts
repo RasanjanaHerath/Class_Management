@@ -351,6 +351,38 @@ export class InstituteController {
       }
     }
 
+
+    static async getApprovedInstitutes(req: Request, res: Response) {
+      try {
+        const institutes = await AppDataSource
+          .getRepository(Institute)
+          .createQueryBuilder('institute')
+          .innerJoinAndSelect('institute.user', 'user')
+          .where('institute.isverified = :isverified', { isverified: true })
+          .getMany();
+  
+        res.status(200).json(institutes);
+      } catch (error) {
+        res.status(500).json({ message: 'Error fetching institutes', error });
+      }
+    }
+
+    static async getUnapprovedInstitutes(req: Request, res: Response) {
+      try {
+        const institutes = await AppDataSource
+          .getRepository(Institute)
+          .createQueryBuilder('institute')
+          .innerJoinAndSelect('institute.user', 'user')
+          .where('institute.isverified = :isverified', { isverified: false })
+          .getMany();
+  
+        res.status(200).json(institutes);
+      } catch (error) {
+        res.status(500).json({ message: 'Error fetching institutes', error });
+      }
+    }
+
+
     
   //get total classes,teachers and students counts in a institute
 

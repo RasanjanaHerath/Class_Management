@@ -7,7 +7,7 @@ const student_router = Router();
 
 // Get all students
 
-student_router.get("/all", StudentController.getAll);
+student_router.get("/get-all", StudentController.getAll);
 
 
 // Create a new student

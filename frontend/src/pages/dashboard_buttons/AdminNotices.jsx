@@ -75,7 +75,7 @@ const AdminNotices = () => {
     if (window.confirm("Are you sure you want to delete this notice?")) {
       axios
         .delete(`${BASE_URL}/delete/${noticeId}`)
-        .then(() =>
+        .then(() => {
           setNotices((prevNotices) =>
             prevNotices.filter((n) => n.id !== noticeId)
           )

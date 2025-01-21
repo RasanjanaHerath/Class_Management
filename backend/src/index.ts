@@ -15,6 +15,7 @@ import classCard_router from "./route/classCard.routes";
 import result_router from "./route/ResultRoutes";
 import adminRoutes from "./route/AdminRoutes";
 
+import studentMessege_router from "./route/studentMesseges.routes";
 
 
 AppDataSource.initialize().then(async () => {
@@ -37,6 +38,7 @@ AppDataSource.initialize().then(async () => {
     app.use("/api/student", student_router);
     app.use("api/result", result_router);
     app.use("/api/admin", adminRoutes);
+    app.use("/api/student_messege",studentMessege_router);
 
     app.listen(3000, () => {
         console.log("Server is running on port 3000");

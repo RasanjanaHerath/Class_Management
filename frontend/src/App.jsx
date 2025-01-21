@@ -40,6 +40,7 @@ import Ins_Notifications from "./pages/admin_profile/Ins_Notifications";
 import HelpSupport from "./pages/HelpSupport";
 import Create_Notice from "./pages/admin_profile/Create_Notice";
 import InstituteRegistration from "./pages/InstituteRegistration";
+import StudentMesseges from "./pages/StudentNotices";
 
 const router = createBrowserRouter([
   {
@@ -410,6 +411,16 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+  path: "/student_messeges",
+  element: <DrawerLayout/>,
+  children: [
+    {
+      index: true,
+      element: <StudentMesseges/>,
+    },
+  ],
+},
   {
     path: "/t_class_details",
     element: <DrawerLayout />,

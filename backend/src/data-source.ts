@@ -12,6 +12,9 @@ import { Result } from "./entity/Result"
 import { Notification } from "./entity/Notification"
 import { ClassCard } from "./entity/ClassCard"
 import { Announcement } from "./entity/Announcement"
+import { ClassCard } from "./entity/ClassCard"
+import { StudentMessege } from "./entity/StudentMesseges"
+// import { EnrollClass } from "./entity/EnrollClass"
 
 export const AppDataSource = new DataSource({
     type: "mysql",

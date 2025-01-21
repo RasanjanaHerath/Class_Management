@@ -231,7 +231,7 @@ const StudentProfile = () => {
   >
     <button className="w-full bg-gray-500 p-6 text-center font-bold rounded-lg shadow-lg hover:bg-gray-400">
       {cls.classObject.institute.city} <br /> 
-      Institute {cls.classObject.institute.id} <br />
+       {cls.classObject.institute.name} <br />
       {cls.classObject.subject} - Grade {cls.classObject.grade}
     </button>
   </Link>

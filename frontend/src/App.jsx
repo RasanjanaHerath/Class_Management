@@ -33,6 +33,7 @@ import Students from "./pages/SuperAdminProfile/Students";
 import AnalyticsAndReports from "./pages/SuperAdminProfile/AnalyticsAndReports";
 import Notifications from "./pages/SuperAdminProfile/Notifications";
 import SuperAdminDashboard from "./pages/SuperAdminProfile/SuperAdminDashboard";
+import TClassDetailsPage from "./pages/teacher_profile/TClassDetailsPage";
 
 const router = createBrowserRouter([
   {
@@ -367,6 +368,18 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/t_class_details",
+    element: <DrawerLayout />,
+    children: [
+      {
+        index: true,
+        element: <TClassDetailsPage />,
+      },
+    ],
+  },
+
+
 
 ]);
 

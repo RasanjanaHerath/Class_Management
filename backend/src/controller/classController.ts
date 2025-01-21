@@ -34,110 +34,86 @@ export class classController {
     }
   };
 
+  static getClassById = async (req: Request, res: Response) => {
 
-    // Get all classes
-    // static getAll = async (req: Request, res: Response) => {
-    //     const classRepository = AppDataSource.getRepository(Class);
-    //     const classes = await classRepository.find();
-    //     res.json(classes);
-    // };
-
-    static getAll = async (req: Request, res: Response) => {
-      const classRepository = AppDataSource.getRepository(Class);
-      try {
-        const classes = await classRepository.find({ relations: ['teacher', 'institute', 'students', 'assignments'] });
-        if (!Array.isArray(classes)) {
-          return res.status(500).json({ message: 'Error fetching classes' });
-        }
-        console.log('Classes from cobtroller getAll:', classes);
-        return res.status(200).json(classes);
-      } catch (error) {
-        console.error('Error fetching classes:', error);
-        return res.status(500).json({ message: 'Internal Server Error' });
+    try {
+      const classEntity = await AppDataSource.getRepository(Class).findOne({
+        where: { id: parseInt(req.params.id) },
+        relations: ['teacher', 'institute', 'students', 'assignments'],
+      });
+      if (!classEntity) {
+        return res.status(404).json({ message: 'Class not found' });
       }
-    };
+      return res.status(200).json(classEntity);
+    } catch (error) {
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
 
-    // Create a new class
+
+  static getAll = async (req: Request, res: Response) => {
+    const classRepository = AppDataSource.getRepository(Class);
+    try {
+      const classes = await classRepository.find({ relations: ['teacher', 'institute', 'students', 'assignments'] });
+      if (!Array.isArray(classes)) {
+        return res.status(500).json({ message: 'Error fetching classes' });
+      }
+      // console.log('Classes from cobtroller getAll:', classes);
+      const lastClass = classes[classes.length - 1];
+      console.log('Last class:', lastClass);
+      return res.status(200).json(classes);
+    } catch (error) {
+      console.error('Error fetching classes:', error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+
+ 
     // static createClass = async (req: Request, res: Response) => {
-    //     try {
-    //         const { 
-    //             subject, 
-    //             grade, 
-    //             startTime, 
-    //             endTime, 
-    //             feePerMonth, 
-    //             scheduleDay, 
-    //             numberOfStudents, 
-    //             //modeOfTeaching 
-    //         } = req.body;
+    //     const { subject, teacherId, numberOfStudents, grade, startTime, endTime, feePerMonth, scheduleDay,InstituteId} = req.body;
+    //     const classRepository = AppDataSource.getRepository(Class);
+    //     const teacherRepository = AppDataSource.getRepository(Teacher);
+    //     const instituteRepository = AppDataSource.getRepository(Institute);
     
-            
-    //         const newClass = new Class();
-    //         newClass.subject = subject;
+    //     try {
+    //       // Find the teacher by ID
+    //       const teacher = await teacherRepository.findOne({ where: { teacherId } });
+
+    //       if(!InstituteId){
+    //         return res.status(404).json({ message: 'Institute is Required' });
+    //       }
+    //       const institute = await instituteRepository.findOne({ where: {  id:InstituteId } });
+    
+    //       if (!teacher) {
+    //         return res.status(404).json({ message: 'Teacher not found' });
+    //       }
+
+          
+    //       if(!institute){
+    //         return res.status(404).json({ message: 'Institute not found' });
+    //       }
+    
+    //       // Create a new class
+    //       const newClass = new Class();
+    //       newClass.subject = subject;
     //         newClass.grade = grade;
     //         newClass.startTime = startTime;
     //         newClass.endTime = endTime;
     //         newClass.feePerMonth = feePerMonth;
     //         newClass.scheduleDay = scheduleDay;
     //         newClass.numberOfStudents = numberOfStudents;
-    //         //newClass.modeOfTeaching = modeOfTeaching;
+    //         newClass.teacher = teacher;
+    //         newClass.institute = institute;
     
-    //         const classRepository = AppDataSource.getRepository(Class);
-    //         await classRepository.save(newClass);
+    //       // Save the new class
+    //       await classRepository.save(newClass);
     
-            
-    //         res.json({ message: "Class created", class: newClass });
+    //       res.status(201).json({ message: 'Class created successfully', class: newClass });
     //     } catch (error) {
-    //         console.error("Error creating class:", error);
-    //         res.status(500).json({ message: "Internal server error" });
+    //       console.error('Error creating class:', error);
+    //       res.status(500).json({ message: 'Error creating class', error: error.toString() });
     //     }
-    // };
-
-    static createClass = async (req: Request, res: Response) => {
-        const { subject, teacherId, numberOfStudents, grade, startTime, endTime, feePerMonth, scheduleDay,InstituteId} = req.body;
-        const classRepository = AppDataSource.getRepository(Class);
-        const teacherRepository = AppDataSource.getRepository(Teacher);
-        const instituteRepository = AppDataSource.getRepository(Institute);
-    
-        try {
-          // Find the teacher by ID
-          const teacher = await teacherRepository.findOne({ where: { teacherId } });
-
-          if(!InstituteId){
-            return res.status(404).json({ message: 'Institute is Required' });
-          }
-          const institute = await instituteRepository.findOne({ where: {  id:InstituteId } });
-    
-          if (!teacher) {
-            return res.status(404).json({ message: 'Teacher not found' });
-          }
-
-          
-          if(!institute){
-            return res.status(404).json({ message: 'Institute not found' });
-          }
-    
-          // Create a new class
-          const newClass = new Class();
-          newClass.subject = subject;
-            newClass.grade = grade;
-            newClass.startTime = startTime;
-            newClass.endTime = endTime;
-            newClass.feePerMonth = feePerMonth;
-            newClass.scheduleDay = scheduleDay;
-            newClass.numberOfStudents = numberOfStudents;
-            newClass.teacher = teacher;
-            newClass.institute = institute;
-    
-          // Save the new class
-          await classRepository.save(newClass);
-    
-          res.status(201).json({ message: 'Class created successfully', class: newClass });
-        } catch (error) {
-          console.error('Error creating class:', error);
-          res.status(500).json({ message: 'Error creating class', error: error.toString() });
-        }
-      };
+    //   };
 
     //     try {
     //       const teacher = await teacherRepository.findOne({
@@ -175,8 +151,8 @@ export class classController {
     
     //       res.status(201).json({ message: 'Class created successfully', class: newClass });
     //     } catch (error) {
-    //       console.error('Error creating class:', error);
-    //       res.status(500).json({ message: 'Error creating class', error: error.toString() });
+      //       console.error('Error creating class:', error);
+      //       res.status(500).json({ message: 'Error creating class', error: error.toString() });
     //     }
     //   };
 
@@ -184,13 +160,21 @@ export class classController {
       const { subject, grade, instituteId, scheduleDay, startTime, endTime, feePerMonth, numberOfStudents } = req.body;
   
       try {
-        console.log("Received instituteId:", instituteId);
+
+        if(!instituteId){
+          return res.status(404).json({ message: 'Institute is Required' });
+        }
+
         const instituteRepository = AppDataSource.getRepository(Institute);
         const institute = await instituteRepository.findOne({ where: { id: instituteId } });
         const teacherRepository = AppDataSource.getRepository(Teacher);
         const userRepository = AppDataSource.getRepository(User);
         
         const userId = req.user?.userId;
+
+        if(!userId){
+          return res.status(404).json({ message: 'User not found' });
+        }
 
         const user = await userRepository.findOne({
           where: { id: userId },
@@ -204,6 +188,7 @@ export class classController {
           where: { user },
           relations: ["user"],
         });
+
 
 
         if (!institute) {
@@ -228,12 +213,10 @@ export class classController {
         newClass.endTime = endTime;
         newClass.feePerMonth = feePerMonth;
         newClass.numberOfStudents = numberOfStudents;
+       
 
-        console.log("inst user name: ",userInst.firstName)
   
-        console.log("New class:", newClass);
-        // console.log("Institute id:", institute.id);
-        // console.log("Institute:", institute);
+
         await classRepository.save(newClass);
         // return res.status(201).json(newClass);
       return res.status(201).json({ newClass });
@@ -243,7 +226,7 @@ export class classController {
       }
     };
     
-    // Update a class
+ // Update a class
     // static updateClass = async (req: Request, res: Response) => {
     //     const {
     //         subject, 

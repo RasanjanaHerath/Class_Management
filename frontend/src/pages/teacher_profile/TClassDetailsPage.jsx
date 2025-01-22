@@ -72,13 +72,51 @@ const TClassDetailsPage = () => {
     }
   };
 
+  // const handleSave = async () => {
+  //   try {
+  //     const token = localStorage.getItem('token');
+  //     if (!token) {
+  //       throw new Error("No token found in local storage");
+  //     }
+  //     const config = {
+  //       headers: {
+  //         'Authorization': `Bearer ${token}`,
+  //         'Content-Type': 'application/json'
+  //       }
+  //     };
+  //     await axios.put(`http://localhost:3000/api/class/update/${classId}`, formData, config);
+  //     setIsPopupOpen(false);
+  //     fetchClassDetails(); // Refresh class details after update
+  //   } catch (error) {
+  //     console.error("Error updating class:", error);
+  //   }
+  // };
+
   const handleSave = async () => {
     try {
-      await axios.put(`http://localhost:3000/api/class/update/${classId}`, formData);
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error("No token found in local storage");
+      }
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      };
+      console.log(`Updating class with ID: ${classId}`);
+      console.log(`Endpoint: http://localhost:3000/api/class/update/${classId}`);
+      console.log(`Form Data:`, formData);
+      await axios.put(`http://localhost:3000/api/class/update/${classId}`, formData, config);
       setIsPopupOpen(false);
       fetchClassDetails(); // Refresh class details after update
     } catch (error) {
       console.error("Error updating class:", error);
+      if (error.response) {
+        console.error("Error response data:", error.response.data);
+        console.error("Error response status:", error.response.status);
+        console.error("Error response headers:", error.response.headers);
+      }
     }
   };
 

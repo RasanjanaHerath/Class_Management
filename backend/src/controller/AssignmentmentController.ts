@@ -60,7 +60,6 @@ export class AssignmentController {
           title,
           dueDate,
           description,
-          totalMarks,
           assignmentFilePath: file ? file.path : null, // Save the file path if a file is uploaded
         });
 
@@ -91,7 +90,6 @@ export class AssignmentController {
         assignment.title = title;
         assignment.dueDate = dueDate;
         assignment.description = description;
-        assignment.totalMarks = totalMarks;
         if (file) {
           assignment.assignmentFilePath = file.path; // Update the file path if a new file is uploaded
         }

@@ -18,9 +18,6 @@ export class Assignment {
 
   @Column()
   dueDate: Date;
-  
-  @Column()
-  totalMarks: number;
 
   @Column({ nullable: true })
   assignmentFilePath: string; // Add this column to store the file path
@@ -46,7 +43,7 @@ export class Assignment {
   @OneToOne(() => Result, (result) => result.assignment)
   result: Result;
 
-  @ManyToMany(() => Student, (student) => student.assignment)
+  @ManyToMany(() => Student)
   @JoinTable()
   student: Student;
 }

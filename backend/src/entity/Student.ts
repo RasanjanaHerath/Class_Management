@@ -48,10 +48,6 @@ export class Student {
   @OneToMany(() => Notice, (notice) => notice.student, { nullable: true })
   notices: Notice[];
 
-  @ManyToMany(() => Assignment, (assignment) => assignment.student, { nullable: true })
-  @JoinTable()
-  assignment: Assignment[];
-
 
   @ManyToMany(() => Institute)
   @JoinTable()

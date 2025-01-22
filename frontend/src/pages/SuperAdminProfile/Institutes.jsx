@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Tab, Tabs, Box, Typography, Paper, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Snackbar, Alert } from '@mui/material';
+import { Tab, Tabs, Box, Typography,Modal, Paper, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Snackbar, Alert } from '@mui/material';
 import axios from 'axios';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
@@ -22,12 +22,60 @@ const Institutes = () => {
 
   const [approvedInstitutes, setApprovedInstitutes] = useState([]);
   const [creationRequests, setCreationRequests] = useState([]);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+  const [selectedInstitute, setSelectedInstitute] = useState(null);
 
+  const [openDetailsModal, setOpenDetailsModal] = useState(false);
+
+  // const [selectedTab, setSelectedTab] = useState(0);
+  // const [openUpdateModal, setOpenUpdateModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [deleteIndex, setDeleteIndex] = useState(null);
 
 
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
+
+  const handleOpenUpdateModal = (institute) => {
+    setSelectedInstitute(institute);
+    setOpenUpdateModal(true);
+  };
+
+  const handleCloseUpdateModal = () => {
+    setOpenUpdateModal(false);
+    setSelectedInstitute(null);
+  };
+
+  const handleOpenDetailsModal = (institute) => {
+    setSelectedInstitute(institute);
+    setOpenDetailsModal(true);
+  };
+
+  const handleCloseDetailsModal = () => {
+    setOpenDetailsModal(false);
+    setSelectedInstitute(null);
+  };
+
+  const handleOpenDeleteModal = (index) => {
+    setDeleteIndex(index);
+    setOpenDeleteModal(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setOpenDeleteModal(false);
+    setDeleteIndex(null);
+  };
+
+
+  const handleDeleteInstitute = () => {
+    // Add logic to delete the institute
+    const updatedInstitutes = approvedInstitutes.filter((_, i) => i !== deleteIndex);
+    setApprovedInstitutes(updatedInstitutes);
+    handleCloseDeleteModal();
+  };
+
+
 
   useEffect(() => {
     const fetchUsers = async (users) => {
@@ -155,10 +203,11 @@ const Institutes = () => {
     setOpenSnackbar(false);
   };
 
-
-
-
-
+  const handleUpdateInstitute = (event) => {
+    event.preventDefault();
+    // Add logic to update the institute details
+    handleCloseUpdateModal();
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 md:ml-64">
@@ -249,7 +298,9 @@ const Institutes = () => {
       )}
 
       {/* Tab Panels */}
-      <TabPanel value={selectedTab} index={0}>
+
+       {/* Tab Panels */}
+       <TabPanel value={selectedTab} index={0}>
         <h3 className="text-xl font-medium mb-4">Creation Requests</h3>
         {/* Display Creation Requests */}
         <Paper className="p-4 bg-white rounded-lg shadow-lg">
@@ -296,56 +347,114 @@ const Institutes = () => {
         </Paper>
       </TabPanel>
 
+
+
       <TabPanel value={selectedTab} index={1}>
-        <h3 className="text-xl font-medium font-bold mb-4">Institute List:</h3>
-        {/* Display Approved Institutes */}
-        <Paper className="p-4 bg-white rounded-lg shadow-lg">
-          {approvedInstitutes.length === 0 ? (
-            <Typography variant="body1">No approved institutes yet.</Typography>
-          ) : (
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    {/* <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>Institute Name</TableCell> */}
-                    <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>phoneNo</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>City</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>Actions</TableCell>
+      <h3 className="text-xl font-medium font-bold mb-4">Institute List:</h3>
+      <Paper className="p-4 bg-white rounded-lg shadow-lg">
+        {approvedInstitutes.length === 0 ? (
+          <Typography variant="body1">No approved institutes yet.</Typography>
+        ) : (
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>phoneNo</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>City</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {approvedInstitutes.map((institute, index) => (
+                  <TableRow key={index}>
+                    <TableCell sx={{ textAlign: 'center' }}>{institute.phoneNo}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>{institute.city}</TableCell>
+                    <TableCell sx={{ textAlign: 'center' }}>
+                      <Button
+                        variant="contained"
+                        color="success"
+                        onClick={() => handleOpenUpdateModal(institute)}
+                        sx={{ marginRight: '8px' }}
+                      >
+                        Update
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="info"
+                        onClick={() => handleOpenDetailsModal(institute)}
+                        sx={{ marginRight: '8px' }}
+                      >
+                        View Details
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        onClick={() => handleOpenDeleteModal(index)}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
                   </TableRow>
-                </TableHead>
-                <TableBody>
-                  {approvedInstitutes.map((institute, index) => (
-                    <TableRow key={index}>
-                      {/* <TableCell sx={{ textAlign: 'center' }}>{institute.instituteName}</TableCell> */}
-                      <TableCell sx={{ textAlign: 'center' }}>{institute.phoneNo}</TableCell>
-                      <TableCell sx={{ textAlign: 'center' }}>{institute.city}</TableCell>
-                      <TableCell sx={{ textAlign: 'center' }}>
-                        <Button
-                          variant="contained"
-                          color="success"
-                          onClick={() => handleOpenUpdateModal(institute)} // Open update modal
-                          sx={{ marginRight: '8px' }}
-                        >
-                          Update
-                        </Button>
-                        <Button
-                          variant="contained"
-                          color="info"
-                          onClick={() => handleOpenDetailsModal(institute)} // Open details modal
-                        >
-                          View Details
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+      </Paper>
+
+      <Modal open={openUpdateModal} onClose={handleCloseUpdateModal}>
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+          <Typography variant="h6" component="h2">Update Institute</Typography>
+          <form onSubmit={handleUpdateInstitute}>
+            <TextField
+              label="Phone Number"
+              fullWidth
+              margin="normal"
+              value={selectedInstitute?.phoneNo || ''}
+              onChange={(e) => setSelectedInstitute({ ...selectedInstitute, phoneNo: e.target.value })}
+            />
+            <TextField
+              label="City"
+              fullWidth
+              margin="normal"
+              value={selectedInstitute?.city || ''}
+              onChange={(e) => setSelectedInstitute({ ...selectedInstitute, city: e.target.value })}
+            />
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+              <Button type="submit" variant="contained" color="primary">Update</Button>
+              <Button variant="contained" color="secondary" onClick={handleCloseUpdateModal}>Close</Button>
+            </Box>
+          </form>
+        </Box>
+      </Modal>
+
+      <Modal open={openDetailsModal} onClose={handleCloseDetailsModal}>
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+          <Typography variant="h6" component="h2">Institute Details</Typography>
+          {selectedInstitute && (
+            <Box>
+              <Typography variant="body1"><strong>Phone Number:</strong> {selectedInstitute.phoneNo}</Typography>
+              <Typography variant="body1"><strong>City:</strong> {selectedInstitute.city}</Typography>
+              {/* Add more details as needed */}
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                <Button variant="contained" color="secondary" onClick={handleCloseDetailsModal}>Close</Button>
+              </Box>
+            </Box>
           )}
-        </Paper>
-      </TabPanel>
+        </Box>
+      </Modal>
 
-
+      <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+          <Typography variant="h6" component="h2">Confirm Deletion</Typography>
+          <Typography variant="body1">Are you sure you want to delete this institute?</Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+            <Button variant="contained" color="error" onClick={handleDeleteInstitute}>OK</Button>
+            <Button variant="contained" color="secondary" onClick={handleCloseDeleteModal}>Cancel</Button>
+          </Box>
+        </Box>
+      </Modal>
+    </TabPanel>
 
       <Snackbar
         open={openSnackbar}

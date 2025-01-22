@@ -1,17 +1,23 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Tab, Tabs, Box } from "@mui/material";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts";
 import Calendar from "react-calendar"; // Ensure this line is at the top
+import axios from 'axios';
 
 const SuperAdminDashboard = () => {
   const [tabIndexNotifications, setTabIndexNotifications] = useState(0); // For Notifications & Messages tabs
   const [tabIndexInstitutes, setTabIndexInstitutes] = useState(0); // For Popular Institutes & Teachers tabs
 
-  const userData = [
-    { name: "Active", value: 70 },
-    { name: "Inactive", value: 30 },
-  ];
+  const [userData,setUserData] = useState([]);
+  const [totalInstitutes, setTotalInstitutes] = useState(0);
+  const [totalTeachers, setTotalTeachers] = useState(0);
+  const [totalStudents, setTotalStudents] = useState(0);
+  const [totalApprovedinstitutes, setTotalApprovedinstitutes] = useState(0);
+  const [totalPendinginstitutes, setTotalPendinginstitutes] = useState(0);
+
+
+
 
   const genderData = [
     { name: "Male", value: 55 },
@@ -46,21 +52,46 @@ const SuperAdminDashboard = () => {
     setTabIndexInstitutes(newValue);
   };
 
+  useEffect(() => {
+    document.title = "Dashboard | Super Admin";
+  }, []);
+
+  useEffect(() => {
+    axios.get('http://localhost:3000/api/admin/statistics')
+      .then((response) => {
+        setTotalInstitutes(response.data.totalInstitutes);
+        setTotalTeachers(response.data.totalTeachers);
+        setTotalStudents(response.data.totalStudents);
+        setTotalApprovedinstitutes(response.data.approvedinstitutes);
+        setTotalPendinginstitutes(response.data.rejectedInstitutes);
+        console.log(response.data);
+        // Update userData for the pie chart
+        setUserData([
+          { name: "Active", value: response.data.approvedInstitutes },
+          { name: "Pending", value: response.data.rejectedInstitutes }
+        ]);
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50 p-6 md:ml-64">
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         <div className="bg-white p-6 rounded-lg shadow-lg text-center">
           <h3 className="text-xl font-semibold text-gray-700">Total Institutes</h3>
-          <p className="text-3xl font-bold text-indigo-600">120</p>
+          <p className="text-3xl font-bold text-indigo-600">{totalInstitutes}</p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-lg text-center">
           <h3 className="text-xl font-semibold text-gray-700">Total Teachers</h3>
-          <p className="text-3xl font-bold text-green-600">250</p>
+          <p className="text-3xl font-bold text-green-600">{totalTeachers}</p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-lg text-center">
           <h3 className="text-xl font-semibold text-gray-700">Total Students</h3>
-          <p className="text-3xl font-bold text-blue-600">3,500</p>
+          <p className="text-3xl font-bold text-blue-600">{totalStudents}</p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-lg text-center">
           <h3 className="text-xl font-semibold text-gray-700">Total Income</h3>
@@ -84,7 +115,7 @@ const SuperAdminDashboard = () => {
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-semibold text-gray-700 mb-4">Active/Inactive Users</h2>
+          <h2 className="text-2xl font-semibold text-gray-700 mb-4">Active/Inactive Institutes</h2>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie data={userData} dataKey="value" nameKey="name" outerRadius={100} fill="#8884d8">

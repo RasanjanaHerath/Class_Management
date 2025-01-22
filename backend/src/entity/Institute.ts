@@ -6,6 +6,7 @@ import { Grade } from './Grade';
 import { Notice } from './Notice';
 import { Assignment } from './Assignment';
 import { User } from './User';
+import { Attendance } from './Attendance';
 
 @Entity('institutes')
 export class Institute {
@@ -29,8 +30,8 @@ export class Institute {
   @OneToMany(() => Class, (classEntity) => classEntity.institute)
   classes: Class[];
 
-  // @OneToMany(() => Grade, (grade) => grade.institute)
-  // grades: Grade[];
+  @OneToMany(() => Attendance, (attendance) => attendance.institute)
+  attendances: Attendance[];
 
   @OneToMany(() => Notice, (notice) => notice.institute)
   notices: Notice[];

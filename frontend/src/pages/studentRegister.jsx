@@ -72,7 +72,7 @@ const StudentRegister = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white w-auto">
       <div className="bg-gray-100 p-8 rounded-lg shadow-md w-full max-w-lg">
         <h2 className="text-3xl mb-6 text-center text-gray-800">Student Registration</h2>
         <form onSubmit={handleSubmit}>

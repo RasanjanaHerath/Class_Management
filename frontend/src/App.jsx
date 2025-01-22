@@ -34,6 +34,7 @@ import AnalyticsAndReports from "./pages/SuperAdminProfile/AnalyticsAndReports";
 import Notifications from "./pages/SuperAdminProfile/Notifications";
 import SuperAdminDashboard from "./pages/SuperAdminProfile/SuperAdminDashboard";
 import StudentMesseges from "./pages/StudentNotices";
+import MarkAttendance from "./pages/Attendance";
 
 const router = createBrowserRouter([
   {
@@ -358,6 +359,18 @@ const router = createBrowserRouter([
       },
     ],
   },
+
+  {
+    path: "/student_attendance",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <MarkAttendance/>,
+      },
+    ],
+  },
+
   {
     path: "/t_messege",
     element: <DrawerLayout/>,

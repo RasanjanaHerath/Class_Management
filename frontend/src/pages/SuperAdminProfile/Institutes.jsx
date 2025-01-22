@@ -375,6 +375,7 @@ const Institutes = () => {
                         color="success"
                         onClick={() => handleOpenUpdateModal(institute)}
                         sx={{ marginRight: '8px' }}
+                        className='hover:shadow-lg transform hover:scale-105'
                       >
                         Update
                       </Button>
@@ -383,6 +384,7 @@ const Institutes = () => {
                         color="info"
                         onClick={() => handleOpenDetailsModal(institute)}
                         sx={{ marginRight: '8px' }}
+                        className='hover:shadow-lg transform hover:scale-105'
                       >
                         View Details
                       </Button>
@@ -390,6 +392,7 @@ const Institutes = () => {
                         variant="contained"
                         color="error"
                         onClick={() => handleOpenDeleteModal(index)}
+                        className='hover:shadow-lg transform hover:scale-105'
                       >
                         Delete
                       </Button>
@@ -421,8 +424,8 @@ const Institutes = () => {
               onChange={(e) => setSelectedInstitute({ ...selectedInstitute, city: e.target.value })}
             />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-              <Button type="submit" variant="contained" color="primary">Update</Button>
-              <Button variant="contained" color="secondary" onClick={handleCloseUpdateModal}sx={{ backgroundColor: '#2d3748', '&:hover': { backgroundColor: '#4b5563' }}} >Close</Button>
+              <Button className='hover:shadow-lg transform hover:scale-105' type="submit" variant="contained" color="primary">Update</Button>
+              <Button className='hover:shadow-lg transform hover:scale-105' variant="contained" color="secondary" onClick={handleCloseUpdateModal}sx={{ backgroundColor: '#2d3748', '&:hover': { backgroundColor: '#4b5563' }}} >Close</Button>
             </Box>
           </form>
         </Box>
@@ -437,7 +440,7 @@ const Institutes = () => {
               <Typography variant="body1" sx={{m:1}}><strong>City:</strong> {selectedInstitute.city}</Typography>
               {/* Add more details as needed */}
               <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-                <Button variant="contained" color="secondary" onClick={handleCloseDetailsModal} sx={{ backgroundColor: '#2d3748', '&:hover': { backgroundColor: '#4b5563' } }}>Close</Button>
+                <Button className='hover:shadow-lg transform hover:scale-105' variant="contained" color="secondary" onClick={handleCloseDetailsModal} sx={{ backgroundColor: '#2d3748', '&:hover': { backgroundColor: '#4b5563' } }}>Close</Button>
               </Box>
             </Box>
           )}
@@ -449,8 +452,8 @@ const Institutes = () => {
           <Typography variant="h6" component="h2" align="center" sx={{ fontWeight: 'bold',mb:2 , color: 'maroon'}}>Confirm Deletion</Typography>
           <Typography variant="body1" sx={{ mb:3 }}>Are you sure you want to delete this institute?</Typography>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-            <Button variant="contained" color="error" onClick={handleDeleteInstitute}>OK</Button>
-            <Button variant="contained" color="secondary" onClick={handleCloseDeleteModal}sx={{ backgroundColor: '#2d3748', '&:hover': { backgroundColor: '#4b5563' }}}>Cancel</Button>
+            <Button className='hover:shadow-lg transform hover:scale-105' variant="contained" color="error" onClick={handleDeleteInstitute}>OK</Button>
+            <Button className='hover:shadow-lg transform hover:scale-105' variant="contained" color="secondary" onClick={handleCloseDeleteModal}sx={{ backgroundColor: '#2d3748', '&:hover': { backgroundColor: '#4b5563' }}}>Cancel</Button>
           </Box>
         </Box>
       </Modal>

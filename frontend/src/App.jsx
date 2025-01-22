@@ -37,6 +37,7 @@ import TClassDetailsPage from "./pages/teacher_profile/TClassDetailsPage";
 import UpdateClassForm from "./component/UpdateClassForm";
 import Ins_Notifications from "./pages/admin_profile/Ins_Notifications";
 import HelpSupport from "./pages/HelpSupport";
+import Create_Notice from "./pages/admin_profile/Create_Notice";
 
 const router = createBrowserRouter([
   {
@@ -141,12 +142,12 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/admin_notice",
+    path: "/notice_creater",
     element: <DrawerLayout />,
     children: [
       {
         index: true,
-        element: <AdminNotices />,
+        element: <Create_Notice/>,
       },
     ],
   },

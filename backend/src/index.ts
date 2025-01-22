@@ -13,6 +13,7 @@ import assignmentRoutes from "./route/AssignmentRoutes";
 import student_router from "./route/student.routes";
 import classCard_router from "./route/classCard.routes";
 import result_router from "./route/ResultRoutes";
+import adminRoutes from "./route/AdminRoutes";
 
 
 
@@ -35,6 +36,7 @@ AppDataSource.initialize().then(async () => {
     app.use("/api/class_card", classCard_router)
     app.use("/api/student", student_router);
     app.use("api/result", result_router);
+    app.use("/api/admin", adminRoutes);
 
     app.listen(3000, () => {
         console.log("Server is running on port 3000");

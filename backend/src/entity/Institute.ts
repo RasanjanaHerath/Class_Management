@@ -27,7 +27,7 @@ export class Institute {
   @Column({default: false})
   isverified: boolean;
 
-  @Column()
+  @Column({default: false})
   isRejected: boolean;
 
 

@@ -320,8 +320,7 @@ export class InstituteController {
         if (!institute) {
           return res.status(404).json({ message: "Institute not found" });
         }
-
-        // Update the moh's details
+        
         institute.user.firstName = firstName ?? institute.user.firstName;
         institute.user.lastName = lastName ?? institute.user.lastName;
         institute.user.email = email ?? institute.user.email;

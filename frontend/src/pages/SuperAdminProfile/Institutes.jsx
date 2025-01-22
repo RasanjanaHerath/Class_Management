@@ -355,35 +355,36 @@ const Institutes = () => {
         {approvedInstitutes.length === 0 ? (
           <Typography variant="body1">No approved institutes yet.</Typography>
         ) : (
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} sx={{ boxShadow: 'none', borderRadius: '50px'}}>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>phoneNo</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>City</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>Actions</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center',fontSize: '1.15rem',borderBottom: '2px solid #2d3748' }}>phoneNo</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center',fontSize: '1.15rem',borderBottom: '2px solid #2d3748' }}>City</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center',fontSize: '1.15rem',borderBottom: '2px solid #2d3748' }}>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {approvedInstitutes.map((institute, index) => (
                   <TableRow key={index}>
-                    <TableCell sx={{ textAlign: 'center' }}>{institute.phoneNo}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>{institute.city}</TableCell>
-                    <TableCell sx={{ textAlign: 'center' }}>
+                    <TableCell sx={{ textAlign: 'center',borderBottom: 'none' }}>{institute.phoneNo}</TableCell>
+                    <TableCell sx={{ textAlign: 'center',borderBottom: 'none' }}>{institute.city}</TableCell>
+                    <TableCell sx={{ textAlign: 'center',borderBottom: 'none' }}>
                       <Button
                         variant="contained"
                         color="success"
                         onClick={() => handleOpenUpdateModal(institute)}
-                        sx={{ marginRight: '8px' }}
+                        sx={{ marginRight: '15px', borderRadius: '20px', backgroundColor: '#017388'}}
                         className='hover:shadow-lg transform hover:scale-105'
+                        
                       >
                         Update
                       </Button>
                       <Button
                         variant="contained"
-                        color="info"
+                        // color="info"
                         onClick={() => handleOpenDetailsModal(institute)}
-                        sx={{ marginRight: '8px' }}
+                        sx={{ marginRight: '15px', borderRadius: '20px',backgroundColor: '#DBA522', }}
                         className='hover:shadow-lg transform hover:scale-105'
                       >
                         View Details
@@ -392,6 +393,7 @@ const Institutes = () => {
                         variant="contained"
                         color="error"
                         onClick={() => handleOpenDeleteModal(index)}
+                        sx={{ marginRight: '15px', borderRadius: '20px' }}
                         className='hover:shadow-lg transform hover:scale-105'
                       >
                         Delete
@@ -424,7 +426,7 @@ const Institutes = () => {
               onChange={(e) => setSelectedInstitute({ ...selectedInstitute, city: e.target.value })}
             />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-              <Button className='hover:shadow-lg transform hover:scale-105' type="submit" variant="contained" color="primary">Update</Button>
+              <Button className='hover:shadow-lg transform hover:scale-105' type="submit" variant="contained" color="primary" sx={{ backgroundColor: '#017388', color: '#ffffff', '&:hover': { backgroundColor: '#016377' } }}>Update</Button>
               <Button className='hover:shadow-lg transform hover:scale-105' variant="contained" color="secondary" onClick={handleCloseUpdateModal}sx={{ backgroundColor: '#2d3748', '&:hover': { backgroundColor: '#4b5563' }}} >Close</Button>
             </Box>
           </form>

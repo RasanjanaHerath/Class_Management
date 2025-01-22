@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaTrashAlt, FaEdit } from "react-icons/fa"; // Importing FontAwesome icons
-
 
 const AdminNotices = () => {
   const BASE_URL = "http://localhost:3000/api/notice";
@@ -17,12 +15,8 @@ const AdminNotices = () => {
   useEffect(() => {
     axios
       .get(`${BASE_URL}/all`)
-      .then((response) => {
-        setNotices(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching notices:", error);
-      });
+      .then((response) => setNotices(response.data))
+      .catch((error) => console.error("Error fetching notices:", error));
   }, []);
 
   const openModal = (notice = null) => {
@@ -41,19 +35,21 @@ const AdminNotices = () => {
     setShowModal(true);
   };
 
-  const closeModal = () => setShowModal(false);
+  const closeModal = () => {
+    setShowModal(false);
+    setNoticeIdToUpdate(null);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const newNotice = { role, title, message };
+
     if (isUpdateMode && noticeIdToUpdate) {
       axios
-        .put(`${BASE_URL}/update${noticeIdToUpdate}`, newNotice)
+        .put(`${BASE_URL}/update/${noticeIdToUpdate}`, newNotice)
         .then((response) => {
           setNotices((prevNotices) =>
-            prevNotices.map((n) =>
-              n.id === noticeIdToUpdate ? response.data : n
-            )
+            prevNotices.map((n) => (n.id === noticeIdToUpdate ? response.data : n))
           );
           closeModal();
         })
@@ -72,134 +68,115 @@ const AdminNotices = () => {
   const handleDelete = (noticeId) => {
     if (window.confirm("Are you sure you want to delete this notice?")) {
       axios
-        .delete(`${BASE_URL}notice/${noticeId}`)
-        .then(() => {
-          setNotices((prevNotices) =>
-            prevNotices.filter((n) => n.id !== noticeId)
-          );
-        })
+        .delete(`${BASE_URL}/delete/${noticeId}`)
+        .then(() => setNotices((prevNotices) => prevNotices.filter((n) => n.id !== noticeId)))
         .catch((error) => console.error("Error deleting notice:", error));
     }
   };
 
-  const cardColors = ["bg-yellow-200", "bg-blue-300", "bg-green-300","bg-red-200","bg-purple-300"]; // Custom colors for cards
-
   return (
-    <div className="bg-gray-100 min-h-screen flex justify-center items-start p-10 ml-64">
-      <div className="max-w-6xl w-full bg-white p-10 rounded-lg shadow-lg">
-        <div className="text-center mb-8">
+    <div className="min-h-screen bg-gray-100 p-10 md:ml-64 ">
+      <div className="w-full max-w-8xl bg-white rounded-lg shadow-md p-8">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-semibold text-gray-800">Admin Notices :</h1>
           <button
-            className="bg-blue-500 text-white py-4 px-6 rounded-md text-lg font-semibold hover:bg-blue-600"
-            onClick={openModal}
-            
+            className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700"
+            onClick={() => openModal()}
           >
             + Add Notice
           </button>
         </div>
 
-        {/* Notices Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 "
-        >
-          {notices.map((notice, index) => (
-            <div 
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {notices.map((notice) => (
+            <div
               key={notice.id}
-              className={`p-6 rounded-lg shadow-lg text-gray-700 font-medium ${
-                cardColors[index % cardColors.length]
-              }`} 
+              className="p-6 rounded-lg shadow-lg text-gray-700 bg-gray-200"
             >
-              <h3 className="text-2xl font-semibold mb-4">{notice.title}</h3>
-              <p className="mb-4">{notice.message}</p>
-              <p className="text-sm">Posted on: {new Date().toISOString().split('T')[0]}</p>
-              <div className="flex justify-between mt-4">
+              <h3 className="text-xl font-bold mb-2">{notice.title}</h3>
+              <p className="mb-2">{notice.message}</p>
+              <p className="text-sm text-gray-600">Role: {notice.role}</p>
+              <div className="flex justify-end gap-4 mt-4">
                 <button
-                  className="flex items-center bg-slate-200 px-4 py-2 rounded-md hover:bg-slate-300"
+                  className="flex items-center bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
                   onClick={() => openModal(notice)}
                 >
-                  <FaTrashAlt className="mr-2" /> Update Notice
+                  <FaEdit className="mr-2" /> Update
                 </button>
                 <button
-                   className="flex items-center bg-red-400 px-4 py-2 rounded-md hover:bg-red-500"
-                   onClick={() => handleDelete(notice.id)}
+                  className="flex items-center bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+                  onClick={() => handleDelete(notice.id)}
                 >
-                  <FaEdit className="mr-2" /> Delete
+                  <FaTrashAlt className="mr-2" /> Delete
                 </button>
               </div>
             </div>
           ))}
         </div>
-
-        {/* Modal */}
-        {showModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-            <div className="bg-white rounded-lg p-6 shadow-lg max-w-md w-full">
-              <h2 className="text-xl font-bold mb-4">
-                {isUpdateMode ? "Update Notice" : "Add New Notice"}
-              </h2>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-bold mb-2">
-                    Role:
-                  </label>
-                  <select
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none"
-                  >
-                    <option value="">Select Role</option>
-                    <option value="student">Student</option>
-                    <option value="teacher">Teacher</option>
-                    <option value="institute">Institute</option>
-                  </select>
-                </div>
-
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-bold mb-2">
-                    Title:
-                  </label>
-                  <input
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none"
-                    placeholder="Enter title"
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-bold mb-2">
-                    Notice:
-                  </label>
-                  <textarea
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none"
-                    rows="4"
-                    placeholder="Enter notice"
-                  />
-                </div>
-
-                <div className="flex justify-between">
-                  <button
-                    type="button"
-                    className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
-                    onClick={closeModal}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                  >
-                    {isUpdateMode ? "Update" : "Add"} Notice
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
       </div>
+
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+            <h2 className="text-lg font-bold mb-4">{isUpdateMode ? "Update Notice" : "Add Notice"}</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-semibold mb-1">Role</label>
+                <select
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  className="w-full p-2 border rounded-md focus:outline-blue-500"
+                >
+                  <option value="">Select Role</option>
+                  <option value="student">Student</option>
+                  <option value="teacher">Teacher</option>
+                  <option value="institute">Institute</option>
+                </select>
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700 font-semibold mb-1">Title</label>
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="w-full p-2 border rounded-md focus:outline-blue-500"
+                  placeholder="Enter the title"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700 font-semibold mb-1">Message</label>
+                <textarea
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  className="w-full p-2 border rounded-md focus:outline-blue-500"
+                  rows="4"
+                  placeholder="Enter the message"
+                ></textarea>
+              </div>
+
+              <div className="flex justify-end gap-4">
+                <button
+                  type="button"
+                  className="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500"
+                  onClick={closeModal}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                >
+                  {isUpdateMode ? "Update" : "Add"} Notice
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default AdminNotices;
+export default AdminNotices;

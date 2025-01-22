@@ -403,8 +403,8 @@ const Institutes = () => {
       </Paper>
 
       <Modal open={openUpdateModal} onClose={handleCloseUpdateModal}>
-        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
-          <Typography variant="h6" component="h2">Update Institute</Typography>
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 2 }}>
+          <Typography variant="h6" component="h2" >Update Institute</Typography>
           <form onSubmit={handleUpdateInstitute}>
             <TextField
               label="Phone Number"
@@ -422,14 +422,14 @@ const Institutes = () => {
             />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
               <Button type="submit" variant="contained" color="primary">Update</Button>
-              <Button variant="contained" color="secondary" onClick={handleCloseUpdateModal}>Close</Button>
+              <Button variant="contained" color="secondary" onClick={handleCloseUpdateModal}sx={{ backgroundColor: '#2d3748', '&:hover': { backgroundColor: '#4b5563' }}} >Close</Button>
             </Box>
           </form>
         </Box>
       </Modal>
 
       <Modal open={openDetailsModal} onClose={handleCloseDetailsModal}>
-        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: 2}}>
           <Typography variant="h6" component="h2" align="center" sx={{ fontWeight: 'bold',m:4 ,p:0 }}>Institute Details</Typography>
           {selectedInstitute && (
             <Box>
@@ -437,7 +437,7 @@ const Institutes = () => {
               <Typography variant="body1" sx={{m:1}}><strong>City:</strong> {selectedInstitute.city}</Typography>
               {/* Add more details as needed */}
               <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-                <Button variant="contained" color="secondary" onClick={handleCloseDetailsModal}>Close</Button>
+                <Button variant="contained" color="secondary" onClick={handleCloseDetailsModal} sx={{ backgroundColor: '#2d3748', '&:hover': { backgroundColor: '#4b5563' } }}>Close</Button>
               </Box>
             </Box>
           )}
@@ -445,12 +445,12 @@ const Institutes = () => {
       </Modal>
 
       <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
-        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 ,borderRadius: 2}}>
           <Typography variant="h6" component="h2" align="center" sx={{ fontWeight: 'bold',mb:2 , color: 'maroon'}}>Confirm Deletion</Typography>
           <Typography variant="body1" sx={{ mb:3 }}>Are you sure you want to delete this institute?</Typography>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
             <Button variant="contained" color="error" onClick={handleDeleteInstitute}>OK</Button>
-            <Button variant="contained" color="secondary" onClick={handleCloseDeleteModal}>Cancel</Button>
+            <Button variant="contained" color="secondary" onClick={handleCloseDeleteModal}sx={{ backgroundColor: '#2d3748', '&:hover': { backgroundColor: '#4b5563' }}}>Cancel</Button>
           </Box>
         </Box>
       </Modal>

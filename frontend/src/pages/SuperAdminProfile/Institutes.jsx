@@ -223,10 +223,12 @@ const Institutes = () => {
         </Tabs>
       </Box>
 
+      <div className="">
       {/* Institute Creation Form for Super Admin */}
+      <div className="mb-6 px-40">
       {selectedTab === 0 && (
-        <Paper className="p-6 rounded-lg shadow-lg bg-white">
-          <Typography variant="h6" className="mb-4 text-center">Create New Institute</Typography>
+        <Paper className="p-6 rounded-lg shadow-lg bg-white  mx-auto" >
+          <Typography variant="h6" className="text-left" sx={{ marginBottom: '16px' }}>Create New Institute</Typography>
           <TextField
             label="Phone Number"
             value={phoneNo}
@@ -235,7 +237,7 @@ const Institutes = () => {
             className="mb-3"
             error={Boolean(errors.phoneNo)}
             helperText={errors.phoneNo}
-            sx={{ '& .MuiOutlinedInput-root': { borderRadius: '10px' } }}
+            sx={{ '& .MuiOutlinedInput-root': { borderRadius: '10px' },marginBottom: '16px'  }}
           />
           <TextField
             label="City"
@@ -245,12 +247,12 @@ const Institutes = () => {
             className="mb-3"
             error={Boolean(errors.city)}
             helperText={errors.city}
-            sx={{ '& .MuiOutlinedInput-root': { borderRadius: '10px' } }}
+            sx={{ '& .MuiOutlinedInput-root': { borderRadius: '10px' },marginBottom: '16px'  }}
           />
           <FormControl
             fullWidth
             className="mb-3"
-            sx={{ '& .MuiOutlinedInput-root': { borderRadius: '10px' } }}
+            sx={{ '& .MuiOutlinedInput-root': { borderRadius: '10px',marginBottom: '16px'  } }}
           >
             <InputLabel>Select User</InputLabel>
             <Select
@@ -297,11 +299,14 @@ const Institutes = () => {
         </Paper>
       )}
 
+      </div>
+      <div className="ml-2">
+
       {/* Tab Panels */}
 
        {/* Tab Panels */}
       <TabPanel value={selectedTab} index={0}>
-        <h3 className="text-xl font-medium mb-4">Creation Requests</h3>
+        <h3 className="text-xl font-medium mb-4 ml-2">Creation Requests</h3>
         {/* Display Creation Requests */}
         <Paper className="p-4 bg-white rounded-lg shadow-lg">
           {creationRequests.length === 0 ? (
@@ -346,6 +351,8 @@ const Institutes = () => {
           )}
         </Paper>
       </TabPanel>
+      </div>
+      </div>
 
 
 
@@ -355,13 +362,13 @@ const Institutes = () => {
         {approvedInstitutes.length === 0 ? (
           <Typography variant="body1">No approved institutes yet.</Typography>
         ) : (
-          <TableContainer component={Paper} sx={{ boxShadow: 'none', borderRadius: '50px'}}>
+          <TableContainer component={Paper} sx={{ boxShadow: 'none', borderRadius: '20px'}}>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center',fontSize: '1.15rem',borderBottom: '2px solid #2d3748' }}>phoneNo</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center',fontSize: '1.15rem',borderBottom: '2px solid #2d3748' }}>City</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center',fontSize: '1.15rem',borderBottom: '2px solid #2d3748' }}>Actions</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center',fontSize: '1.05rem',borderBottom: '1px solid #2d3748' }}>Phone Number</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center',fontSize: '1.05rem',borderBottom: '1px solid #2d3748' }}>City</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', color: '#2d3748', textAlign: 'center',fontSize: '1.05rem',borderBottom: '1px solid #2d3748' }}>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -470,6 +477,7 @@ const Institutes = () => {
           {snackbarMessage}
         </Alert>
       </Snackbar>
+
     </div>
   );
 };

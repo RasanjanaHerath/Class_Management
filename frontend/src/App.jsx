@@ -256,7 +256,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/InstituteRegistration",
-    element: <DrawerLayout/>,
+    // element: <DrawerLayout/>,
     children: [
       {
         index: true,

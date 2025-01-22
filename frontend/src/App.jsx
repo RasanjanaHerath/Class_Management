@@ -35,6 +35,8 @@ import Notifications from "./pages/SuperAdminProfile/Notifications";
 import SuperAdminDashboard from "./pages/SuperAdminProfile/SuperAdminDashboard";
 import TClassDetailsPage from "./pages/teacher_profile/TClassDetailsPage";
 import UpdateClassForm from "./component/UpdateClassForm";
+import Ins_Notifications from "./pages/admin_profile/Ins_Notifications";
+import HelpSupport from "./pages/HelpSupport";
 
 const router = createBrowserRouter([
   {
@@ -104,6 +106,16 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <StudentProfile />,
+      },
+    ],
+  },
+  {
+    path: "/help_support",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <HelpSupport/>,
       },
     ],
   },
@@ -194,7 +206,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Notifications/>,
+        element: <Ins_Notifications/>,
       },
     ],
   },

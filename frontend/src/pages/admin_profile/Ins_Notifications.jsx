@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Notifications = () => {
+const Ins_Notifications = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-10 md:ml-64">
       <h1 className="text-2xl font-bold mb-6 text-center">Students and Teachers Requests</h1>
@@ -83,4 +83,4 @@ const Notifications = () => {
   )
 }
 
-export default Notifications;
+export default Ins_Notifications;

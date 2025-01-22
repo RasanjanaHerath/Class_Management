@@ -12,6 +12,7 @@ import { Result } from "./entity/Result"
 import { Announcement } from "./entity/Announcement"
 import { ClassCard } from "./entity/ClassCard"
 import { StudentMessege } from "./entity/StudentMesseges"
+import { StudentFeedback } from "./entity/StudentFeedBack"
 // import { EnrollClass } from "./entity/EnrollClass"
 
 export const AppDataSource = new DataSource({
@@ -35,7 +36,8 @@ export const AppDataSource = new DataSource({
         Result,
         Announcement,
         ClassCard,
-        StudentMessege
+        StudentMessege,
+        StudentFeedback
 
     ],
     migrations: [],

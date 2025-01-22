@@ -14,7 +14,9 @@ const StudentMesseges = () => {
   const [messege, setMessege] = useState("");
   const [recipientRole, setRecipientRole] = useState("");
   const [recipientName, setRecipientName] = useState("");
-    const [myClasses, setMyClasses] = useState([]);
+  const [myClasses, setMyClasses] = useState([]);
+  const [comments, setComments] = useState("");
+
 
   useEffect(() => {
     axios
@@ -23,7 +25,7 @@ const StudentMesseges = () => {
       .catch((error) => console.error("Error fetching received messeges:", error));
 
     axios
-      .get(`${BASE_URL}/sent`)
+      .get(`http://localhost:3000/api/student_messeges/all`)
       .then((response) => setSentMesseges(response.data))
       .catch((error) => console.error("Error fetching sent messeges:", error));
 
@@ -135,54 +137,65 @@ useEffect(() => {
 
       {/* Feedback Modal */}
       {showFeedbackModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white rounded-lg p-6 shadow-lg max-w-md w-full">
-            <h2 className="text-xl font-bold mb-4">Give Feedback</h2>
-            <form onSubmit={handleFeedbackSubmit}>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-bold mb-2">Select Class:</label>
-                <select
-                  value={selectedClass}
-                  onChange={(e) => setSelectedClass(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md"
-                >
-                  <option value="">Choose Class</option>
-                  {enrolledClasses.map((cls) => (
-                    <option key={cls.id} value={cls.name}>
-                      {cls.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-bold mb-2">Rating:</label>
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <button
-                    key={star}
-                    type="button"
-                    onClick={() => setRating(star)}
-                    className={`text-2xl mr-2 ${star <= rating ? "text-yellow-400" : "text-gray-300"}`}
-                  >
-                    ★
-                  </button>
-                ))}
-              </div>
-              <div className="flex justify-between">
-                <button
-                  type="button"
-                  className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
-                  onClick={() => setShowFeedbackModal(false)}
-                >
-                  Cancel
-                </button>
-                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                  Submit
-                </button>
-              </div>
-            </form>
-          </div>
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div className="bg-white rounded-lg p-6 shadow-lg max-w-md w-full">
+      <h2 className="text-xl font-bold mb-4">Give Feedback</h2>
+      <form onSubmit={handleFeedbackSubmit}>
+        <div className="mb-4">
+          <label className="block text-gray-700 font-bold mb-2">Select Class:</label>
+          <select
+            value={selectedClass}
+            onChange={(e) => setSelectedClass(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md"
+          >
+            <option value="">Choose Class</option>
+            {enrolledClasses.map((cls) => (
+              <option key={cls.id} value={cls.name}>
+                {cls.name}
+              </option>
+            ))}
+          </select>
         </div>
-      )}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-bold mb-2">Rating:</label>
+          {[1, 2, 3, 4, 5].map((star) => (
+            <button
+              key={star}
+              type="button"
+              onClick={() => setRating(star)}
+              className={`text-2xl mr-2 ${star <= rating ? "text-yellow-400" : "text-gray-300"}`}
+            >
+              ★
+            </button>
+          ))}
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 font-bold mb-2">Comments:</label>
+          <textarea
+            value={comments}
+            onChange={(e) => setComments(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md resize-none"
+             rows="4"
+            placeholder="Write your feedback here..."
+          ></textarea>
+        </div>
+        <div className="flex justify-between">
+          <button
+            type="button"
+            className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
+            onClick={() => setShowFeedbackModal(false)}
+          >
+            Cancel
+          </button>
+          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+
 
       {/* Messege Modal */}
       {showMessegeModal && (

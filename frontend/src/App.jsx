@@ -41,6 +41,7 @@ import HelpSupport from "./pages/HelpSupport";
 import Create_Notice from "./pages/admin_profile/Create_Notice";
 import InstituteRegistration from "./pages/InstituteRegistration";
 import StudentMesseges from "./pages/StudentNotices";
+import MarkAttendance from "./pages/Attendance";
 
 const router = createBrowserRouter([
   {
@@ -401,6 +402,18 @@ const router = createBrowserRouter([
       },
     ],
   },
+
+  {
+    path: "/student_attendance",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <MarkAttendance/>,
+      },
+    ],
+  },
+
   {
     path: "/t_messege",
     element: <DrawerLayout/>,

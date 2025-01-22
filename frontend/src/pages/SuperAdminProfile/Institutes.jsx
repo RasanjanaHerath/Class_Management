@@ -210,7 +210,7 @@ const Institutes = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 md:ml-64">
+    <div className="min-h-screen bg-gray-50 p-8 md:ml-64">
       <div className="text-center mb-6">
         <Typography variant="h4" className="font-semibold text-gray-700">Institute Management</Typography>
       </div>
@@ -300,7 +300,7 @@ const Institutes = () => {
       {/* Tab Panels */}
 
        {/* Tab Panels */}
-       <TabPanel value={selectedTab} index={0}>
+      <TabPanel value={selectedTab} index={0}>
         <h3 className="text-xl font-medium mb-4">Creation Requests</h3>
         {/* Display Creation Requests */}
         <Paper className="p-4 bg-white rounded-lg shadow-lg">
@@ -350,8 +350,8 @@ const Institutes = () => {
 
 
       <TabPanel value={selectedTab} index={1}>
-      <h3 className="text-xl font-medium font-bold mb-4">Institute List:</h3>
-      <Paper className="p-4 bg-white rounded-lg shadow-lg">
+      {/* <h3 className="text-xl font-medium font-bold mb-4">Institute List:</h3> */}
+      <Paper className="p-0 bg-white rounded-lg shadow-lg">
         {approvedInstitutes.length === 0 ? (
           <Typography variant="body1">No approved institutes yet.</Typography>
         ) : (
@@ -430,11 +430,11 @@ const Institutes = () => {
 
       <Modal open={openDetailsModal} onClose={handleCloseDetailsModal}>
         <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
-          <Typography variant="h6" component="h2">Institute Details</Typography>
+          <Typography variant="h6" component="h2" align="center" sx={{ fontWeight: 'bold',m:4 ,p:0 }}>Institute Details</Typography>
           {selectedInstitute && (
             <Box>
-              <Typography variant="body1"><strong>Phone Number:</strong> {selectedInstitute.phoneNo}</Typography>
-              <Typography variant="body1"><strong>City:</strong> {selectedInstitute.city}</Typography>
+              <Typography variant="body1" sx={{m:1}}><strong>Phone Number:</strong> {selectedInstitute.phoneNo}</Typography>
+              <Typography variant="body1" sx={{m:1}}><strong>City:</strong> {selectedInstitute.city}</Typography>
               {/* Add more details as needed */}
               <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                 <Button variant="contained" color="secondary" onClick={handleCloseDetailsModal}>Close</Button>
@@ -446,8 +446,8 @@ const Institutes = () => {
 
       <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
         <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
-          <Typography variant="h6" component="h2">Confirm Deletion</Typography>
-          <Typography variant="body1">Are you sure you want to delete this institute?</Typography>
+          <Typography variant="h6" component="h2" align="center" sx={{ fontWeight: 'bold',mb:2 , color: 'maroon'}}>Confirm Deletion</Typography>
+          <Typography variant="body1" sx={{ mb:3 }}>Are you sure you want to delete this institute?</Typography>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
             <Button variant="contained" color="error" onClick={handleDeleteInstitute}>OK</Button>
             <Button variant="contained" color="secondary" onClick={handleCloseDeleteModal}>Cancel</Button>

@@ -39,6 +39,7 @@ import AssignmentDetails from "./pages/teacher_profile/AssignmentDetails";
 import Ins_Notifications from "./pages/admin_profile/Ins_Notifications";
 import HelpSupport from "./pages/HelpSupport";
 import Create_Notice from "./pages/admin_profile/Create_Notice";
+import InstituteRegistration from "./pages/InstituteRegistration";
 
 const router = createBrowserRouter([
   {
@@ -250,6 +251,17 @@ const router = createBrowserRouter([
         index: true,
         element: 
         <SuperAdminDashboard />,
+      },
+    ],
+  },
+  {
+    path: "/InstituteRegistration",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: 
+        <InstituteRegistration />,
       },
     ],
   },

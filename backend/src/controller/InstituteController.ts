@@ -5,6 +5,7 @@ import { Institute } from "../entity/Institute";
 import { User } from "../entity/User";
 import { Class } from "../entity/Class";
 import { Teacher } from "../entity/Teacher";
+import { Student } from "../entity/Student";
 
 
 
@@ -248,6 +249,56 @@ export class InstituteController {
     }
 
     
+  //get total classes,teachers and students counts in a institute
+
+  static getInstituteStatistics = async (req: Request, res: Response) => {
+    try {
+      const { instituteId } = req.params;
+
+      const instituteRepository = AppDataSource.getRepository(Institute);
+      const teacherRepository = AppDataSource.getRepository(Teacher);
+      const studentRepository = AppDataSource.getRepository(Student);
+      const classRepository = AppDataSource.getRepository(Class);
+
+      // Find the institute by ID
+      const institute = await instituteRepository.findOne({
+        where: { id: +instituteId }, // Ensure `instituteId` is a number
+      });
+
+      if (!institute) {
+        return res.status(404).json({ message: "Institute not found" });
+      }
+
+      // Fetch counts for related entities
+      const [totalClasses, totalTeachers, totalStudents] = await Promise.all([
+        classRepository.count({
+          where: { institute: { id: +instituteId } },
+        }),
+        teacherRepository.count({
+          where: { institute: { id: +instituteId } },
+        }),
+        studentRepository.count({
+          where: { institute: { id: +instituteId } },
+        }),
+      ]);
+
+      // Respond with the statistics
+      res.json({
+        instituteName: institute.name,
+        statistics: {
+          totalClasses,
+          totalTeachers,
+          totalStudents,
+        },
+      });
+    } catch (error) {
+      console.error("Error fetching institute statistics:", error);
+      res.status(500).json({
+        message: "Error fetching institute statistics",
+        error: error.message,
+      });
+    }
+  };
 
     
 }

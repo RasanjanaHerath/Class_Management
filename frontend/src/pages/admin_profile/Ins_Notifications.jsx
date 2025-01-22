@@ -43,7 +43,7 @@ const Ins_Notifications = () => {
 
         {/* Teacher Requests */}
         <div className="bg-white shadow-lg rounded-lg p-4">
-          <h2 className="text-xl font-bold mb-4 text-blue-500">Teacher Requests</h2>
+          <h2 className="text-xl font-bold mb-4 text-blue-500">Class Requests</h2>
           <table className="table-auto w-full border-collapse border border-gray-300">
             <thead className="bg-gray-400 text-white">
               <tr>

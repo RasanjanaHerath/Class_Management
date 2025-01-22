@@ -12,10 +12,12 @@ const TeacherDetails = () => {
           <thead className="bg-gray-400 text-white">
             <tr>
               <th className="p-4">Teacher ID</th>
-              <th className="p-4">Student Name</th>
+              <th className="p-4">Teacher Name</th>
               <th className="p-4">Subject</th>
-              <th className="p-4">Class Time</th>
-              <th className="p-4">Grade or Batch</th>
+              <th className="p-4">Phone Number</th>
+              <th className="p-4">NIC</th>
+              <th className="px-4 py-2 border-b">EDIT</th>
+              <th className="px-4 py-2 border-b">DELETE</th>
             </tr>
           </thead>
           {/* <tbody>

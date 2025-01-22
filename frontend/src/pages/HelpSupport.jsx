@@ -1,5 +1,4 @@
 import React from 'react'
-import '@fortawesome/fontawesome-free/css/all.min.css';
 import insta from "../assets/insta.png";
 import fb from "../assets/facebook.webp";
 import whatsapp from "../assets/whatsapp.png";

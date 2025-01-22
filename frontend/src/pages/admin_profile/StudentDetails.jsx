@@ -13,7 +13,7 @@ const StudentDetails = () => {
               <th className="p-4">Student ID</th>
               <th className="p-4">Student Name</th>
               <th className="p-4">Subjects</th>
-              <th className="p-4">Class Time</th>
+              <th className="p-4">Phone Number</th>
               <th className="p-4">Payment For This Month</th>
             </tr>
           </thead>

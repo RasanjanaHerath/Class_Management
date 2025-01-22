@@ -84,8 +84,10 @@ const ClassDetails = () => {
           <tr>
             <th className="px-4 py-2 border-b">ID</th>
             <th className="px-4 py-2 border-b">Subject</th>
+            <th className="px-4 py-2 border-b">Teacher Name</th>
             <th className="px-4 py-2 border-b">Batch</th>
-            <th className="px-4 py-2 border-b">Date & Time</th>
+            <th className="px-4 py-2 border-b">Day</th>
+            <th className="px-4 py-2 border-b">Start Time</th>
             <th className="px-4 py-2 border-b">Number of Students</th>
             <th className="px-4 py-2 border-b">EDIT</th>
             <th className="px-4 py-2 border-b">DELETE</th>

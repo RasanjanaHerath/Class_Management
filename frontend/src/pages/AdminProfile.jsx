@@ -49,9 +49,33 @@
 
 // export default Dashboard;
 
-import React from 'react';
+import React, {useState,useEffect} from 'react';
+import axios from 'axios';
 
 function Dashboard() {
+  
+  const [totalTeachers, setTotalTeachers] = useState(0);
+  const [totalClasses, setTotalClasses] = useState(0);
+  const [totalStudents, setTotalStudents] = useState(0);
+  const totalUser = totalTeachers + totalStudents;
+
+
+  useEffect(() => {
+    // Fetch data from the API
+    axios
+      .get("http://localhost:3000/api/institute/institutes-stat")
+      .then((response) => {
+        // Update state with API response data
+        setTotalTeachers(response.data.statistics.totalTeachers);
+        setTotalClasses(response.data.statistics.totalClasses);
+        setTotalStudents(response.data.statistics.totalStudents);
+      })
+      .catch((error) => {
+        console.error("Error fetching institute statistics:", error);
+      });
+  }, []);
+
+
   return (
     <div className="min-h-screen bg-gray-100 flex md:ml-64 ml-0">
       {/* Main Content */}
@@ -68,15 +92,15 @@ function Dashboard() {
         <section className="grid grid-cols-3 gap-6 mb-6">
           <div className="p-6 bg-gray-200 rounded-lg shadow-lg">
             <h2 className="text-lg font-medium mb-2">Classes</h2>
-            <div className="text-3xl font-bold text-gray-700">25</div>
+            <div className="text-3xl font-bold text-gray-700">{totalClasses}</div>
           </div>
           <div className="p-6 bg-gray-200 rounded-lg shadow-lg">
             <h2 className="text-lg font-medium mb-2">Teachers</h2>
-            <div className="text-3xl font-bold text-gray-700">10</div>
+            <div className="text-3xl font-bold text-gray-700">{totalTeachers}</div>
           </div>
           <div className="p-6 bg-gray-200 rounded-lg shadow-lg">
             <h2 className="text-lg font-medium mb-2">Students</h2>
-            <div className="text-3xl font-bold text-gray-700">200</div>
+            <div className="text-3xl font-bold text-gray-700">{totalStudents}</div>
           </div>
           <div className="p-6 bg-gray-200 rounded-lg shadow-lg">
             <h2 className="text-lg font-medium mb-2">Ratings</h2>
@@ -88,7 +112,7 @@ function Dashboard() {
           </div>
           <div className="p-6 bg-gray-200 rounded-lg shadow-lg">
             <h2 className="text-lg font-medium mb-2">Total Users</h2>
-            <div className="text-3xl font-bold text-gray-700">350</div>
+            <div className="text-3xl font-bold text-gray-700">{totalUser}</div>
           </div>
         </section>
 

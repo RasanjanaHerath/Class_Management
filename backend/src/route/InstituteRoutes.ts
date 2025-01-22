@@ -32,4 +32,7 @@ instituteRoutes.get("/classes/:instituteId", classController.getClassesByInstitu
 // Fetch teachers by class
 instituteRoutes.get("/teachers/:classId", classController.getTeachersByClass);
 
+//get total number of classes and institutes and teachers
+instituteRoutes.get("/institutes/:instituteId/institutes-stat", InstituteController.getInstituteStatistics);
+
 export default instituteRoutes;

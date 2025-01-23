@@ -1,115 +1,331 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Typography,
+  Modal,
+  Paper,
+  TextField,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import axios from "axios";
 
 let userItem = localStorage.getItem("user");
 const user = userItem ? JSON.parse(userItem) : null;
 
 const StudentDetails = () => {
   const [students, setStudents] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
-  // Fetch student data from backend API on component mount
   useEffect(() => {
     fetchStudents();
   }, []);
 
   const fetchStudents = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:3000/api/institute/students`, {
-        headers: {
-          Authorization: `Bearer ${token}`
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `http://localhost:3000/api/institute/students`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      });
-      console.log(response.data);
-      setStudents(response.data); // Assuming your API sends the student list in the response
+      );
+      setStudents(response.data);
     } catch (error) {
-      console.error('Error fetching student data:', error);
+      console.error("Error fetching student data:", error);
     }
   };
 
-  // Update student
-  const updateStudent = async (updatedStudentData) => {
+  // Open and close modals
+  const handleOpenUpdateModal = (student) => {
+    setSelectedStudent(student);
+    setOpenUpdateModal(true);
+  };
+
+  const handleCloseUpdateModal = () => {
+    setSelectedStudent(null);
+    setOpenUpdateModal(false);
+  };
+
+  const handleOpenDeleteModal = (student) => {
+    setSelectedStudent(student);
+    setOpenDeleteModal(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setSelectedStudent(null);
+    setOpenDeleteModal(false);
+  };
+
+  // Handle update
+  const handleUpdateStudent = async (event) => {
+    event.preventDefault();
+    const token = localStorage.getItem('token');
     try {
-      await axios.put(`http://localhost:3000/api/students/${updatedStudentData.id}`, updatedStudentData);
-      setStudents(students.map((student) =>
-        student.id === updatedStudentData.id ? updatedStudentData : student
-      ));
+      const updatedStudent = {
+        name: selectedStudent.name,
+        email: selectedStudent.email,
+        phone: selectedStudent.phone,
+        grade: selectedStudent.grade,
+      };
+      await axios.put(
+        `http://localhost:3000/api/students/${selectedStudent.id}`,
+        updatedStudent,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      fetchStudents();
+      handleCloseUpdateModal();
     } catch (error) {
-      console.error('Error updating student:', error);
+      console.error("Error updating student:", error);
     }
   };
 
-  // Delete student
-  const deleteStudent = async (studentId) => {
+  // Handle delete
+  const handleDeleteStudent = async () => {
+    const token = localStorage.getItem('token');
     try {
-      await axios.delete(`http://localhost:3000/api/students/${studentId}`);
-      setStudents(students.filter((student) => student.id !== studentId));
+      await axios.delete(
+        `http://localhost:3000/api/students/${selectedStudent.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      fetchStudents();
+      handleCloseDeleteModal();
     } catch (error) {
-      console.error('Error deleting student:', error);
+      console.error("Error deleting student:", error);
     }
   };
 
   // Filter students based on search term
   const filteredStudents = students.filter((student) =>
-    (student.name?.toLowerCase() || '').includes(searchTerm.toLowerCase())
+    (student.name?.toLowerCase() || "").includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div className="min-h-screen bg-gray-100 p-10 md:ml-64 ">
-      <h1 className="text-2xl font-bold mb-6 text-center">Student Details</h1>
-      <div className="mb-8 flex justify-between items-center">
-        <input
-          type="text"
-          placeholder="Search..."
+    <div className="min-h-screen bg-gray-100 p-10 md:ml-64">
+      <Typography variant="h4" className="text-center mb-6 font-bold">
+        Student Details
+      </Typography>
+
+      <Box className="mb-6 flex justify-between items-center">
+        <TextField
+          label="Search"
+          variant="outlined"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-1/3 p-3 border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+          sx={{ width: "40%" }}
         />
-      </div>
+      </Box>
 
-      <div className="overflow-x-auto p-6">
-        <table className="table-auto w-full bg-white shadow-lg rounded-lg">
-          <thead className="bg-gray-400 text-white">
-            <tr>
-              <th className="px-4 py-2 border-b">ID</th>
-              <th className="px-4 py-2 border-b">Name</th>
-              <th className="px-4 py-2 border-b">Email</th>
-              <th className="px-4 py-2 border-b">Phone</th>
-              <th className="px-4 py-2 border-b">Grade</th>
-              <th className="px-4 py-2 border-b">EDIT</th>
-              <th className="px-4 py-2 border-b">DELETE</th>
-            </tr>
-          </thead>
-          <tbody>
+      <TableContainer component={Paper} sx={{ borderRadius: "10px" }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{ fontWeight: "bold", textAlign: "center" }}>
+                ID
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", textAlign: "center" }}>
+                Name
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", textAlign: "center" }}>
+                Email
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", textAlign: "center" }}>
+                Phone
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", textAlign: "center" }}>
+                Grade
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", textAlign: "center" }}>
+                Actions
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {filteredStudents.map((student) => (
-              <tr key={student.id}>
-                <td className="px-4 py-2 border-b">{student.id}</td>
-                <td className="px-4 py-2 border-b">{student.name}</td>
-                <td className="px-4 py-2 border-b">{student.email}</td>
-                <td className="px-4 py-2 border-b">{student.phone}</td>
-                <td className="px-4 py-2 border-b">{student.grade}</td>
-                <td className="px-4 py-2 border-b">
-                  <button
-                    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                    onClick={() => console.log('Edit student')}
+              <TableRow key={student.id}>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {student.id}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {student.name}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {student.email}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {student.phone}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {student.grade}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  <Button
+                    variant="contained"
+                    onClick={() => handleOpenUpdateModal(student)}
+                    sx={{
+                      backgroundColor: "#017388",
+                      borderRadius: "20px",
+                      marginRight: "10px",
+                      "&:hover": { backgroundColor: "#016377" },
+                    }}
                   >
+                    <FaEdit style={{ marginRight: 5 }} />
                     Edit
-                  </button>
-                </td>
-                <td className="px-4 py-2 border-b">
-                  <button
-                    className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700"
-                    onClick={() => deleteStudent(student.id)}
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => handleOpenDeleteModal(student)}
+                    sx={{
+                      backgroundColor: "#DB4437",
+                      borderRadius: "20px",
+                      "&:hover": { backgroundColor: "#C33A2C" },
+                    }}
                   >
+                    <FaTrash style={{ marginRight: 5 }} />
                     Delete
-                  </button>
-                </td>
-              </tr>
+                  </Button>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
-      </div>
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      {/* Update Modal */}
+      <Modal open={openUpdateModal} onClose={handleCloseUpdateModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            p: 4,
+            borderRadius: 2,
+            boxShadow: 24,
+          }}
+        >
+          <Typography variant="h6" mb={2}>
+            Update Student
+          </Typography>
+          <form onSubmit={handleUpdateStudent}>
+            <TextField
+              label="Name"
+              fullWidth
+              margin="normal"
+              value={selectedStudent?.name || ""}
+              onChange={(e) =>
+                setSelectedStudent({ ...selectedStudent, name: e.target.value })
+              }
+            />
+            <TextField
+              label="Email"
+              fullWidth
+              margin="normal"
+              value={selectedStudent?.email || ""}
+              onChange={(e) =>
+                setSelectedStudent({ ...selectedStudent, email: e.target.value })
+              }
+            />
+            <TextField
+              label="Phone"
+              fullWidth
+              margin="normal"
+              value={selectedStudent?.phone || ""}
+              onChange={(e) =>
+                setSelectedStudent({ ...selectedStudent, phone: e.target.value })
+              }
+            />
+            <TextField
+              label="Grade"
+              fullWidth
+              margin="normal"
+              value={selectedStudent?.grade || ""}
+              onChange={(e) =>
+                setSelectedStudent({ ...selectedStudent, grade: e.target.value })
+              }
+            />
+            <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+              <Button variant="contained" type="submit">
+                Update
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleCloseUpdateModal}
+              >
+                Cancel
+              </Button>
+            </Box>
+          </form>
+        </Box>
+      </Modal>
+
+      {/* Delete Modal */}
+      <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            p: 4,
+            borderRadius: 2,
+            boxShadow: 24,
+          }}
+        >
+          <Typography
+            variant="h6"
+            mb={2}
+            color="error"
+            align="center"
+          >
+            Confirm Deletion
+          </Typography>
+          <Typography mb={3}>
+            Are you sure you want to delete this student?
+          </Typography>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleDeleteStudent}
+            >
+              Delete
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleCloseDeleteModal}
+            >
+              Cancel
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </div>
   );
 };

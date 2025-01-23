@@ -13,6 +13,8 @@ student_router.get("/get-all", StudentController.getAll);
 // Create a new student
 student_router.post("/create",jwtMiddleware, StudentController.save);
 
+// student_router.put("/update",jwtMiddleware, StudentController.);
+
 // // Updates
 // student_router.put("/notice/:id", StudentController.updateNotice);
 

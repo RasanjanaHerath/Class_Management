@@ -7,6 +7,7 @@ import { Teacher } from '../entity/Teacher';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import { Class } from '../entity/Class';
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -27,7 +28,11 @@ export class AssignmentController {
   static getAll = async (req: Request, res: Response, next: NextFunction) => {
     const assignmentRepository = AppDataSource.getRepository(Assignment);
     try {
-      const assignments = await assignmentRepository.find({ where: { deletedAt: null } });
+      const assignments = await assignmentRepository.find({ where: { deletedAt: null },relations:{
+        institute: true,
+        teacher: true,
+        classes: true
+      } });
       return res.status(200).json(assignments);
     } catch (error) {
       console.error('Error fetching assignments:', error);
@@ -92,15 +97,19 @@ export class AssignmentController {
     upload.single('file'), // Middleware to handle file upload
     async (req: Request, res: Response) => {
       const assignmentRepository = AppDataSource.getRepository(Assignment);
+      
       try {
-        const { title, dueDate, description, instituteId } = req.body;
+        const { title, dueDate, description, instituteId, classId } = req.body;
         const file = req.file;
         if(!instituteId){
           return res.status(404).json({ message: 'Institute is Required' });
         }
 
         const instituteRepository = AppDataSource.getRepository(Institute);
+        const classRepository = AppDataSource.getRepository(Class);
+
         const institute = await instituteRepository.findOne({ where: { id: instituteId } });
+        const classz = await classRepository.findOne({ where: { id: classId } });
         const teacherRepository = AppDataSource.getRepository(Teacher);
         const userRepository = AppDataSource.getRepository(User);
         
@@ -127,8 +136,15 @@ export class AssignmentController {
           return res.status(404).json({ message: 'Teacher not found' });
         }       
 
+        if (!classz) {
+          return res.status(404).json({ message: 'Class not found' });
+        }   
+
         const assignment = Object.assign(new Assignment(), {
           title,
+          institute,
+          teacher,
+          classes: classz,
           dueDate,
           description,
           assignmentFilePath: file ? file.path : null, // Save the file path if a file is uploaded

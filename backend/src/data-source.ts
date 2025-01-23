@@ -33,7 +33,8 @@ export const AppDataSource = new DataSource({
         Grade,
         Result,
         Announcement,
-        ClassCard
+        ClassCard,
+        Result
 
     ],
     migrations: [],

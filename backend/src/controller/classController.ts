@@ -34,6 +34,20 @@ export class classController {
     }
   };
 
+  // get all students for a class
+  static getStudentsByClass = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+      const classEntity = await AppDataSource.getRepository(Class).findOne({
+        where: { id: parseInt(id), isverify: true },
+        relations: ["students"],
+      });
+      res.json(classEntity?.students || []);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching students", error });
+    }
+  };
+
   static getClassById = async (req: Request, res: Response) => {
 
     try {

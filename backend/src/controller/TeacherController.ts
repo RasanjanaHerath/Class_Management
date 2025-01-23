@@ -64,9 +64,9 @@ export class TeacherController {
     // }
 
     const id = parseInt(req.params.id);
-    const { firstName, lastName, email, phoneNumber, qualification, description, experience } =
+    const { firstName, lastName, email, phoneNumber, qualification, description, experience,name ,subjects,nic} =
       req.body;
-
+    
     const userId = req.user?.userId;
     try {
       const teacher = await teacherRepository.findOne({
@@ -88,10 +88,16 @@ export class TeacherController {
       teacher.description = description ?? teacher.description;
       teacher.experience = experience ?? teacher.experience;
       teacher.teacherId = teacherId ?? teacher.teacherId;
+      teacher.name = name ?? teacher.name;
+      teacher.subjects = subjects ?? teacher.subjects;
+      teacher.nic = nic ?? teacher.nic;
+
+
+
+
 
       await teacherRepository.save(teacher);
       await AppDataSource.getRepository(User).save(teacher.user);
-      
       res.send(teacher);
       return;
     } catch (error) {

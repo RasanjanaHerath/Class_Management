@@ -54,6 +54,7 @@ export class Student {
   studentMesseges: StudentMessege[];
 
 
+
   @ManyToMany(() => Institute)
   @JoinTable()
   institute : Institute[]

@@ -26,4 +26,6 @@ classRoutes.put("/update/:id",jwtMiddleware,classController.updateClass);
 //delete a class
 classRoutes.delete("/delete/:id",classController.deleteClass);
 
+classRoutes.put("/verify/:id",classController.verifyClass);
+
 export default classRoutes;

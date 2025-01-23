@@ -35,12 +35,12 @@ export class NoticeController {
     // Update a Notice
 
     static updateNotice = async (req: Request, res: Response) => {
-        const {role ,title,message} = req.body;
+        const {visibilityRole ,title,message} = req.body;
         const noticeRepository = AppDataSource.getRepository(Notice);
 
         const notice = await noticeRepository.findOneBy({ id: parseInt(req.params.id) });
         if (notice) {
-        notice.visibilityRole = role;
+        notice.visibilityRole = visibilityRole;
         notice.title = title;
         notice.message = message;
         
@@ -68,7 +68,7 @@ export class NoticeController {
 
     static getNoticeForInstitute = async (req: Request, res: Response) => {
         const noticeRepository = AppDataSource.getRepository(Notice);
-        const notices = await noticeRepository.find({ where: { role: "institute" } });
+        const notices = await noticeRepository.find({ where: { visibilityRole: "institute" } });
         res.json(notices);
     }
 }

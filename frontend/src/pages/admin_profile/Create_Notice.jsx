@@ -6,7 +6,7 @@ const AdminNotices = () => {
   const BASE_URL = "http://localhost:3000/api/notice";
   const [notices, setNotices] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [role, setRole] = useState("");
+  const [visibilityRole, setRole] = useState("");
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [noticeIdToUpdate, setNoticeIdToUpdate] = useState(null);
@@ -21,7 +21,7 @@ const AdminNotices = () => {
 
   const openModal = (notice = null) => {
     if (notice) {
-      setRole(notice.role);
+      setRole(notice.visibilityRole);
       setTitle(notice.title);
       setMessage(notice.message);
       setNoticeIdToUpdate(notice.id);
@@ -42,7 +42,7 @@ const AdminNotices = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newNotice = { role, title, message };
+    const newNotice = { visibilityRole, title, message };
 
     if (isUpdateMode && noticeIdToUpdate) {
       axios
@@ -95,7 +95,7 @@ const AdminNotices = () => {
             >
               <h3 className="text-xl font-bold mb-2">{notice.title}</h3>
               <p className="mb-2">{notice.message}</p>
-              <p className="text-sm text-gray-600">Role: {notice.role}</p>
+              <p className="text-sm text-gray-600">Role: {notice.visibilityRole}</p>
               <div className="flex justify-end gap-4 mt-4">
                 <button
                   className="flex items-center bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
@@ -123,7 +123,7 @@ const AdminNotices = () => {
               <div className="mb-4">
                 <label className="block text-gray-700 font-semibold mb-1">Role</label>
                 <select
-                  value={role}
+                  value={visibilityRole}
                   onChange={(e) => setRole(e.target.value)}
                   className="w-full p-2 border rounded-md focus:outline-blue-500"
                 >

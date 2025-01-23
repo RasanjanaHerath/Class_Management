@@ -115,7 +115,7 @@ useEffect(() => {
                   <h3 className="text-lg font-semibold mb-2 text-gray-800">{msg.title}</h3>
                   <p className="mb-2 text-gray-600">{msg.message}</p>
                   <div className="text-sm text-gray-500 flex justify-between">
-                    <span>Role: {msg.role}</span>
+                    <span>Role: {msg.visibilityRole}</span>
                     <span>
                       Sent on: {new Date(msg.date).toLocaleDateString("en-US")}
                     </span>

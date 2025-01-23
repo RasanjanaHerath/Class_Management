@@ -11,7 +11,7 @@ const ClassDetails = () => {
   const [classes, setClasses] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Fetch class data from backend API on component mount
+  // Fetch class data from backend API on component mountg
   useEffect(() => {
     fetchClasses();
   }, []);

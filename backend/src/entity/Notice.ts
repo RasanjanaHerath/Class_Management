@@ -3,6 +3,7 @@ import { Institute } from './Institute';
 import { Teacher } from './Teacher';
 import { Student } from './Student';
 import { Class } from "./Class";
+import { User } from "./User";
 
 @Entity()
 export class Notice {
@@ -31,7 +32,8 @@ export class Notice {
     @ManyToOne(() => Class, (classes) => classes.notices)
     classes: Class;
 
-    
+    @ManyToOne(() => User   , (user) => user.notices)
+    user: User;
 
 }
 

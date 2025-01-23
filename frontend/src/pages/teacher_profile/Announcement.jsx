@@ -17,7 +17,13 @@ const Announcement = () => {
 
   const fetchNotices = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/all`);
+      const token = localStorage.getItem("token");
+
+      const response = await axios.get(`${BASE_URL}/all-my`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setNotices(response.data);
     } catch (error) {
       console.error("Error fetching notices:", error);

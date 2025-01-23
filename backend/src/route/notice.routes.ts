@@ -7,6 +7,8 @@ const notice_router = Router();
 // Get all notices
 notice_router.get("/all", NoticeController.getAll);
 
+notice_router.get("/all-my",jwtMiddleware, NoticeController.getAllMyNotices);
+
 // Create a new notice
 notice_router.post("/create",jwtMiddleware, NoticeController.createNotice);
 

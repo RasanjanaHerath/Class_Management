@@ -13,8 +13,12 @@ const AdminNotices = () => {
   const [isUpdateMode, setIsUpdateMode] = useState(false);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
     axios
-      .get(`${BASE_URL}/all`)
+      .get(`${BASE_URL}/all-my`, config)
       .then((response) => setNotices(response.data))
       .catch((error) => console.error("Error fetching notices:", error));
   }, []);

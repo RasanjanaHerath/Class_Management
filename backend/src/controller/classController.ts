@@ -346,7 +346,7 @@ export class classController {
         existingClass.scheduleDay = scheduleDay;
         existingClass.feePerMonth = feePerMonth;
         existingClass.numberOfStudents = numberOfStudents;
-        existingClass.isverify = isverify;
+        //existingClass.isverify = isverify;
   
         await classRepository.save(existingClass);
   

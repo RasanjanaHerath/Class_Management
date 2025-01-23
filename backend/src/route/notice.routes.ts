@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { NoticeController } from "../controller/NoticeController";
+import { jwtMiddleware } from "../middleware/jwtMiddleware";
 
 const notice_router = Router();
 
@@ -7,7 +8,7 @@ const notice_router = Router();
 notice_router.get("/all", NoticeController.getAll);
 
 // Create a new notice
-notice_router.post("/create", NoticeController.createNotice);
+notice_router.post("/create",jwtMiddleware, NoticeController.createNotice);
 
 // Updates
 notice_router.put("/update/:id", NoticeController.updateNotice);

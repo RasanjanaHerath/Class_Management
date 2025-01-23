@@ -14,9 +14,9 @@ export class NoticeController {
 
     // Create a new notice
     static createNotice = async (req: Request, res: Response) => {
-        const { role,title, message } = req.body;
+        const { visibilityRole ,title, message } = req.body;
         const notice = new Notice();
-        notice.role = role;
+        notice.visibilityRole = visibilityRole;
         notice.title = title;
         notice.message = message;
     
@@ -34,7 +34,7 @@ export class NoticeController {
 
         const notice = await noticeRepository.findOneBy({ id: parseInt(req.params.id) });
         if (notice) {
-        notice.role = role;
+        notice.visibilityRole = role;
         notice.title = title;
         notice.message = message;
         

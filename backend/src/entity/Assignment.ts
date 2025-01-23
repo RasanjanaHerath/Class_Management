@@ -38,7 +38,7 @@ export class Assignment {
   institute: Institute;
 
   @ManyToOne(() => Class, (classes) => classes.assignments)
-  class: Class;
+  classes: Class;
 
   @OneToOne(() => Result, (result) => result.assignment)
   result: Result;

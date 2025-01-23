@@ -4,6 +4,7 @@ import { Teacher } from './Teacher';
 import { Student } from './Student';
 import { Assignment } from './Assignment';
 import { ClassCard } from './ClassCard';
+import { Notice } from './Notice';
 
 @Entity('classes')
 export class Class {
@@ -43,9 +44,12 @@ export class Class {
   @OneToMany(() => Student, (student) => student.classes)
   students: Student[];
 
-  @OneToMany(() => Assignment, (assignment) => assignment.class)
+  @OneToMany(() => Assignment, (assignment) => assignment.classes)
   assignments: Assignment[];
 
   @OneToMany(() => ClassCard, (classCard) => classCard.classObject)
   classCards: ClassCard[];
+
+  @OneToMany(() => Notice, (notice) => notice.classes)
+  notices: Notice[];
 }

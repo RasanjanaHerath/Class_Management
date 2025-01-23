@@ -20,9 +20,24 @@ const TeacherDetails = () => {
               <th className="px-4 py-2 border-b">DELETE</th>
             </tr>
           </thead>
-          {/* <tbody>
-            
-          </tbody> */}
+            <td className="p-4">{teacher.id}</td>
+            <td className="p-4">{teacher.name}</td>
+            <td className="p-4">{teacher.phoneNumber}</td>
+            <td className="p-4">{teacher.nic}</td>
+            <td className="p-4">
+            <button
+            className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700"
+            onClick={() => openModal()}>
+            EDIT
+            </button>
+            </td>
+            <td className="p-4">
+            <button
+            className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700"
+            onClick={() => openModal()}>
+            DELETE
+            </button>
+            </td>
         </table>
       </div>
     </div>

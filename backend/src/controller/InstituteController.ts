@@ -60,6 +60,38 @@ export class InstituteController {
     }
   }
 
+  static async getClassesByUserId(req: Request, res: Response) {
+    const { userId } = req.params;
+  
+    // Validate userId
+    if (!userId || isNaN(Number(userId))) {
+      return res.status(400).json({ message: 'Invalid userId parameter' });
+    }
+  
+    try {
+      // Fetch classes based on the institute's userId
+      const classes = await AppDataSource.getRepository(Class).find({
+        where: {
+          institute: {
+            user: { id: parseInt(userId) }, // Assuming `institute.user` relates to the `userId`
+          },
+        },
+        relations: ['institute', 'institute.user'], // Include related entities if needed
+      });
+  
+      if (classes.length === 0) {
+        return res.status(404).json({ message: 'No classes found for the given institute userId' });
+      }
+  
+      // Return the fetched classes
+      res.status(200).json(classes);
+    } catch (error) {
+      console.error('Error fetching classes:', error);
+      res.status(500).json({ message: 'Error fetching classes', error });
+    }
+  }
+  
+
   static async getTeachersByClass(req: Request, res: Response) {
     const { classId } = req.params;
     try {

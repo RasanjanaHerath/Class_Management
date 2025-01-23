@@ -29,6 +29,9 @@ instituteRoutes.get("/institutes/:city", InstituteController.getInstitutesByCity
 // Fetch classes by institute
 instituteRoutes.get("/classes/:instituteId", classController.getClassesByInstitute);
 
+// Fetch classes by institute
+instituteRoutes.get("/classes/user/:userId", InstituteController.getClassesByUserId);
+
 // Fetch teachers by class
 instituteRoutes.get("/teachers/:classId", classController.getTeachersByClass);
 

@@ -17,9 +17,12 @@ const StudentDetails = () => {
               <th className="p-4">Payment For This Month</th>
             </tr>
           </thead>
-          {/* <tbody>
-            
-          </tbody> */}
+          <th className="p-4">Student ID</th>
+              <td className="p-4">{student.id}</td>
+              <td className="p-4">{student.name}</td>
+              <td className="p-4">{student.subject}</td>
+              <td className="p-4">{student.telephone}</td>
+              <td className="p-4">{student.payment}</td>
         </table>
       </div>
     </div>

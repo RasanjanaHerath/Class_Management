@@ -263,13 +263,13 @@ const Dashboard = () => {
           {/* Total Income */}
           <div className="bg-white shadow-lg rounded-lg p-6 text-center">
             <h3 className="font-bold text-xl mb-4">Total Income</h3>
-            <p className="text-2xl font-semibold">${monthlyIncome}</p>
-          </div>
+            <p className="text-2xl font-semibold">Rs.{monthlyIncome}</p>
+          </div>  
         </div>
 
         {/* Students by Gender and Notifications */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          {/* Students by Gender Pie Chart */}
+        {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+     
           <div className="bg-white shadow-lg rounded-lg p-6">
             <h3 className="font-bold text-lg mb-4">Students by Gender</h3>
             <ResponsiveContainer width="100%" height={200}>
@@ -288,7 +288,6 @@ const Dashboard = () => {
             </ResponsiveContainer>
           </div>
 
-          {/* Notifications */}
           <div className="bg-white shadow-lg rounded-lg p-6">
             <h3 className="font-bold text-lg mb-4">Notifications</h3>
             <ul>
@@ -299,7 +298,7 @@ const Dashboard = () => {
               ))}
             </ul>
           </div>
-        </div>
+        </div> */}
 
         {/* Attendance Graphs */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">

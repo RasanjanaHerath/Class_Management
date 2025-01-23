@@ -41,15 +41,23 @@ export class Class {
   @ManyToOne(() => Institute, (institute) => institute.classes)
   institute: Institute;
 
-  @OneToMany(() => Student, (student) => student.classes)
+  @OneToMany(() => Student, (student) => student.classes,{
+    cascade: true,
+    onDelete: "CASCADE",})
   students: Student[];
 
-  @OneToMany(() => Assignment, (assignment) => assignment.classes)
+  @OneToMany(() => Assignment, (assignment) => assignment.classes,{
+    cascade: true,
+    onDelete: "CASCADE",})
   assignments: Assignment[];
 
-  @OneToMany(() => ClassCard, (classCard) => classCard.classObject)
+  @OneToMany(() => ClassCard, (classCard) => classCard.classObject,{
+    cascade: true,
+    onDelete: "CASCADE",})
   classCards: ClassCard[];
 
-  @OneToMany(() => Notice, (notice) => notice.classes)
+  @OneToMany(() => Notice, (notice) => notice.classes,{
+    cascade: true,
+    onDelete: "CASCADE",})
   notices: Notice[];
 }

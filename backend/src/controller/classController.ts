@@ -391,23 +391,51 @@ export class classController {
 
 
     // Delete a class
+    // static deleteClass = async (req: Request, res: Response) => {
+    //     const classRepository = AppDataSource.getRepository(Class);
+
+    //     // Find the class by ID from the request parameters
+    //     const existingClass = await classRepository.findOneBy({ id: parseInt(req.params.id) });
+
+    //     if (existingClass) {
+    //         // Remove the class if found
+    //         await classRepository.remove(existingClass);
+    //         // Respond with a success message
+    //         res.json({ message: "Class deleted" });
+    //     } else {
+    //         // If the class is not found, respond with a message
+    //         res.status(404).json({ message: "Class not found" });
+    //     }
+    // };
+
     static deleteClass = async (req: Request, res: Response) => {
-        const classRepository = AppDataSource.getRepository(Class);
+try {
+  const classRepository = AppDataSource.getRepository(Class);
 
-        // Find the class by ID from the request parameters
-        const existingClass = await classRepository.findOneBy({ id: parseInt(req.params.id) });
+  // Validate and parse the ID
+  const classId = parseInt(req.params.id, 10);
+  if (isNaN(classId)) {
+      return res.status(400).json({ message: "Invalid class ID" });
+  }
 
-        if (existingClass) {
-            // Remove the class if found
-            await classRepository.remove(existingClass);
-            // Respond with a success message
-            res.json({ message: "Class deleted" });
-        } else {
-            // If the class is not found, respond with a message
-            res.status(404).json({ message: "Class not found" });
-        }
-    };
+  // Find the class by ID from the request parameters
+  const existingClass = await classRepository.findOneBy({ id: classId });
 
+  if (!existingClass) {
+      // If the class is not found, respond with a message
+      return res.status(404).json({ message: "Class not found" });
+  }
+
+  // Remove the class if found
+  await classRepository.remove(existingClass);
+
+  // Respond with a success message
+  return res.json({ message: "Class deleted successfully" });
+} catch (error) {
+  console.error("Error deleting class:", error);
+  return res.status(500).json({ message: "An error occurred while deleting the class" });
+}
+};
     // verify classes
     static verifyClass  = async (req: Request, res: Response) => {
       const { id } = req.params;

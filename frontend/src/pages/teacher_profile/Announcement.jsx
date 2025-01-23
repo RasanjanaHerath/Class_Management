@@ -219,30 +219,19 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaTrashAlt, FaEdit } from "react-icons/fa"; // Importing FontAwesome icons
 
-const AdminNotices = () => {
+const Announcement = () => {
   const BASE_URL = "http://localhost:3000/api/notice";
   const [notices, setNotices] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [classesVerfied, setClassesVerified] = useState([]);
+  const [classesVerified, setClassesVerified] = useState([]);
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [noticeIdToUpdate, setNoticeIdToUpdate] = useState(null);
   const [isUpdateMode, setIsUpdateMode] = useState(false);
   const [classes, setClasses] = useState([]);
-  const [newNotice, setNewNotice] = useState({  classId: '', title: '', message: ''});
+  const [newNotice, setNewNotice] = useState({ classId: '', title: '', message: '' });
 
-  useEffect(() => {
-    axios
-      .get(`${BASE_URL}/all`)
-      .then((response) => setNotices(response.data))
-      .catch((error) => console.error("Error fetching notices:", error));
-  }, []);
-
-  useEffect(() => {
-    fetchNotices();
-    fetchClasses();
-  }, []);
-
+  
   const fetchNotices = async () => {
     try {
       const response = await axios.get(`${BASE_URL}/all`);
@@ -254,34 +243,33 @@ const AdminNotices = () => {
 
   const fetchClasses = async () => {
     try {
-      const token = localStorage.getItem("token")
-      const response = await axios.get("http://localhost:3000/api/class/get-by-teacher",
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
+      const token = localStorage.getItem("token");
+      const response = await axios.get("http://localhost:3000/api/class/get-by-teacher", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setClassesVerified(response.data.verifiedClasses);
+      // console.log("data from veri: ",(response.data.verifiedClasses[0].isverify));
     } catch (error) {
       console.error("Error fetching classes:", error);
     }
   };
+  
 
-  const openModal = (notice = null) => {
-    if (notice) {
-      setClasses(notice.class);
-      setTitle(notice.title);
-      setMessage(notice.message);
-      setNoticeIdToUpdate(notice.id);
-      setIsUpdateMode(true);
-    } else {
-      setRole("");
-      setTitle("");
-      setMessage("");
-      setIsUpdateMode(false);
-    }
+  useEffect(() => {
+    fetchNotices();
+    fetchClasses();
+  }, []);
+
+  
+
+
+  console.log("Tesgbgbgbgt",classesVerified);
+
+  const openModal = (notice = { classId: '', title: '', message: '' }) => {
+    setNewNotice(notice);
+    setNoticeIdToUpdate(notice.id || null);
     setShowModal(true);
   };
 
@@ -291,25 +279,40 @@ const AdminNotices = () => {
   };
 
   const handleSave = () => {
+    const noticeData = {
+      ...newNotice,
+      visibilityRole: 'student', // Set visibilityRole as student
+    };
+
+    const token = localStorage.getItem("token");
+
     if (noticeIdToUpdate) {
       axios
-        .put(`${BASE_URL}/update/${noticeIdToUpdate}`, newNotice)
-        .then((response) => {
-          setNotices((prevNotices) =>
-            prevNotices.map((n) => (n.id === noticeIdToUpdate ? response.data : n))
-          );
-          closeModal();
-        })
-        .catch((error) => console.error('Error updating notice:', error));
+      .put(`${BASE_URL}/update/${noticeIdToUpdate}`, noticeData, {
+        headers: {
+        Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setNotices((prevNotices) =>
+        prevNotices.map((n) => (n.id === noticeIdToUpdate ? response.data : n))
+        );
+        closeModal();
+      })
+      .catch((error) => console.error('Error updating notice:', error));
     } else {
       axios
-        .post(`${BASE_URL}/create`, newNotice)
-        .then((response) => {
-          setNotices((prevNotices) => [...prevNotices, response.data]);
-          closeModal();
-          fetchNotices(); // Refresh the notices list
-        })
-        .catch((error) => console.error('Error adding notice:', error));
+      .post(`${BASE_URL}/create`, noticeData, {
+        headers: {
+        Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setNotices((prevNotices) => [...prevNotices, response.data]);
+        closeModal();
+        fetchNotices(); // Refresh the notices list
+      })
+      .catch((error) => console.error('Error adding notice:', error));
     }
   };
 
@@ -323,15 +326,15 @@ const AdminNotices = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-10 md:ml-64 ">
+    <div className="min-h-screen bg-gray-100 p-10 md:ml-64">
       <div className="w-full max-w-8xl bg-white rounded-lg shadow-md p-8">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-semibold text-gray-700">Institutes Notices</h1>
+          <h1 className="text-2xl font-semibold text-gray-700">Announcement</h1>
           <button
             className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700"
             onClick={() => openModal()}
           >
-            + Add Notice
+            Add Announcement
           </button>
         </div>
 
@@ -343,7 +346,7 @@ const AdminNotices = () => {
             >
               <h3 className="text-xl font-bold mb-2">{notice.title}</h3>
               <p className="mb-2">{notice.message}</p>
-              <p className="text-sm text-gray-600">Role: {notice.classes}</p>
+              <p className="text-sm text-gray-600">Class: {notice.classes}</p>
               <div className="flex justify-end gap-4 mt-4">
                 <button
                   className="flex items-center bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
@@ -366,9 +369,14 @@ const AdminNotices = () => {
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
-            <h2 className="text-lg font-bold mb-4">{isUpdateMode ? "Update Notice" : "Add Notice"}</h2>
-            <form onSubmit={handleSave}>
-            <div className="mb-4">
+            <h2 className="text-xl font-bold mb-4">{noticeIdToUpdate ? 'Edit Notice' : 'Add Notice'}</h2>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSave();
+              }}
+            >
+              <div className="mb-4">
                 <label className="block text-gray-700 font-semibold mb-1">Class</label>
                 <select
                   value={newNotice.classId}
@@ -376,10 +384,17 @@ const AdminNotices = () => {
                   className="w-full p-2 border rounded-md focus:outline-blue-500"
                 >
                   <option value="">Select class</option>
-                  {Array.isArray(classes) && classes.map((classItem) => (
-                    <option key={classItem.id} value={classItem.id}>
-                      {`${classItem.institute.name} - ${classItem.subject} - Grade ${classItem.grade} - ${classItem.time}`}
-                    </option>
+                  {/* {Array.isArray(classesVerified) && classesVerified.map((classItem) => (
+                    classItem && classItem.institute && classItem.institute.name && (
+                      <option key={classItem.id} value={classItem.id}>
+                        {`${classItem.institute.name} - ${classItem.subject} - Grade ${classItem.grade} - ${classItem.time}`}
+                      </option>
+                    )
+                  ))} */}
+                  {Array.isArray(classesVerified) && classesVerified.map((classItem) => (
+                  <option key={classItem.id} value={classItem.id}>
+                    {`${classItem.institute.name} ${classItem.subject} Grade ${classItem.grade} Start at ${classItem.startTime}`}
+                  </option>
                   ))}
                 </select>
               </div>
@@ -388,8 +403,8 @@ const AdminNotices = () => {
                 <label className="block text-gray-700 font-semibold mb-1">Title</label>
                 <input
                   type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  value={newNotice.title}
+                  onChange={(e) => setNewNotice({ ...newNotice, title: e.target.value })}
                   className="w-full p-2 border rounded-md focus:outline-blue-500"
                   placeholder="Enter the title"
                 />
@@ -398,8 +413,8 @@ const AdminNotices = () => {
               <div className="mb-4">
                 <label className="block text-gray-700 font-semibold mb-1">Message</label>
                 <textarea
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                  value={newNotice.message}
+                  onChange={(e) => setNewNotice({ ...newNotice, message: e.target.value })}
                   className="w-full p-2 border rounded-md focus:outline-blue-500"
                   rows="4"
                   placeholder="Enter the message"
@@ -429,4 +444,4 @@ const AdminNotices = () => {
   );
 };
 
-export default AdminNotices;
+export default Announcement;

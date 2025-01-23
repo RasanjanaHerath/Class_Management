@@ -109,3 +109,72 @@ const HelpSupport = () => {
 
 export default HelpSupport;
 
+// import React, { useState, useEffect } from "react";
+// import axios from "axios";
+// import { FaEdit, FaPaperPlane } from "react-icons/fa";
+
+// const StudentMesseges = () => {
+//   const BASE_URL = "http://localhost:3000/api/students/messeges";
+//   const [receivedMesseges, setReceivedMesseges] = useState([]);
+//   const [sentMesseges, setSentMesseges] = useState([]);
+//   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+//   const [showMessegeModal, setShowMessegeModal] = useState(false);
+//   const [enrolledClasses, setEnrolledClasses] = useState([]);
+//   const [selectedClass, setSelectedClass] = useState("");
+//   const [rating, setRating] = useState(0);
+//   const [messege, setMessege] = useState("");
+//    const [title, setTitle] = useState("");
+//   const [recipientRole, setRecipientRole] = useState("");
+//   const [recipientName, setRecipientName] = useState("");
+//   const [myClasses, setMyClasses] = useState([]);
+//   const [comments, setComments] = useState("");
+
+
+//   useEffect(() => {
+//     axios
+//       .get(`http://localhost:3000/api/notice/all`)
+//       .then((response) => setReceivedMesseges(response.data))
+//       .catch((error) => console.error("Error fetching received messeges:", error));
+
+//     axios
+//       .get(`http://localhost:3000/api/student_messeges/all`)
+//       .then((response) => setSentMesseges(response.data))
+//       .catch((error) => console.error("Error fetching sent messeges:", error));
+
+//     axios
+//       .get("http://localhost:3000/api/classes/enrolled")
+//       .then((response) => setEnrolledClasses(response.data))
+//       .catch((error) => console.error("Error fetching enrolled classes:", error));
+//   }, []);
+
+//   const cardColors = ["bg-yellow-200", "bg-blue-300", "bg-green-300", "bg-red-200", "bg-purple-300"];
+
+//   console.log("blaa",receivedMesseges)
+
+
+//   return (
+//     <div className="bg-gray-100 min-h-screen p-8 flex md:ml-64 flex-row gap-8">
+//         <div className="w-1/2 bg-white p-6 rounded-lg shadow-lg">
+//           <h2 className="text-2xl font-bold mb-4">Received Messeges</h2>
+//           <div className="space-y-4">
+//             {receivedMesseges
+//           .filter((msg) => msg.role === "student")
+//           .map((msg, index) => (
+//             <div
+//               key={msg.id}
+//               className={`p-4 rounded-lg shadow-md text-gray-700 ${cardColors[index % cardColors.length]}`}
+//             >
+//               <h3 className="text-lg font-semibold">{msg.title}</h3>
+//               <p>{msg.message}</p>
+//               {/* <p className="text-sm text-gray-500">
+//             Sent on: {new Date(msg.date).toLocaleDateString()}
+//               </p> */}
+//             </div>
+//           ))}
+//           </div>
+//         </div>
+//     </div>
+//   );
+// };
+
+// export default StudentMesseges;

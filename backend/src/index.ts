@@ -14,6 +14,7 @@ import student_router from "./route/student.routes";
 import classCard_router from "./route/classCard.routes";
 
 
+
 AppDataSource.initialize().then(async () => {
     const app = express();
 

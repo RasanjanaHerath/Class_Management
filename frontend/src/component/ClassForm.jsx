@@ -47,16 +47,6 @@ const ClassForm = ({ formData, handleChange, handleSave, togglePopup, isEditing,
               ))}
             </select>
           </label>
-          {/* <label className="block mb-2">
-            Schedule Day:
-            <input
-              type="text"
-              name="scheduleDay"
-              value={formData.scheduleDay}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded"
-            />
-          </label> */}
           <label className="block mb-2">
             Schedule Day:
             <select

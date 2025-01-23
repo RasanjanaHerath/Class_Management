@@ -1,128 +1,330 @@
-import React, { useState, useEffect } from 'react';
-import NewClass from '../../component/model/NewClass';
-import EditClass from '../../component/model/EditClass';
-import DeleteClass from '../../component/model/DeleteClass';
-import axios from 'axios';
-
-let userItem = localStorage.getItem("user");
-const user = userItem ? JSON.parse(userItem) : null;
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Typography,
+  Modal,
+  Paper,
+  TextField,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import axios from "axios";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 const ClassDetails = () => {
   const [classes, setClasses] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedClass, setSelectedClass] = useState(null);
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
-  // Fetch class data from backend API on component mount
+  // Fetch classes on component mount
   useEffect(() => {
     fetchClasses();
   }, []);
 
   const fetchClasses = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/institute/classes/user/${user.id}`);
-     console.log(response.data)
-      setClasses(response.data); // Assuming your API sends the class list in the response
+      const response = await axios.get(
+        `http://localhost:3000/api/institute/classes/user/${
+          JSON.parse(localStorage.getItem("user")).id
+        }`
+      );
+      setClasses(response.data);
     } catch (error) {
-      console.error('Error fetching class data:', error);
+      console.error("Error fetching class data:", error);
     }
-    console.log("tesdgbfffffffffffffff",response.data);
   };
-  
+
+  // Open update modal
+  const handleOpenUpdateModal = (classItem) => {
+    setSelectedClass(classItem);
+    setOpenUpdateModal(true);
+  };
+
+  // Close update modal
+  const handleCloseUpdateModal = () => {
+    setSelectedClass(null);
+    setOpenUpdateModal(false);
+  };
+
+  // Open delete modal
+  const handleOpenDeleteModal = (classItem) => {
+    setSelectedClass(classItem);
+    setOpenDeleteModal(true);
+  };
+
+  // Close delete modal
+  const handleCloseDeleteModal = () => {
+    setSelectedClass(null);
+    setOpenDeleteModal(false);
+  };
 
   // Update class
-  const updateClass = async (updatedClassData) => {
+  const handleUpdateClass = async (event) => {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
     try {
-      // Perform the PUT request to update the class
-      await axios.put(`http://localhost:3000/api/classes/${updatedClassData.id}`, updatedClassData);
-      
-      // Update the local state immediately with the updated class data
-      setClasses(classes.map((classItem) =>
-        classItem.id === updatedClassData.id ? updatedClassData : classItem
-      ));
+      await axios.put(
+        `http://localhost:3000/api/class/update/${selectedClass.id}`,
+        selectedClass,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      fetchClasses();
+      handleCloseUpdateModal();
     } catch (error) {
-      console.error('Error updating class:', error);
+      console.error("Error updating class:", error);
     }
   };
-  
+
   // Delete class
-  const deleteClass = async (classId) => {
+  async function handleDeleteClass() {
+    const token = localStorage.getItem("token");
     try {
-      await axios.delete(`http://localhost:3000/api/classes/${classId}`);
-      setClasses(classes.filter((classItem) => classItem.id !== classId));
+      await axios.delete(
+        `http://localhost:3000/api/class/delete/${selectedClass.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setClasses(
+        classes.filter((classItem) => classItem.id !== selectedClass.id)
+      );
+      handleCloseDeleteModal();
     } catch (error) {
-      console.error('Error deleting class:', error);
+      console.error("Error deleting class:", error);
     }
-  };
+  }
 
   // Filter classes based on search term
   const filteredClasses = classes.filter((classItem) =>
-    (classItem.subject?.toLowerCase() || '').includes(searchTerm.toLowerCase())
+    (classItem.subject?.toLowerCase() || "").includes(searchTerm.toLowerCase())
   );
-  
-  
+
   return (
-    <div className="min-h-screen bg-gray-100 p-10 md:ml-64 ">
-    <h1 className="text-2xl font-bold mb-6 text-center">Class Details</h1>
-    <div className="mb-8 flex justify-between items-center"> {/* Flex container */}
-      <input
-        type="text"
-        placeholder="Search..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-1/3 p-3 border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
-      />
-      
-      {/* Button to trigger new class modal */}
-      {/* <NewClass onSubmit={addNewClass} /> */}
+    <div className="min-h-screen bg-gray-100 p-10 md:ml-64">
+      <Typography variant="h4" className="text-center mb-6 font-bold">
+        Class Details
+      </Typography>
+
+      <div className="flex justify-between mb-6">
+        <TextField
+          label="Search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          fullWidth
+          sx={{ maxWidth: 300 }}
+        />
+      </div>
+
+      <TableContainer component={Paper} sx={{ borderRadius: "10px" }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{ fontWeight: "bold", textAlign: "center" }}>
+                ID
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", textAlign: "center" }}>
+                Subject
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", textAlign: "center" }}>
+                Teacher Name
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", textAlign: "center" }}>
+                Batch
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", textAlign: "center" }}>
+                Day
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", textAlign: "center" }}>
+                Start Time
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", textAlign: "center" }}>
+                Students
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", textAlign: "center" }}>
+                Actions
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredClasses.map((classItem) => (
+              <TableRow key={classItem.id}>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {classItem.id}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {classItem.subject}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {classItem.teacher.name}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {classItem.grade}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {classItem.scheduleDay}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {classItem.startTime}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {classItem.numberOfStudents}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  <Button
+                    variant="contained"
+                    sx={{ marginRight: 1 }}
+                    onClick={() => handleOpenUpdateModal(classItem)}
+                  >
+                    <FaEdit style={{ marginRight: 5 }} />
+                    Edit
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => handleOpenDeleteModal(classItem)}
+                  >
+                    <FaTrash style={{ marginRight: 5 }} />
+                    Delete
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      {/* Update Modal */}
+      <Modal open={openUpdateModal} onClose={handleCloseUpdateModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            p: 4,
+            borderRadius: 2,
+            boxShadow: 24,
+          }}
+        >
+          <Typography variant="h6" component="h2" mb={2}>
+            Update Class
+          </Typography>
+          <form onSubmit={handleUpdateClass}>
+            <TextField
+              label="Subject"
+              fullWidth
+              margin="normal"
+              value={selectedClass?.subject || ""}
+              onChange={(e) =>
+                setSelectedClass({ ...selectedClass, subject: e.target.value })
+              }
+            />
+            <TextField
+              label="Grade"
+              fullWidth
+              margin="normal"
+              value={selectedClass?.grade || ""}
+              onChange={(e) =>
+                setSelectedClass({ ...selectedClass, grade: e.target.value })
+              }
+            />
+            <TextField
+              label="Day"
+              fullWidth
+              margin="normal"
+              value={selectedClass?.scheduleDay || ""}
+              onChange={(e) =>
+                setSelectedClass({
+                  ...selectedClass,
+                  scheduleDay: e.target.value,
+                })
+              }
+            />
+            <TextField
+              label="Start Time"
+              fullWidth
+              margin="normal"
+              value={selectedClass?.startTime || ""}
+              onChange={(e) =>
+                setSelectedClass({
+                  ...selectedClass,
+                  startTime: e.target.value,
+                })
+              }
+            />
+            <Box
+              sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}
+            >
+              <Button variant="contained" type="submit">
+                Update
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleCloseUpdateModal}
+              >
+                Cancel
+              </Button>
+            </Box>
+          </form>
+        </Box>
+      </Modal>
+
+      {/* Delete Modal */}
+      <Modal open={openDeleteModal} onClose={handleCloseDeleteModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            p: 4,
+            borderRadius: 2,
+            boxShadow: 24,
+          }}
+        >
+          <Typography variant="h6" component="h2" mb={2} color="error">
+            Confirm Deletion
+          </Typography>
+          <Typography variant="body1" mb={3}>
+            Are you sure you want to delete this class?
+          </Typography>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleDeleteClass}
+            >
+              Delete
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleCloseDeleteModal}
+            >
+              Cancel
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
     </div>
-  
-    <div className="overflow-x-auto p-6">
-      <table className="table-auto w-full bg-white shadow-lg rounded-lg">
-        <thead className="bg-gray-400 text-white">
-          <tr>
-            <th className="px-4 py-2 border-b">ID</th>
-            <th className="px-4 py-2 border-b">Subject</th>
-            <th className="px-4 py-2 border-b">Teacher Name</th>
-            <th className="px-4 py-2 border-b">Batch</th>
-            <th className="px-4 py-2 border-b">Day</th>
-            <th className="px-4 py-2 border-b">Start Time</th>
-            <th className="px-4 py-2 border-b">Number of Students</th>
-            <th className="px-4 py-2 border-b">EDIT</th>
-            <th className="px-4 py-2 border-b">DELETE</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredClasses.map((classItem) => (
-            <tr key={classItem.id}>
-              <td className="px-4 py-2 border-b ">{classItem.id}</td>
-              <td className="px-4 py-2 border-b">{classItem.subject}</td>
-              <td className="px-4 py-2 border-b">{classItem.teacher.name}</td>
-              <td className="px-4 py-2 border-b">{classItem.grade}</td>
-              <td className="px-4 py-2 border-b">{classItem.scheduleDay}</td>
-              <td className="px-4 py-2 border-b">{classItem.startTime}</td>
-              <td className="px-4 py-2 border-b">{classItem.numberOfStudents}</td>
-              <td className="px-4 py-2 border-b">
-                <button
-                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                onClick={() => openModal()}>
-                Edit
-                </button>
-                {/* <EditClass classData={classItem} onSubmit={updateClass} /> */}
-              </td>
-              <td className="px-4 py-2 border-b">
-                <button
-                className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                onClick={() => openModal()}>
-                Delete
-                </button>
-                {/* <DeleteClass className={classItem.subject} onDelete={() => deleteClass(classItem.id)} /> */}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  </div>
-  
   );
 };
 

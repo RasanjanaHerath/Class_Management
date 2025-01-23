@@ -190,10 +190,11 @@ import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LineChart, Line } from 'recharts';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css'; // Import the calendar styles
+import axios from 'axios';
 
 const Dashboard = () => {
-  const [totalStudents, setTotalStudents] = useState(3500);
-  const [totalClasses, setTotalClasses] = useState(120);
+  const [totalStudents, setTotalStudents] = useState();
+  const [totalClasses, setTotalClasses] = useState();
   const [monthlyIncome, setMonthlyIncome] = useState(50000);
   const [attendanceData, setAttendanceData] = useState([
     { className: 'Math', attendance: 85 },
@@ -222,9 +223,23 @@ const Dashboard = () => {
   ]);
 
   useEffect(() => {
-    // Simulate fetching data from an API if needed
-  }, []);
 
+    const token = localStorage.getItem("token");
+    axios
+      .get(`http://localhost:3000/api/teacher/get-stats`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      })
+      .then((response) => {
+      console.log(response.data);
+      setTotalClasses(response.data.totalClasses);
+      setTotalStudents(response.data.totalStudents);
+      })
+      .catch((error) => {
+      console.error("Error fetching institute statistics:", error);
+      });
+  }, []);
   return (
     <div className="flex flex-col lg:flex-row min-h-screen p-6 bg-gray-100 md:ml-64 ml-0 h-full">
       {/* Main Content */}
@@ -248,13 +263,13 @@ const Dashboard = () => {
           {/* Total Income */}
           <div className="bg-white shadow-lg rounded-lg p-6 text-center">
             <h3 className="font-bold text-xl mb-4">Total Income</h3>
-            <p className="text-2xl font-semibold">${monthlyIncome}</p>
-          </div>
+            <p className="text-2xl font-semibold">Rs.{monthlyIncome}</p>
+          </div>  
         </div>
 
         {/* Students by Gender and Notifications */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          {/* Students by Gender Pie Chart */}
+        {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+     
           <div className="bg-white shadow-lg rounded-lg p-6">
             <h3 className="font-bold text-lg mb-4">Students by Gender</h3>
             <ResponsiveContainer width="100%" height={200}>
@@ -273,7 +288,6 @@ const Dashboard = () => {
             </ResponsiveContainer>
           </div>
 
-          {/* Notifications */}
           <div className="bg-white shadow-lg rounded-lg p-6">
             <h3 className="font-bold text-lg mb-4">Notifications</h3>
             <ul>
@@ -284,7 +298,7 @@ const Dashboard = () => {
               ))}
             </ul>
           </div>
-        </div>
+        </div> */}
 
         {/* Attendance Graphs */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">

@@ -45,6 +45,8 @@ instituteRoutes.get("/classes/user/:userId", InstituteController.getClassesByUse
 // Fetch teachers by class
 instituteRoutes.get("/teachers/:classId", classController.getTeachersByClass);
 
+instituteRoutes.get("/students", jwtMiddleware,InstituteController.getAllStudents);
+
 
 
 export default instituteRoutes;

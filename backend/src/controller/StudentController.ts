@@ -12,6 +12,7 @@ export class StudentController {
 
         const studentRepository = AppDataSource.getRepository(Student);
         const Students = await studentRepository.find();
+
         res.json(Students);
     };
 
@@ -79,5 +80,60 @@ export class StudentController {
     }
 
   };
+
+
+static update = async (req: Request, res: Response) => {
+  const studentId = req.params.id;
+  const { school, birthday, age, address, nic, telephone, parents_name, parents_number, classes } = req.body;
+
+  try {
+    const studentRepository = AppDataSource.getRepository(Student);
+
+    // Find the student by ID
+    const student = await studentRepository.findOneBy({ id: studentId });
+    if (!student) return res.status(404).json({ message: "Student not found" });
+
+    // Update the student details
+    student.school = school || student.school;
+    student.birthday = birthday || student.birthday;
+    student.age = age || student.age;
+    student.nic = nic || student.nic;
+    student.address = address || student.address;
+    student.telephone = telephone || student.telephone;
+    student.parents_name = parents_name || student.parents_name;
+    student.parents_number = parents_number || student.parents_number;
+    student.classes = classes || student.classes;
+
+    await studentRepository.save(student);
+    return res.status(200).json(student);
+  } catch (error) {
+    console.error("Error updating student:", error);
+    return res.status(500).json({ message: "An error occurred while updating the student." });
+  }
+};
+
+// Delete Student
+static delete = async (req: Request, res: Response) => {
+  const studentId = req.params.id;
+
+  try {
+    const studentRepository = AppDataSource.getRepository(Student);
+
+    // Find the student by ID
+    const student = await studentRepository.findOneBy({ id: studentId });
+    if (!student) return res.status(404).json({ message: "Student not found" });
+
+    await studentRepository.remove(student);
+    return res.status(200).json({ message: "Student deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting student:", error);
+    return res.status(500).json({ message: "An error occurred while deleting the student." });
+  }
+};
+  
+
+
+
+
 
 }

@@ -407,6 +407,29 @@ export class classController {
             res.status(404).json({ message: "Class not found" });
         }
     };
+
+    // verify classes
+    static verifyClass  = async (req: Request, res: Response) => {
+      const { id } = req.params;
+      const classRepository = AppDataSource.getRepository(Class);
+  
+      try {
+        const existingClass = await classRepository.findOneBy({ id: parseInt(id) });
+  
+        if (!existingClass) {
+          return res.status(404).json({ message: 'Class not found' });
+        }
+  
+        existingClass.isverify = true;
+  
+        await classRepository.save(existingClass);
+        console.log(`Class saved: ${existingClass}`);
+        res.json({ message: 'Class verified', class: existingClass });
+      } catch (error) {
+        console.error('Error verifying class:', error);
+        res.status(500).json({ message: 'Error verifying class', error: error.toString() });
+      }
+    }
     
 
 }

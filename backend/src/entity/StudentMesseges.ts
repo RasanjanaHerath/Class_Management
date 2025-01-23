@@ -16,6 +16,8 @@ export class StudentMessege {
     @Column()
     message : string
 
-    @ManyToOne(() => Student, (student) => student.studentMesseges)
+    @ManyToOne(() => Student, (student) => student.studentMesseges, {
+        eager: true
+    })
     student: Student;
 }

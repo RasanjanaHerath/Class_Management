@@ -11,9 +11,9 @@ studentFeedBack_router.get("/all", StudentFeedBackController.getAll);
 studentFeedBack_router.post("/create",jwtMiddleware, StudentFeedBackController.createStudentFeedBack);
 
 // Updates
-studentFeedBack_router.put("/update/:id", StudentFeedBackController.updateStudentFeedBack);
+studentFeedBack_router.put("/update/:id",jwtMiddleware, StudentFeedBackController.updateStudentFeedBack);
 
 // Delete Notice
-studentFeedBack_router.delete("/delete/:id", StudentFeedBackController.deleteStudentFeedBack);
+studentFeedBack_router.delete("/delete/:id",jwtMiddleware, StudentFeedBackController.deleteStudentFeedBack);
 
 export default studentFeedBack_router;

@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToOne, OneToMany } from "typ
 import { Teacher } from "./Teacher"
 import { Institute } from "./Institute"
 import { Notice } from "./Notice"
+import { Student } from "./Student"
 
 @Entity()
 export class User {
@@ -32,6 +33,9 @@ export class User {
 
     @OneToOne(() => Teacher, (teacher) => teacher.user)
     teacher:Teacher
+
+    @OneToOne(() => Student, (student) => student.user)
+    student:Student
 
     @OneToOne(() => Institute, (institute) => institute.user)
     institute: Institute;

@@ -276,7 +276,7 @@ const Drawer = ({ role }) => {
   // Define menu items based on roles
   const menuItems = {
     student: [
-      { path: "/student_report", label: "Dashboard" },
+      { path: "/student_dashboard", label: "Dashboard" },
       { path: "/student_profile", label: "My Classes" },
       { path: "/student_messeges", label: "Messages" },
       { path: "/student_assignment", label: "Home Works" },

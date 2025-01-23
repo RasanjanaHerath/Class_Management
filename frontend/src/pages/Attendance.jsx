@@ -3,7 +3,6 @@ import axios from "axios";
 
 const MarkAttendance = () => {
   const BASE_URL = "http://localhost:3000/api"; 
-  const [institutes, setInstitutes] = useState([]);
   const [classes, setClasses] = useState([]);
   const [students, setStudents] = useState([]);
   const [selectedInstitute, setSelectedInstitute] = useState("");
@@ -11,11 +10,26 @@ const MarkAttendance = () => {
   const [attendance, setAttendance] = useState({});
 
   useEffect(() => {
-    // Fetch Institutes
-    axios
-      .get(`${BASE_URL}/institute/get-all`)
-      .then((response) => setInstitutes(response.data))
-      .catch((error) => console.error("Error fetching institutes:", error));
+    const fetchUserData = async () => {
+      const userr = JSON.parse(localStorage.getItem("user"));
+      console.log(userr.id);
+      const user = await axios.get(`http://localhost:3000/api/user/getById/${userr.id}`, {
+        role: "institute"
+      });
+      console.log(user.data);
+      const instituteId = user.data.institute?.id;
+      console.log(instituteId);
+
+      if (!instituteId) {
+        return;
+      }
+
+      const result = await axios.get(`http://localhost:3000/api/class/get-all-by-inst/${instituteId}`);
+      console.log(result.data);
+      setClasses(result.data);
+    };
+
+    fetchUserData();
   }, []);
 
   const fetchClasses = (instituteId) => {
@@ -28,15 +42,15 @@ const MarkAttendance = () => {
   };
 
   const fetchStudents = (classId) => {
+    setAttendance({});
     axios
-      .get(`${BASE_URL}/students?class=${classId}`)
+      .get(`http://localhost:3000/api/class_card/get-students-by-class/${classId}`)
       .then((response) => {
-        setStudents(response.data);
-        const initialAttendance = response.data.reduce((acc, student) => {
-          acc[student.id] = false;
-          return acc;
-        }, {});
-        setAttendance(initialAttendance);
+        const students = response.data.map((student) => ({
+          id: student.student.id,
+          name: student.student.user.firstName,
+        }));
+        setStudents(students);
       })
       .catch((error) => console.error("Error fetching students:", error));
   };
@@ -65,28 +79,7 @@ const MarkAttendance = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 flex flex-col items-center ml:md-64 ml-0">
-      {/* Institute Selector */}
-      <div className="mb-4 w-full max-w-md">
-        <label htmlFor="institute" className="block text-gray-800 font-bold mb-2">
-          Select Institute:
-        </label>
-        <select
-          id="institute"
-          value={selectedInstitute}
-          onChange={(e) => {
-            setSelectedInstitute(e.target.value);
-            fetchClasses(e.target.value);
-          }}
-          className="w-full p-3 border border-gray-300 rounded-md"
-        >
-          <option value="">Choose Institute</option>
-          {institutes.map((institute) => (
-            <option key={institute.id} value={institute.id}>
-              {institute.name}
-            </option>
-          ))}
-        </select>
-      </div>
+
 
       {/* Class Selector */}
       <div className="mb-4 w-full max-w-md">
@@ -105,7 +98,7 @@ const MarkAttendance = () => {
           <option value="">Choose Class</option>
           {classes.map((cls) => (
             <option key={cls.id} value={cls.id}>
-              {cls.name}
+              {cls.subject}
             </option>
           ))}
         </select>

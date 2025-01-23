@@ -10,11 +10,13 @@ import { User } from "../entity/User";
 export class classController {
   static getClassesByInstitute = async (req: Request, res: Response) => {
     const { instituteId } = req.params;
+    console.log(instituteId);
     try {
       const classes = await AppDataSource.getRepository(Class).find({
         where: { institute: { id: parseInt(instituteId) } },
         
       });
+      console.log(classes);
       res.json(classes);
     } catch (error) {
       res.status(500).json({ message: "Error fetching classes", error });
@@ -34,19 +36,31 @@ export class classController {
     }
   };
 
-  // get all students for a class
+  // get all students by class id
   static getStudentsByClass = async (req: Request, res: Response) => {
-    const { id } = req.params;
+    const { classId } = req.params;
     try {
       const classEntity = await AppDataSource.getRepository(Class).findOne({
-        where: { id: parseInt(id), isverify: true },
-        relations: ["students"],
+        where: { id: parseInt(classId) },
+        relations: {
+          students: true,
+        },
       });
       res.json(classEntity?.students || []);
     } catch (error) {
       res.status(500).json({ message: "Error fetching students", error });
     }
-  };
+  }
+
+
+
+    // Get all classes
+    // static getAll = async (req: Request, res: Response) => {
+    //     const classRepository = AppDataSource.getRepository(Class);
+    //     const classes = await classRepository.find();
+    //     res.json(classes);
+    // };
+ 
 
   static getClassById = async (req: Request, res: Response) => {
 

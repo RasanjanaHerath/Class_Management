@@ -36,7 +36,8 @@ static getAllMyclasses = async (req: Request, res: Response) => {
                     endTime: true,
                     institute: {
                         city: true,
-                        name: true
+                        name: true,
+                        id: true
                     },
                     teacher: {
                         user: {
@@ -55,7 +56,7 @@ static getAllMyclasses = async (req: Request, res: Response) => {
     }
 };
 
-    // Create a new ClassCard
+    // Create a new ClassCard.
     static createClassCard = async (req: Request, res: Response) => {
         console.log("ggtdy")
         const {classId} = req.body;
@@ -90,6 +91,25 @@ static getAllMyclasses = async (req: Request, res: Response) => {
         } catch (err) {
             res.json({ message: "Error", error: err.message });
         }
+    };
+
+    // get all students for a class
+    static getStudentsByClass = async (req: Request, res: Response) => {
+        const classCardRepository = AppDataSource.getRepository(ClassCard);
+        const classCard = await classCardRepository.find({
+            where: {
+                classObject: {
+                    id: parseInt(req.params.classId)
+                }
+            },
+            relations: {
+                student: {
+                    user: true
+                }
+            }
+        });
+
+        res.json(classCard);
     };
 
     // // Update a ClassCard

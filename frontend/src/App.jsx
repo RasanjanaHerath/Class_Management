@@ -35,6 +35,7 @@ import Notifications from "./pages/SuperAdminProfile/Notifications";
 import SuperAdminDashboard from "./pages/SuperAdminProfile/SuperAdminDashboard";
 import TClassDetailsPage from "./pages/teacher_profile/TClassDetailsPage";
 import UpdateClassForm from "./component/UpdateClassForm";
+import AssignmentDetails from "./pages/teacher_profile/AssignmentDetails";
 
 const router = createBrowserRouter([
   {
@@ -305,6 +306,21 @@ const router = createBrowserRouter([
       },
     ],
   },
+
+  {
+    path: "/t_assignment_submission/:id",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element:
+         <AssignmentDetails/>
+        
+      },
+    ],
+  },
+
+
   {
     path: "/t_class_management",
     element: <DrawerLayout/>,
@@ -380,12 +396,12 @@ const router = createBrowserRouter([
     ],
   },
   // {
-  //   path: "/t_update_class",
+  //   path: "/t_assignment_details",
   //   element: <DrawerLayout />,
   //   children: [
   //     {
   //       index: true,
-  //       element: <UpdateClassForm />,
+  //       element: <AssignmentDetails />,
   //     },
   //   ],
   // },

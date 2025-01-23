@@ -9,11 +9,13 @@ import { Institute } from "../entity/Institute";
 export class classController {
   static getClassesByInstitute = async (req: Request, res: Response) => {
     const { instituteId } = req.params;
+    console.log(instituteId);
     try {
       const classes = await AppDataSource.getRepository(Class).find({
         where: { institute: { id: parseInt(instituteId) } },
         
       });
+      console.log(classes);
       res.json(classes);
     } catch (error) {
       res.status(500).json({ message: "Error fetching classes", error });
@@ -32,6 +34,23 @@ export class classController {
       res.status(500).json({ message: "Error fetching teachers", error });
     }
   };
+
+  // get all students by class id
+  static getStudentsByClass = async (req: Request, res: Response) => {
+    const { classId } = req.params;
+    try {
+      const classEntity = await AppDataSource.getRepository(Class).findOne({
+        where: { id: parseInt(classId) },
+        relations: {
+          students: true,
+        },
+      });
+      res.json(classEntity?.students || []);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching students", error });
+    }
+  }
+
 
 
     // Get all classes

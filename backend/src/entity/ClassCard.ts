@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, Unique } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, Unique, Column } from 'typeorm';
 import { Student } from './Student';
 import { Class } from './Class';
 
@@ -19,9 +19,13 @@ export class ClassCard {
     })
     classObject: Class;
 
+    @Column("simple-array",{nullable: true})
+    attendanceDates: string[];
+
     @CreateDateColumn()
     createdAt: Date;
 
     @UpdateDateColumn()
     updatedAt: Date;
 }
+

@@ -36,6 +36,8 @@ import SuperAdminDashboard from "./pages/SuperAdminProfile/SuperAdminDashboard";
 import StudentMesseges from "./pages/StudentNotices";
 import MarkAttendance from "./pages/Attendance";
 import AssignmentsPage from "./pages/StudentAssignment";
+import DashboardPage from "./pages/StudentDashboard";
+
 
 const router = createBrowserRouter([
   {
@@ -119,6 +121,18 @@ const router = createBrowserRouter([
       },
     ],
   },
+
+    {
+    path: "/student_dashboard",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <DashboardPage />,
+      },
+    ],
+  },
+
   {
     path: "/teacher_profile",
     element: <DrawerLayout />,

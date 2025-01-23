@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaEdit, FaPaperPlane } from "react-icons/fa";
+import { FaEdit, FaPaperPlane, FaTrashAlt } from "react-icons/fa";
 
 const StudentMesseges = () => {
   const BASE_URL = "http://localhost:3000/api/students/messeges";
@@ -12,11 +12,11 @@ const StudentMesseges = () => {
   const [selectedClass, setSelectedClass] = useState("");
   const [rating, setRating] = useState(0);
   const [messege, setMessege] = useState("");
-   const [title, setTitle] = useState("");
-  const [recipientRole, setRecipientRole] = useState("");
-  const [recipientName, setRecipientName] = useState("");
+  const [title, setTitle] = useState("");
+  const [institute, setInstitute] = useState("");
   const [myClasses, setMyClasses] = useState([]);
   const [comments, setComments] = useState("");
+  const [selectedMessageId, setSelectedMessageId] = useState(null);
 
 
   useEffect(() => {
@@ -26,14 +26,16 @@ const StudentMesseges = () => {
       .catch((error) => console.error("Error fetching received messeges:", error));
 
     axios
-      .get(`http://localhost:3000/api/student_messeges/all`)
-      .then((response) => setSentMesseges(response.data))
+      .get(`http://localhost:3000/api/student_messege/get-all`)
+      .then((response) =>  setSentMesseges(response.data))
       .catch((error) => console.error("Error fetching sent messeges:", error));
 
     axios
       .get("http://localhost:3000/api/classes/enrolled")
       .then((response) => setEnrolledClasses(response.data))
       .catch((error) => console.error("Error fetching enrolled classes:", error));
+
+
   }, []);
 
   const handleFeedbackSubmit = (e) => {
@@ -42,20 +44,74 @@ const StudentMesseges = () => {
     setShowFeedbackModal(false);
   };
 
-  const handleSendMessege = (e) => {
+  const handleSendMessege = async (e) => {
     e.preventDefault();
-    console.log("Messege sent:", { recipientRole, recipientName, messege });
-    setSentMesseges((prev) => [
-      ...prev,
-      { recipientRole, recipientName, messege, date: new Date() },
-    ]);
-    setShowMessegeModal(false);
+    const token = localStorage.getItem("token");
+
+    const requestData = {
+      institute: institute,
+      title: title,
+      message: messege,
+    };
+
+    if (selectedMessageId) {
+      // Update existing message
+      axios
+        .put(`http://localhost:3000/api/student_messege/update/${selectedMessageId}`, requestData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          setSentMesseges((prev) =>
+            prev.map((msg) => (msg.id === selectedMessageId ? response.data : msg))
+          );
+          setShowMessegeModal(false);
+          setSelectedMessageId(null);
+        })
+        .catch((error) => console.error("Error updating message:", error));
+    } else {
+      // Create new message
+      axios
+        .post(`http://localhost:3000/api/student_messege/create`, requestData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          setSentMesseges((prev) => [...prev, response.data]);
+          setShowMessegeModal(false);
+        })
+        .catch((error) => console.error("Error sending message:", error));
+    }
+  };
+
+  const handleUpdateMessage = (msg) => {
+    setTitle(msg.title);
+    setSelectedMessageId(msg.id);
+    setMessege(msg.message);
+    setInstitute(msg.institute);
+    setShowMessegeModal(true);
+  };
+
+
+  const handleDeleteMessage = async (id) => {
+    const token = localStorage.getItem("token");
+    try {
+      await axios.delete(`http://localhost:3000/api/student_messege/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setSentMesseges((prev) => prev.filter((msg) => msg.id !== id));
+    } catch (error) {
+      console.error("Error deleting message:", error);
+    }
   };
 
 //const cardColors = ["bg-yellow-200", "bg-blue-300", "bg-green-300", "bg-red-200", "bg-purple-300"];
 
 console.log("blaa",receivedMesseges)
-
 
 
 
@@ -127,11 +183,23 @@ const cardColors = ["bg-yellow-200", "bg-blue-300", "bg-green-300","bg-red-200",
               key={index}
               className={`p-4 rounded-lg shadow-md text-gray-700 ${cardColors[index % cardColors.length]}`}
             >
-              <h3 className="text-lg font-semibold">To: {msg.recipientName}</h3>
-              <p>{msg.messege}</p>
-              <p className="text-sm text-gray-500">
-                Sent on: {new Date(msg.date).toLocaleDateString()}
-              </p>
+              <h3 className="text-lg font-semibold">Title: {msg.title}</h3>
+              <p>{msg.message}</p>
+            
+              <div className="flex gap-4">
+                <button
+                  className="text-blue-500 hover:text-blue-700"
+                  onClick={() => handleUpdateMessage(msg)}
+                >
+                  <FaEdit />
+                </button>
+                <button
+                  className="text-red-500 hover:text-red-700"
+                  onClick={() => handleDeleteMessage(msg.id)}
+                >
+                  <FaTrashAlt />
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -208,13 +276,13 @@ const cardColors = ["bg-yellow-200", "bg-blue-300", "bg-green-300","bg-red-200",
               <div className="mb-4">
                 <label className="block text-gray-700 font-bold mb-2">Select Class:</label>
                 <select
-                  value={recipientRole}
-                  onChange={(e) => setRecipientRole(e.target.value)}
+                  value={institute}
+                  onChange={(e) => setInstitute(e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-md"
                 >
                   <option value="">Choose Class</option>
                   {myClasses.map((cls) => (
-                    <option key={cls.classObject.id} value={cls.classObject.institute.city}>
+                    <option key={cls.classObject.id} value={cls.classObject.institute.id}>
                       {cls.classObject.institute.name}  {cls.classObject.institute.city} {cls.classObject.subject}
                     </option>
                   ))}
@@ -224,8 +292,8 @@ const cardColors = ["bg-yellow-200", "bg-blue-300", "bg-green-300","bg-red-200",
                 <label className="block text-gray-700 font-bold mb-2">Title:</label>
                 <input
                   type="text"
-                  value={recipientName}
-                  onChange={(e) => setRecipientName(e.target.value)}
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                   className="w-full p-2 border border-gray-300 rounded-md"
                   placeholder="Enter recipient name"
                 />

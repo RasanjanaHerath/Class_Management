@@ -19,7 +19,7 @@ export class UserController {
     // Get a single user by ID
     static getById = async (req: Request, res: Response) => {
         const userRepository = AppDataSource.getRepository(User);
-        const user = await userRepository.findOneBy({ id: parseInt(req.params.id) });
+        const user = await userRepository.findOne({ where: { id: parseInt(req.params.id) }, relations: {institute: true} });
         res.json(user || { message: "User not found" });
     };
 

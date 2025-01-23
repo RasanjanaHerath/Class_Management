@@ -6,6 +6,7 @@ const classCard_router = Router();
 
 // Get all classCards for a specific student
 classCard_router.get("/get-all-my", jwtMiddleware,ClassCardController.getAllMyclasses);
+classCard_router.get("/get-students-by-class/:classId",ClassCardController.getStudentsByClass);
 
 // Create a new classCard
 classCard_router.post("/create", jwtMiddleware,ClassCardController.createClassCard);

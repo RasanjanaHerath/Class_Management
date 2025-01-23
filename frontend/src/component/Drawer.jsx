@@ -289,7 +289,7 @@ const Drawer = ({ role }) => {
       { path: "/t_announcement", label: "Announcement" },
       { path: "/t_assignment_submission", label: "Assignments" },
       { path: "/t_student_report", label: "Student Reports" },
-      { path: "/t_messege", label: "Messeges" },
+      // { path: "/t_messege", label: "Messeges" },
     ],
     admin: [
       { path: "/super_admin_profile", label: "Dashboard" },

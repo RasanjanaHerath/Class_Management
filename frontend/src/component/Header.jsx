@@ -1,12 +1,14 @@
 // src/Header.js
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom for routing
+import { Link, useNavigate } from "react-router-dom"; // Import Link from react-router-dom for routing
 import notification from "../assets/notification.jpg";
 import logo from "../assets/logo1.png";
 import dp from "../assets/dp1.jpg";
+import { use } from "react";
 
 const Header = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const navigate = useNavigate();
 
   const togglePopup = () => {
     setIsPopupVisible(!isPopupVisible);
@@ -57,11 +59,12 @@ const Header = () => {
             className="flex items-center space-x-2 cursor-pointer"
             onClick={togglePopup}
           >
-            <img
+            {/* <img
               src={user.profilePicture}
               alt="User"
               className="w-10 h-10 rounded-full border-2 border-gray-300 shadow-sm hover:opacity-80 transition duration-300"
-            />
+            /> */}
+            <div className="w-5 h-5  bg-gray-300 flex justify-center items-center p-4 rounded-full">{user.name[0]}</div>
             <span className="text-sm text-gray-700">{user.name}</span>
           </div>
 
@@ -82,11 +85,12 @@ const Header = () => {
                     Hi, {user.name}!
                   </h3>
                   {/* Larger Profile Picture */}
-                  <img
+                  {/* <img
                     src={user.profilePicture}
                     alt="Profile"
                     className="w-24 h-24 rounded-full border-4 border-gray-300 shadow-lg mx-auto mb-4"
-                  />
+                  /> */}
+                    <div className="w-24 h-24 bg-gray-300 flex justify-center items-center p-4 rounded-full text-4xl mb-4 mx-auto">{user.name[0]}</div>
                   {/* User Name and Email */}
                   <h3 className="text-xl font-bold text-gray-800">
                     {user.name}
@@ -109,6 +113,7 @@ const Header = () => {
                       onClick={() => {
                         console.log("Logout clicked");
                         closePopup();
+                        navigate("/");
                         // Add your logout logic here
                       }}
                     >

@@ -140,11 +140,15 @@ export class InstituteController {
         return res.status(404).json({ message: 'Teacher not found' });
       }
 
+      
       // Fetch classes taught by the teacher
       const classes = await classRepository.find({
         where: { teacher: { teacherId: teacher.teacherId } },
-        relations: ['institute'],
+        relations: {
+          institute: true
+        },
       });
+      
 
       // Extract unique institutes from the classes
       const institutes = classes.map((classItem) => classItem.institute);

@@ -6,6 +6,7 @@ import { User } from "../entity/User";
 import { Class } from "../entity/Class";
 import { Teacher } from "../entity/Teacher";
 import { Student } from "../entity/Student";
+import { isDataView } from "util/types";
 
 
 
@@ -471,5 +472,21 @@ static deleteInstitute = async (req: Request, res: Response, next: NextFunction)
     }
   };
 
+
+static getAllStudents = async (req: Request, res: Response) => {
+  const userId = req.user.userId;
+  const instituteRepository = AppDataSource.getRepository(Institute);
+
+  const institute = await instituteRepository.findOne({ where: { user: { id: userId } } });
+
+  const studentsRepository = AppDataSource.getRepository(Student);
+
+  const students = await studentsRepository.find({ where: { institute: { id: institute.id } } });
+
+  res.json(students);
+  
+
     
 }
+
+};

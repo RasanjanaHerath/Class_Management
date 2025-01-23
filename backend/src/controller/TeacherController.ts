@@ -67,7 +67,6 @@ export class TeacherController {
       req.body;
 
     const userId = req.user?.userId;
-
     try {
       const teacher = await teacherRepository.findOne({
         where: { teacherId },
@@ -77,11 +76,12 @@ export class TeacherController {
       if (!teacher) {
         return res.status(404).json({ message: "Teacher not found" });
       }
-
+      const userRepository = AppDataSource.getRepository(User);
+      const user = await userRepository.findOne({ where: { id: userId } });
       // Update the teacher's details
-      teacher.user.firstName = firstName ?? teacher.user.firstName;
       teacher.user.lastName = lastName ?? teacher.user.lastName;
       teacher.user.email = email ?? teacher.user.email;
+      teacher.user.firstName = firstName ?? teacher.user.firstName;
       teacher.phoneNumber = phoneNumber ?? teacher.phoneNumber;
       teacher.qualification = qualification ?? teacher.qualification;
       teacher.description = description ?? teacher.description;
@@ -89,6 +89,8 @@ export class TeacherController {
       teacher.teacherId = teacherId ?? teacher.teacherId;
 
       await teacherRepository.save(teacher);
+      await AppDataSource.getRepository(User).save(teacher.user);
+      
       res.send(teacher);
       return;
     } catch (error) {

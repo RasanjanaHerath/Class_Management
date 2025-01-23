@@ -7,6 +7,9 @@ const userRoutes = Router();
 // Get all users
 userRoutes.get("/get-all", UserController.getAll);
 
+//get all institute users
+userRoutes.get("/institute-users", UserController.getInstituteUsers);
+
 // Create a new user
 userRoutes.post("/create", UserController.createUser);
 

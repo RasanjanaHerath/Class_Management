@@ -15,7 +15,14 @@ export class UserController {
         res.json(users);
 
     };
-// Get a single user by ID
+
+    static getInstituteUsers = async (req: Request, res: Response) => {
+        const userRepository = AppDataSource.getRepository(User);
+        const users = await userRepository.find({where: {role: 'institute'}});
+        res.json(users);
+    }
+
+    // Get a single user by ID
     static getById = async (req: Request, res: Response) => {
         const userRepository = AppDataSource.getRepository(User);
         const user = await userRepository.findOneBy({ id: parseInt(req.params.id) });
@@ -75,7 +82,14 @@ export class UserController {
                 process.env.JWT_SECRET! || 'default_secret'
             );
             console.log('Generated token:', token); // Log the generated token
-            res.status(201).json({ message: "User registered successfully", token });
+
+            const resData = {
+                message: "User registered successfully",
+                token : token,
+                user : user
+            }
+
+            res.status(201).json(resData);
         } catch (error) {
             console.error('Error registering user:', error); // Log the error
             res.status(500).json({ message: "Error registering user", error });

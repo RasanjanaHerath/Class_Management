@@ -17,6 +17,13 @@ const Header = () => {
     setIsPopupVisible(false);
   };
 
+  // Mock user data
+  const user = {
+    name: 'Jane Cooper',
+    email: 'jane.cooper@example.com',
+    profilePicture: dp,
+  };
+
   return (
     <header className="flex justify-between items-center p-6 bg-white shadow-md md:ml-64 h-20">
       {/* Left Section: Logo and Title */}
@@ -25,56 +32,85 @@ const Header = () => {
         <h1 className="text-2xl font-bold text-gray-700 tracking-wide">Class Master</h1>
       </div>
 
-      {/* Center Section: Navigation Links (placed near to the search bar) */}
-      <div className="flex items-center space-x-20 ml-80">
-        <Link
-          to="/"
-          className="font-semibold text-gray-800 relative group"
-        >
-          HOME
-          <span className="absolute block w-0 h-0.5 bg-gray-800 left-0 bottom-0 transition-all duration-300 group-hover:w-full"></span>
-        </Link>
-        <Link
-          to="/about"
-          className="font-semibold text-gray-800 relative group"
-        >
-          ABOUT
-          <span className="absolute block w-0 h-0.5 bg-gray-800 left-0 bottom-0 transition-all duration-300 group-hover:w-full"></span>
-        </Link>
-        <Link
-          to="/contact"
-          className="font-semibold text-gray-800 relative group"
-        >
-          CONTACT US
-          <span className="absolute block w-0 h-0.5 bg-gray-800 left-0 bottom-0 transition-all duration-300 group-hover:w-full"></span>
-        </Link>
-      </div>
+      {/* Center Section: Navigation Links */}
+      <div className="flex items-center space-x-20 ml-80"></div>
 
-      {/* Right Section: Search Bar, Notifications, and User Profile */}
+      {/* Right Section: Notifications and User Profile */}
       <div className="flex items-center space-x-8 ml-0">
-        <div className="mr-4">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="border border-gray-300 p-2 rounded-full text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition duration-200"
-          />
-        </div>
-        <div className="relative">
+        {/* Notifications */}
+        {/* <div className="relative">
           <div className="absolute right-0 top-0 bg-red-500 text-white text-xs rounded-full px-1 py-0.5">3</div>
           <img
             src={notification}
             alt="Notifications"
             className="w-8 h-8 rounded-full cursor-pointer hover:opacity-75 transition duration-300"
           />
-        </div>
+        </div> */}
 
-        <div className="flex items-center space-x-2">
-          <img
-            src={dp}
-            alt="User"
-            className="w-10 h-10 rounded-full border-2 border-gray-300 shadow-sm cursor-pointer hover:opacity-80 transition duration-300"
-          />
-          <span className="text-sm text-gray-700">Jane Cooper</span>
+        {/* User Profile */}
+        <div className="relative">
+          <div
+            className="flex items-center space-x-2 cursor-pointer"
+            onClick={togglePopup}
+          >
+            <img
+              src={user.profilePicture}
+              alt="User"
+              className="w-10 h-10 rounded-full border-2 border-gray-300 shadow-sm hover:opacity-80 transition duration-300"
+            />
+            <span className="text-sm text-gray-700">{user.name}</span>
+          </div>
+
+          {/* Popup Window */}
+          {isPopupVisible && (
+            <>
+              <div
+                className="fixed inset-0 bg-black opacity-50 z-40"
+                onClick={closePopup}
+              ></div>
+              <div
+                className="absolute right-0 mt-4 w-80 bg-white border border-gray-200 shadow-lg rounded-lg z-50"
+                onMouseLeave={closePopup}
+              >
+                <div className="p-6 text-center">
+                  {/* Greeting */}
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4">Hi, {user.name}!</h3>
+                  {/* Larger Profile Picture */}
+                  <img
+                    src={user.profilePicture}
+                    alt="Profile"
+                    className="w-24 h-24 rounded-full border-4 border-gray-300 shadow-lg mx-auto mb-4"
+                  />
+                  {/* User Name and Email */}
+                  <h3 className="text-xl font-bold text-gray-800">{user.name}</h3>
+                  <p className="text-sm text-gray-600">{user.email}</p>
+                  <hr className="my-4 border-gray-300" />
+                  {/* Action Buttons */}
+                  <div className="space-y-4">
+                    {/* <button
+                      className="py-2 px-4 w-full text-white bg-blue-500 hover:bg-blue-600 transition rounded-lg"
+                      onClick={() => {
+                        console.log('View Profile clicked');
+                        closePopup();
+                      }}
+                    >
+                      View Profile
+                    </button> */}
+                    <button
+                      className="py-2 px-4 w-full text-white bg-red-500 hover:bg-red-600 transition rounded-lg"
+                      onClick={() => {
+                        console.log('Logout clicked');
+                        closePopup();
+                        // Add your logout logic here
+                      }}
+                    >
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </header>
@@ -82,7 +118,3 @@ const Header = () => {
 };
 
 export default Header;
-
-
-
-

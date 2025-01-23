@@ -129,7 +129,7 @@ const Notifications = () => {
         </div>
         <button
           onClick={handleSendNotification}
-          className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 w-full md:w-auto"
+          className="bg-gray-800 text-white rounded px-4 py-2 hover:bg-gray-600 w-full md:w-auto"
         >
           Send Notification
         </button>

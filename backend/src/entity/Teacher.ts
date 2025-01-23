@@ -3,9 +3,9 @@ import { Student } from './Student';
 import { Class } from './Class';
 import { Institute } from './Institute';
 import { Assignment } from './Assignment';
-import { Announcement } from './Announcement';
 import { Notice } from './Notice';
 import { User } from './User';
+import { Notification } from './Notification';
 
 @Entity('teachers')
 export class Teacher {

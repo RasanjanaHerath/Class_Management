@@ -307,7 +307,7 @@ const Login = () => {
         <div className="flex justify-center mb-6">
           <img src={logo} alt="Logo" className="h-24" />
         </div>
-        <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">Login</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center text-gray-600">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700">Email</label>
@@ -336,7 +336,7 @@ const Login = () => {
           {errors.form && <p className="text-red-500 text-sm mb-4">{errors.form}</p>}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg transition transform hover:scale-105"
+            className="w-full bg-gray-800 hover:bg-gray-600 text-white px-4 py-2 rounded-full shadow-lg transition transform hover:scale-105"
           >
             Login
           </button>

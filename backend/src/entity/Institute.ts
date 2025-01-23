@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany , OneToOne, JoinColumn} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany , OneToOne, JoinColumn, DeleteDateColumn} from 'typeorm';
 import { Teacher } from './Teacher';
 import { Student } from './Student';
 import { Class } from './Class';
@@ -13,10 +13,10 @@ export class Institute {
   id: number
 
   @Column()
-  phoneNumber: string
+  phoneNumber: string;
 
   @Column()
-  city: string
+  city: string;
 
   @Column()
   name: string
@@ -24,6 +24,11 @@ export class Institute {
   @OneToMany(() => Teacher, (teacher) => teacher.institute)
   teachers: Teacher[];
 
+  @Column({default: false})
+  isverified: boolean;
+
+  @Column({default: false})
+  isRejected: boolean;
 
 
   @OneToMany(() => Class, (classEntity) => classEntity.institute)
@@ -37,6 +42,9 @@ export class Institute {
 
   @OneToMany(() => Assignment, (assignment) => assignment.institute)
   assignments: Assignment[];
+
+  @DeleteDateColumn({ nullable: true })
+  deletedAt: Date | null;
 
   @OneToOne(() => User, {
     nullable: true,

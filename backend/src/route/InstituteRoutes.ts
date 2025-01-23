@@ -10,9 +10,15 @@ instituteRoutes.get("/get-all", InstituteController.getAll);
 
 //Get institute by teacher
 instituteRoutes.get("/get-by-teacher",jwtMiddleware,InstituteController.getInstitutesByTeacher)
+instituteRoutes.get("/get-all-approved", InstituteController.getApprovedInstitutes);
+instituteRoutes.get("/get-all-pending", InstituteController.getUnapprovedInstitutes);
+
+instituteRoutes.patch("/approve/:action/:id", InstituteController.verifyOrReject);
 
 // Create a new user
 instituteRoutes.post("/create",jwtMiddleware, InstituteController.createInstitute);
+
+instituteRoutes.post("/create-by-admin",jwtMiddleware, InstituteController.createInstituteAdmin);
 
 instituteRoutes.put("/update/:id", InstituteController.updateInstitute);
 

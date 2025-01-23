@@ -1,5 +1,6 @@
 // src/controllers/UserController.ts
 import { Request, Response, NextFunction, response } from "express";
+import { In } from "typeorm";
 import { AppDataSource } from "../data-source";
 import { Institute } from "../entity/Institute";
 import { User } from "../entity/User";
@@ -7,6 +8,7 @@ import { Class } from "../entity/Class";
 import { Teacher } from "../entity/Teacher";
 import { Student } from "../entity/Student";
 import { isDataView } from "util/types";
+import { ClassCard } from "../entity/ClassCard";
 
 
 
@@ -479,13 +481,23 @@ static getAllStudents = async (req: Request, res: Response) => {
 
   const institute = await instituteRepository.findOne({ where: { user: { id: userId } } });
 
-  const studentsRepository = AppDataSource.getRepository(Student);
+  const classRepository = AppDataSource.getRepository(Class);
+  const classes = await classRepository.find({ where: { institute: { id: institute.id } } });
 
-  const students = await studentsRepository.find({ where: { institute: { id: institute.id } } });
+  const classCardRepository = AppDataSource.getRepository(ClassCard);
+  // get students which have classses with classcards 
 
+  const classCards = await classCardRepository.find({
+    where: { classObject: { id: In(classes.map((cls) => cls.id)) } },
+    relations: {
+      student: {
+        user: true,
+      }
+    },
+  });
+
+  const students = classCards.map((card) => card.student);
   res.json(students);
-  
-
     
 }
 

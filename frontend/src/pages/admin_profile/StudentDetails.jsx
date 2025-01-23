@@ -41,6 +41,7 @@ const StudentDetails = () => {
           },
         }
       );
+      console.log(response.data);
       setStudents(response.data);
     } catch (error) {
       console.error("Error fetching student data:", error);
@@ -71,16 +72,15 @@ const StudentDetails = () => {
   // Handle update
   const handleUpdateStudent = async (event) => {
     event.preventDefault();
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     try {
       const updatedStudent = {
-        name: selectedStudent.name,
-        email: selectedStudent.email,
-        phone: selectedStudent.phone,
-        grade: selectedStudent.grade,
+        name: selectedStudent.user.firstName,
+        email: selectedStudent.user.email,
+        phone: selectedStudent.telephone,
       };
       await axios.put(
-        `http://localhost:3000/api/students/${selectedStudent.id}`,
+        `http://localhost:3000/api/students/update/${selectedStudent.id}`,
         updatedStudent,
         {
           headers: {
@@ -97,10 +97,10 @@ const StudentDetails = () => {
 
   // Handle delete
   const handleDeleteStudent = async () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     try {
       await axios.delete(
-        `http://localhost:3000/api/students/${selectedStudent.id}`,
+        `http://localhost:3000/api/student/delete/${selectedStudent.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -162,20 +162,18 @@ const StudentDetails = () => {
           <TableBody>
             {filteredStudents.map((student) => (
               <TableRow key={student.id}>
+                <TableCell sx={{ textAlign: "center" }}>{student.id}</TableCell>
                 <TableCell sx={{ textAlign: "center" }}>
-                  {student.id}
+                  {student.user.firstName} {student.user.lastName}
                 </TableCell>
                 <TableCell sx={{ textAlign: "center" }}>
-                  {student.name}
+                  {student.user.email}
                 </TableCell>
                 <TableCell sx={{ textAlign: "center" }}>
-                  {student.email}
+                  {student.telephone}
                 </TableCell>
                 <TableCell sx={{ textAlign: "center" }}>
-                  {student.phone}
-                </TableCell>
-                <TableCell sx={{ textAlign: "center" }}>
-                  {student.grade}
+                  {student.age-6}
                 </TableCell>
                 <TableCell sx={{ textAlign: "center" }}>
                   <Button
@@ -245,7 +243,10 @@ const StudentDetails = () => {
               margin="normal"
               value={selectedStudent?.email || ""}
               onChange={(e) =>
-                setSelectedStudent({ ...selectedStudent, email: e.target.value })
+                setSelectedStudent({
+                  ...selectedStudent,
+                  email: e.target.value,
+                })
               }
             />
             <TextField
@@ -254,19 +255,16 @@ const StudentDetails = () => {
               margin="normal"
               value={selectedStudent?.phone || ""}
               onChange={(e) =>
-                setSelectedStudent({ ...selectedStudent, phone: e.target.value })
+                setSelectedStudent({
+                  ...selectedStudent,
+                  phone: e.target.value,
+                })
               }
             />
-            <TextField
-              label="Grade"
-              fullWidth
-              margin="normal"
-              value={selectedStudent?.grade || ""}
-              onChange={(e) =>
-                setSelectedStudent({ ...selectedStudent, grade: e.target.value })
-              }
-            />
-            <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+            
+            <Box
+              sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}
+            >
               <Button variant="contained" type="submit">
                 Update
               </Button>
@@ -297,12 +295,7 @@ const StudentDetails = () => {
             boxShadow: 24,
           }}
         >
-          <Typography
-            variant="h6"
-            mb={2}
-            color="error"
-            align="center"
-          >
+          <Typography variant="h6" mb={2} color="error" align="center">
             Confirm Deletion
           </Typography>
           <Typography mb={3}>

@@ -28,7 +28,7 @@ const SuperAdminDashboard = () => {
     { name: "Week 4", attendance: 90 },
   ];
 
-  const totalIncome = 50000;
+  const totalIncome = 0;
 
   const popularInstitutes = ["Institute A", "Institute B", "Institute C"];
   const popularTeachers = ["Teacher 1", "Teacher 2", "Teacher 3"];
@@ -92,7 +92,7 @@ const SuperAdminDashboard = () => {
         </div>
         <div className="bg-white p-6 rounded-lg shadow-lg text-center">
           <h3 className="text-xl font-semibold text-gray-700">Total Income</h3>
-          <p className="text-3xl font-bold text-yellow-600">${totalIncome}</p>
+          <p className="text-3xl font-bold text-yellow-600">Rs.{totalIncome}</p>
         </div>
       </div>
 

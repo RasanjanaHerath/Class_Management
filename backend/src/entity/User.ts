@@ -37,6 +37,7 @@ export class User {
     @OneToOne(() => Student, (student) => student.user)
     student:Student
 
+
     @OneToOne(() => Institute, (institute) => institute.user)
     institute: Institute;
 

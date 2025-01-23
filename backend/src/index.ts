@@ -43,6 +43,9 @@ AppDataSource.initialize().then(async () => {
     app.use("/api/student_messege",studentMessege_router);
     app.use("/api/student_feedback",studentFeedBack_router);
     app.use("/api/attendance", attendance_router);
+    app.use("/api/student_messege",studentMessege_router);
+    app.use("/api/student_feedback",studentFeedBack_router);
+    app.use("/api/attendance", attendance_router);
 
     app.listen(3000, () => {
         console.log("Server is running on port 3000");

@@ -10,6 +10,7 @@ import { StudentMessege } from './StudentMesseges';
 
 
 
+
 @Entity('students')
 export class Student {
   
@@ -59,8 +60,6 @@ export class Student {
 
   @OneToMany(() => ClassCard, (classCard) => classCard.student)
   classCards: ClassCard[];
-
-    
 
   @OneToOne(() => User, {
       nullable: false,

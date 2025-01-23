@@ -150,6 +150,18 @@ const router = createBrowserRouter([
     ],
   },
 
+
+    {
+    path: "/student_dashboard",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <DashboardPage />,
+      },
+    ],
+  },
+
   {
     path: "/teacher_profile",
     element: <DrawerLayout />,
@@ -440,6 +452,29 @@ const router = createBrowserRouter([
     ],
   },
 
+
+  {
+    path: "/student_attendance",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <MarkAttendance/>,
+      },
+    ],
+  },
+
+  {
+    path: "/student_assignment",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <AssignmentsPage/>,
+      },
+    ],
+  },
+
   {
     path: "/t_messege",
     element: <DrawerLayout/>,
@@ -460,28 +495,6 @@ const router = createBrowserRouter([
     },
   ],
 },
-  {
-    path: "/t_class_details",
-    element: <DrawerLayout />,
-    children: [
-      {
-        index: true,
-        element: <TClassDetailsPage />,
-      },
-    ],
-  },
-  // {
-  //   path: "/t_assignment_details",
-  //   element: <DrawerLayout />,
-  //   children: [
-  //     {
-  //       index: true,
-  //       element: <AssignmentDetails />,
-  //     },
-  //   ],
-  // },
-
-
 
 ]);
 

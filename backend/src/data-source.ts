@@ -10,7 +10,6 @@ import { Assignment } from "./entity/Assignment"
 import { Grade } from "./entity/Grade"
 import { Result } from "./entity/Result"
 import { Notification } from "./entity/Notification"
-import { ClassCard } from "./entity/ClassCard"
 import { Announcement } from "./entity/Announcement"
 import { ClassCard } from "./entity/ClassCard"
 import { StudentMessege } from "./entity/StudentMesseges"
@@ -39,6 +38,9 @@ export const AppDataSource = new DataSource({
         Result,
         Announcement,
         ClassCard,
+        StudentMessege,
+        StudentFeedback,
+        Attendance,
         Result,
         Notification,
         ClassCard,

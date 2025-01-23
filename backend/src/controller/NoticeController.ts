@@ -20,16 +20,16 @@ export class NoticeController {
 
     // Create a new notice
     static createNotice = async (req: Request, res: Response) => {
-        const { visibilityRole ,title, message } = req.body;
+        const { role ,title, message } = req.body;
         const notice = new Notice();
-        notice.visibilityRole = visibilityRole;
+        notice.role = role;
         notice.title = title;
         notice.message = message;
     
 
         const noticeRepository = AppDataSource.getRepository(Notice);
         await noticeRepository.save(notice);
-        res.json({ message: "Notice created", notice });
+        res.json({ notice });
     };
 
     // Update a Notice
@@ -40,7 +40,7 @@ export class NoticeController {
 
         const notice = await noticeRepository.findOneBy({ id: parseInt(req.params.id) });
         if (notice) {
-        notice.visibilityRole = role;
+        notice.role = role;
         notice.title = title;
         notice.message = message;
         

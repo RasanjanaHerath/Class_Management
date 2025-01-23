@@ -11,7 +11,7 @@ export class Notice {
     id: number;
 
     @Column({ default: '' })
-    visibilityRole: string;
+    role: string;
 
     @Column()
     title: String;

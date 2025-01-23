@@ -249,24 +249,23 @@
 
 // export default Login;
 
-
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import logo from '../assets/logo.png'; // Adjust the import path as necessary
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import logo from "../assets/logo.png"; // Adjust the import path as necessary
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.email) newErrors.email = 'Email is required';
-    if (!formData.password) newErrors.password = 'Password is required';
+    if (!formData.email) newErrors.email = "Email is required";
+    if (!formData.password) newErrors.password = "Password is required";
     return newErrors;
   };
 
@@ -274,7 +273,7 @@ const Login = () => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
@@ -292,12 +291,29 @@ const Login = () => {
       );
       console.log(response.data);
       // Store token and user information in localStorage
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-      navigate("/dashboard");
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
+      switch (response.data.user.role) {
+        case "student":
+          navigate("/student_profile");
+          break;
+        case "teacher":
+          navigate("/teacher_profile");
+          break;
+        case "institute":
+          navigate("/dashboard");
+          break;
+        case "admin":
+          navigate("/super_admin_profile");
+          break;
+        default:
+          navigate("/dashboard");
+      }
+      // navigate("/dashboard");
     } catch (error) {
-      console.error('Error during login:', error);
-      setErrors({ form: 'Login failed. Please check your credentials.' });
+      console.error("Error during login:", error);
+      setErrors({ form: "Login failed. Please check your credentials." });
     }
   };
 
@@ -307,10 +323,14 @@ const Login = () => {
         <div className="flex justify-center mb-6">
           <img src={logo} alt="Logo" className="h-24" />
         </div>
-        <h2 className="text-3xl font-bold mb-6 text-center text-gray-600">Login</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center text-gray-600">
+          Login
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700">Email</label>
+            <label htmlFor="email" className="block text-gray-700">
+              Email
+            </label>
             <input
               type="email"
               id="email"
@@ -319,10 +339,14 @@ const Login = () => {
               onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email}</p>
+            )}
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block text-gray-700">Password</label>
+            <label htmlFor="password" className="block text-gray-700">
+              Password
+            </label>
             <input
               type="password"
               id="password"
@@ -331,9 +355,13 @@ const Login = () => {
               onChange={handleChange}
               className="w-full px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password}</p>
+            )}
           </div>
-          {errors.form && <p className="text-red-500 text-sm mb-4">{errors.form}</p>}
+          {errors.form && (
+            <p className="text-red-500 text-sm mb-4">{errors.form}</p>
+          )}
           <button
             type="submit"
             className="w-full bg-gray-800 hover:bg-gray-600 text-white px-4 py-2 rounded-full shadow-lg transition transform hover:scale-105"

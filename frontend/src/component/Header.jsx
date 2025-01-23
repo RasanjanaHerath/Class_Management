@@ -1,10 +1,9 @@
 // src/Header.js
-import React, {useState} from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom for routing
+import React, { useState } from "react";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom for routing
 import notification from "../assets/notification.jpg";
 import logo from "../assets/logo1.png";
 import dp from "../assets/dp1.jpg";
-
 
 const Header = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -17,10 +16,13 @@ const Header = () => {
     setIsPopupVisible(false);
   };
 
+  const user2 = JSON.parse(localStorage.getItem("user"));
+  // console.log("user from detials", user2);
+
   // Mock user data
   const user = {
-    name: 'Jane Cooper',
-    email: 'jane.cooper@example.com',
+    name: `${user2.firstName}`,
+    email: `${user2.email}`,
     profilePicture: dp,
   };
 
@@ -29,7 +31,9 @@ const Header = () => {
       {/* Left Section: Logo and Title */}
       <div className="flex items-center space-x-4">
         <img src={logo} alt="Logo" className="w-16 h-auto" />
-        <h1 className="text-2xl font-bold text-gray-700 tracking-wide">Class Master</h1>
+        <h1 className="text-2xl font-bold text-gray-700 tracking-wide">
+          Class Master
+        </h1>
       </div>
 
       {/* Center Section: Navigation Links */}
@@ -74,7 +78,9 @@ const Header = () => {
               >
                 <div className="p-6 text-center">
                   {/* Greeting */}
-                  <h3 className="text-lg font-semibold text-gray-800 mb-4">Hi, {user.name}!</h3>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                    Hi, {user.name}!
+                  </h3>
                   {/* Larger Profile Picture */}
                   <img
                     src={user.profilePicture}
@@ -82,7 +88,9 @@ const Header = () => {
                     className="w-24 h-24 rounded-full border-4 border-gray-300 shadow-lg mx-auto mb-4"
                   />
                   {/* User Name and Email */}
-                  <h3 className="text-xl font-bold text-gray-800">{user.name}</h3>
+                  <h3 className="text-xl font-bold text-gray-800">
+                    {user.name}
+                  </h3>
                   <p className="text-sm text-gray-600">{user.email}</p>
                   <hr className="my-4 border-gray-300" />
                   {/* Action Buttons */}
@@ -99,7 +107,7 @@ const Header = () => {
                     <button
                       className="py-2 px-4 w-full text-white bg-red-500 hover:bg-red-600 transition rounded-lg"
                       onClick={() => {
-                        console.log('Logout clicked');
+                        console.log("Logout clicked");
                         closePopup();
                         // Add your logout logic here
                       }}

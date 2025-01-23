@@ -501,4 +501,6 @@ static getAllStudents = async (req: Request, res: Response) => {
     
 }
 
+
+
 };

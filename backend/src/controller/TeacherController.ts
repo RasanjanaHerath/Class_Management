@@ -189,5 +189,8 @@ export class TeacherController {
       return res.status(500).json({ message: 'An error occurred while deleting the teacher.' });
     }
   };
+
 }
+
+
 

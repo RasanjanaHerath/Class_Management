@@ -5,6 +5,7 @@ import { Institute } from "../entity/Institute";
 import { User } from "../entity/User";
 import { Class } from "../entity/Class";
 import { Teacher } from "../entity/Teacher";
+import { Student } from "../entity/Student";
 
 
 
@@ -58,6 +59,39 @@ export class InstituteController {
       res.status(500).json({ message: 'Error fetching classes', error });
     }
   }
+
+  static async getClassesByUserId(req: Request, res: Response) {
+    const { userId } = req.params;
+  
+    // Validate userId
+    if (!userId || isNaN(Number(userId))) {
+      return res.status(400).json({ message: 'Invalid userId parameter' });
+    }
+  
+    try {
+      // Fetch classes based on the institute's userId
+      const classes = await AppDataSource.getRepository(Class).find({
+        where: {
+          institute: {
+            user: { id: parseInt(userId) }, // Assuming `institute.user` relates to the `userId`
+          },
+        },
+        relations: ['teacher', 'institute', 'institute.user', 'students', 'assignments'], // Include all necessary relations
+      });
+      
+  
+      if (classes.length === 0) {
+        return res.status(404).json({ message: 'No classes found for the given institute userId' });
+      }
+  
+      // Return the fetched classes
+      res.status(200).json(classes);
+    } catch (error) {
+      console.error('Error fetching classes:', error);
+      res.status(500).json({ message: 'Error fetching classes', error });
+    }
+  }
+  
 
   static async getTeachersByClass(req: Request, res: Response) {
     const { classId } = req.params;
@@ -248,6 +282,58 @@ export class InstituteController {
     }
 
     
+  //get total classes,teachers and students counts in a institute
+
+  static getInstituteStatistics = async (req: Request, res: Response) => {
+    try {
+
+
+      const userId = req.user.userId
+      const instituteRepository = AppDataSource.getRepository(Institute);
+      const classRepository = AppDataSource.getRepository(Class);
+
+      console.log("userId", userId)
+      const institute = await instituteRepository.findOne({
+        where: { user : { id : userId} }, // Ensure `instituteId` is a number
+      });
+
+
+      if (!institute) {
+        return res.status(404).json({ message: "Institute not found" });
+      }
+
+      // Fetch counts for related entities
+      const classes = await classRepository.find({ where: { institute: { id: institute.id } } });
+      const totalClasses = classes.length;
+      // class has student array, get all students from all classes
+      const students = classes.map((cls) => cls.students).flat();
+
+      // class has one teacher, get all unique teachers
+      const teachers = classes.map((cls) => cls.teacher);
+
+      const totalTeachers = teachers.length;
+      const totalStudents = students.length;
+
+
+
+    
+      // Respond with the statistics
+      res.json({
+        instituteName: institute.name,
+        statistics: {
+          totalClasses,
+          totalTeachers,
+          totalStudents,
+        },
+      });
+    } catch (error) {
+      console.error("Error fetching institute statistics:", error);
+      res.status(500).json({
+        message: "Error fetching institute statistics",
+        error: error.message,
+      });
+    }
+  };
 
     
 }

@@ -303,7 +303,7 @@ const Drawer = ({ role }) => {
       { path: "/student_details", label: "Student Details" },
       { path: "/payment_details", label: "Payment Details" },
       { path: "/notification", label: "Notification" },
-      { path: "/admin_notice", label: "Create Notice" },
+      { path: "/notice_creater", label: "Create Notice" },
       { path: "/reports", label: "Analytics and Reports" },
     ],
   };

@@ -15,4 +15,6 @@ notice_router.put("/update/:id", NoticeController.updateNotice);
 // Delete Notice
 notice_router.delete("/delete/:id", NoticeController.deleteNotice);
 
+notice_router.get("/get-institute-notices", NoticeController.getNoticeForInstitute);
+
 export default notice_router;

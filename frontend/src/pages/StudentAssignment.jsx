@@ -22,7 +22,7 @@ const AssignmentsPage = () => {
     const fetchAssignments = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`${BASE_URL}assignments`, {
+        const response = await axios.get(`${BASE_URL}assignment/getAll`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setAssignments(response.data);

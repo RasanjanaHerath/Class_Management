@@ -31,7 +31,10 @@ export class TeacherController {
     const teacherRepository = AppDataSource.getRepository(Teacher);
 
     try {
-      const teachers = await teacherRepository.find({ relations: ['user'] });
+      const teachers = await teacherRepository.find({ relations: {
+        user: true,
+        institute: true,
+      } });
       return res.json(teachers);
     } catch (error) {
       console.error('Error fetching teachers:', error);

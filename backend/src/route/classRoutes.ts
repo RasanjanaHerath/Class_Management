@@ -7,6 +7,7 @@ const classRoutes = Router();
 classRoutes.get("/get-all",classController.getAll);
 classRoutes.get("/get-all-by-inst/:instituteId",classController.getClassesByInstitute);
 classRoutes.get("/get-students-by-class/:classId",classController.getStudentsByClass);
+classRoutes.get("/get-teachers-by-class/:classId",classController.getTeachersByClass);
 
 //get class by id
 classRoutes.get("/get-by-id/:id",classController.getClassById)

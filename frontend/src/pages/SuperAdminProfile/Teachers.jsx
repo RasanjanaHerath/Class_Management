@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { FaEdit, FaTimes, FaSave, FaSearch  } from 'react-icons/fa';
+
 
 const Teachers = () => {
   const [teacherID, setTeacherID] = useState('');
@@ -124,8 +126,9 @@ const Teachers = () => {
             <div className="w-full sm:w-auto mt-4 sm:mt-0">
               <button
                 onClick={handleSearch}
-                className="hover:shadow-lg transform hover:scale-105 bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-500 transition"
-              >
+                className="hover:shadow-lg transform hover:scale-105 bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-500 transition flex items-center justify-center"
+                >
+                  <FaSearch style={{ marginRight: '8px' }} />
                 Search
               </button>
             </div>
@@ -154,8 +157,9 @@ const Teachers = () => {
                     setFormData({ ...teacherData });
                     setIsEditing(true);
                   }}
-                  className="mt-6 w-full sm:w-auto bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600 transition"
+                  className="mt-6 w-full sm:w-auto bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600 transition flex items-center justify-center"
                 >
+                  <FaEdit style={{ marginRight: '8px' }} />
                   Edit Details
                 </button>
               </div>
@@ -230,14 +234,17 @@ const Teachers = () => {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <button
                     onClick={handleUpdate}
-                    className="w-full sm:w-auto bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition"
-                  >
+                    className="w-full sm:w-auto bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition flex items-center justify-center"
+                    >
+                    <FaSave style={{ marginRight: '8px' }} />
+
                     Save Changes
                   </button>
                   <button
                     onClick={() => setIsEditing(false)}
-                    className="w-full sm:w-auto bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition"
+                    className="w-full sm:w-auto bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition flex items-center justify-center"
                   >
+                    <FaTimes style={{ marginRight: '8px' }} />
                     Cancel
                   </button>
                 </div>

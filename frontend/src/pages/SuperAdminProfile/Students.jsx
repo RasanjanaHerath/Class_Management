@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { FaEdit, FaTimes, FaSave, FaSearch  } from 'react-icons/fa';
+
 
 const Students = () => {
   const [studentID, setStudentID] = useState('');
@@ -124,8 +126,9 @@ const Students = () => {
             <div className="w-full sm:w-auto mt-4 sm:mt-0">
               <button
                 onClick={handleSearch}
-                className="hover:shadow-lg transform hover:scale-105 bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-500 transition"
-              >
+                className="hover:shadow-lg transform hover:scale-105 bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-500 transition flex items-center justify-center"
+                >
+                <FaSearch style={{ marginRight: '8px' }} />
                 Search
               </button>
             </div>

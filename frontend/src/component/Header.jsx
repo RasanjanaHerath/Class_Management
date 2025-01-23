@@ -38,14 +38,14 @@ const Header = () => {
       {/* Right Section: Notifications and User Profile */}
       <div className="flex items-center space-x-8 ml-0">
         {/* Notifications */}
-        <div className="relative">
+        {/* <div className="relative">
           <div className="absolute right-0 top-0 bg-red-500 text-white text-xs rounded-full px-1 py-0.5">3</div>
           <img
             src={notification}
             alt="Notifications"
             className="w-8 h-8 rounded-full cursor-pointer hover:opacity-75 transition duration-300"
           />
-        </div>
+        </div> */}
 
         {/* User Profile */}
         <div className="relative">

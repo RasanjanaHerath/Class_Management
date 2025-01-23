@@ -265,23 +265,30 @@ export class InstituteController {
 //         res.json({ message: "Institute not found" });
 //        }
 //     };
-    static deleteInstitute = async (req: Request, res: Response) => {
-      const instituteRepository = AppDataSource.getRepository(Institute);
 
-      try {
-        const institute = await instituteRepository.findOneBy({ id: parseInt(req.params.id) });
+static deleteInstitute = async (req: Request, res: Response, next: NextFunction) => {
+  const id = parseInt(req.params.id);
+  const instituteRepository = AppDataSource.getRepository(Institute);
 
-        if (!institute) {
-          return res.status(404).json({ message: "Institute not found" });
-        }
+  try {
+    let instituteToRemove = await instituteRepository.findOne({
+      where: { id, deletedAt: null },
+    });
 
-        await instituteRepository.remove(institute);
-        return res.status(200).json({ message: "Institute deleted" });
-      } catch (error) {
-        console.error("Error deleting institute:", error);
-        return res.status(500).json({ message: "Internal Server Error" });
-      }
-    };
+    if (!instituteToRemove) {
+      return res.status(404).json({ message: "Institute does not exist or is already deleted" });
+    }
+
+    instituteToRemove.deletedAt = new Date(); // Set the deletedAt timestamp
+    await instituteRepository.save(instituteToRemove);
+
+    return res.status(200).json({ message: "Institute has been soft deleted" });
+  } catch (error) {
+    console.error("Error deleting institute:", error);
+    return res.status(500).json({ message: "An error occurred while deleting the institute." });
+  }
+};
+
 
     static updateInstitute = async (req: Request, res: Response, next: NextFunction) => {
       const instituteRepository = AppDataSource.getRepository(Institute);
@@ -306,7 +313,7 @@ export class InstituteController {
       // }
 
       const id = parseInt(req.params.id);
-      const { firstName, lastName, email, phoneNumber, city } =
+      const { firstName, phoneNumber, city } =
         req.body;
 
       const userId = req.user?.userId;
@@ -322,10 +329,12 @@ export class InstituteController {
         }
         
         institute.user.firstName = firstName ?? institute.user.firstName;
-        institute.user.lastName = lastName ?? institute.user.lastName;
-        institute.user.email = email ?? institute.user.email;
+        // institute.user.lastName = lastName ?? institute.user.lastName;
+        // institute.user.email = email ?? institute.user.email;
         institute.phoneNumber = phoneNumber ?? institute.phoneNumber;
         institute.city = city ?? institute.city;
+
+        await AppDataSource.getRepository(User).save(institute.user);
       
         await instituteRepository.save(institute);
         res.send(institute);

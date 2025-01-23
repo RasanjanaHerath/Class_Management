@@ -81,19 +81,71 @@ const Institutes = () => {
     setOpenDeleteModal(true);
   };
 
+
   const handleCloseDeleteModal = () => {
     setOpenDeleteModal(false);
     setDeleteIndex(null);
   };
 
-  const handleDeleteInstitute = () => {
-    // Add logic to delete the institute
-    const updatedInstitutes = approvedInstitutes.filter(
-      (_, i) => i !== deleteIndex
-    );
-    setApprovedInstitutes(updatedInstitutes);
-    handleCloseDeleteModal();
+  const handleDeleteInstitute = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      await axios.delete(`http://localhost:3000/api/institute/delete/${approvedInstitutes[deleteIndex].id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const updatedInstitutes = approvedInstitutes.filter((_, i) => i !== deleteIndex);
+      setApprovedInstitutes(updatedInstitutes);
+      setSnackbarMessage("Institute deleted successfully!");
+      setOpenSnackbar(true);
+      handleCloseDeleteModal();
+    } catch (error) {
+      console.error("Error deleting institute:", error);
+      setSnackbarMessage("Failed to delete institute.");
+      setOpenSnackbar(true);
+    }
   };
+
+  const handleUpdateInstitute = async (event) => {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+
+    const updatedInstitute = {
+      firstName: selectedInstitute.firstName,
+      phoneNumber: selectedInstitute.phoneNumber,
+      city: selectedInstitute.city,
+    };
+
+    console.log("fname :" , selectedInstitute.id)
+
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/api/institute/update/${selectedInstitute.id}`,
+        updatedInstitute
+      );
+      console.log(response);
+      setSnackbarMessage("Institute updated successfully!");
+      setOpenSnackbar(true);
+      handleCloseUpdateModal();
+      window.location.reload();
+    } catch (error) {
+      console.error("Error updating institute:", error);
+      setSnackbarMessage("Failed to update institute.");
+      setOpenSnackbar(true);
+    }
+  };
+
+  // const handleDeleteInstitute = () => {
+  //   // Add logic to delete the institute
+  //   const updatedInstitutes = approvedInstitutes.filter(
+  //     (_, i) => i !== deleteIndex
+  //   );
+  //   setApprovedInstitutes(updatedInstitutes);
+  //   handleCloseDeleteModal();
+  // };
 
   useEffect(() => {
     const fetchUsers = async (users) => {
@@ -125,14 +177,14 @@ const Institutes = () => {
 
   const handleCreateInstitute = () => {
     let valid = true;
-    const newErrors = { firstName: "", phoneNumber: "", city: "" };
+    const newErrors = {  phoneNumber: "", city: "" };
 
     // Validate phone number
     // const phonePattern = /^[0-9]{10}$/;
-    if (!firstName) {
-      newErrors.firstName = "Phone number is required";
-      valid = false;
-    }
+    // if (!phoneNumber) {
+    //   newErrors.phoneNumber = "Phone number is 22 required";
+    //   valid = false;
+    // }
     // else if (!phonePattern.test(firstName)) {
     //   newErrors.firstName = 'Phone number must be 10 digits';
     //   valid = false;
@@ -155,21 +207,21 @@ const Institutes = () => {
 
     // If form is valid, submit the form
     if (valid) {
-      const newInstitute = { firstName, phoneNumber, city };
+      const newInstitute = { phoneNumber, city };
       setApprovedInstitutes([...approvedInstitutes, newInstitute]);
 
       // Reset form fields
-      setfirstName("");
-      setphoneNumber("");
+      // setfirstName("");
+      setPhoneNumber("");
       setCity("");
-      setErrors({ firstName: "", phoneNumber: "", city: "" }); // Reset errors
+      setErrors({  phoneNumber: "", city: "" }); // Reset errors
 
       const token = localStorage.getItem("token");
 
       const data = {
-        firstName: firstName,
+        // firstName: firstName,
         phoneNumber: phoneNumber,
-        city,
+        city:city,
         userId: selectedUser,
       };
 
@@ -182,6 +234,7 @@ const Institutes = () => {
         .then((response) => {
           setSnackbarMessage(`Institute with  is created..!`);
           console.log(response);
+          window.location.reload();
         })
         .catch((error) => {
           console.log(error);
@@ -247,11 +300,11 @@ const Institutes = () => {
     setOpenSnackbar(false);
   };
 
-  const handleUpdateInstitute = (event) => {
-    event.preventDefault();
-    // Add logic to update the institute details
-    handleCloseUpdateModal();
-  };
+  // const handleUpdateInstitute = (event) => {
+  //   event.preventDefault();
+  //   // Add logic to update the institute details
+  //   handleCloseUpdateModal();
+  // };
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 md:ml-64">
@@ -259,8 +312,11 @@ const Institutes = () => {
         <Typography variant="h4" className="font-semibold text-gray-700">
           Institute Management
         </Typography>
+        <p>
+     
+    </p>
       </div>
-
+   
       {/* MUI Tabs for Navigation */}
       <Box sx={{ width: "100%" }} className="mb-4">
         <Tabs
@@ -346,7 +402,7 @@ const Institutes = () => {
                           <TableCell
                             sx={{ textAlign: "center", borderBottom: "none" }}
                           >
-                            {request.user.firstName}
+                            {request.user?.firstName}
                           </TableCell>
                           <TableCell
                             sx={{ textAlign: "center", borderBottom: "none" }}
@@ -468,7 +524,7 @@ const Institutes = () => {
                           <TableCell
                             sx={{ textAlign: "center", borderBottom: "none" }}
                           >
-                            {institute.user.firstName}
+                            {institute.user?.firstName}
                           </TableCell>
                           <TableCell
                             sx={{ textAlign: "center", borderBottom: "none" }}
@@ -652,7 +708,7 @@ const Institutes = () => {
                 {selectedInstitute && (
                   <Box>
                     <Typography variant="body1" sx={{ m: 1 }}>
-                      <strong>Name:</strong> {selectedInstitute.user.firstName}
+                      <strong>Name:</strong> {selectedInstitute.user?.firstName}
                     </Typography>
                     <Typography variant="body1" sx={{ m: 1 }}>
                       <strong>Phone Number:</strong>{" "}
@@ -758,7 +814,7 @@ const Institutes = () => {
               >
                 Create New Institute
               </Typography>
-              <TextField
+              {/* <TextField
                 label="Institute Name"
                 value={firstName}
                 onChange={(e) => setfirstName(e.target.value)}
@@ -770,7 +826,7 @@ const Institutes = () => {
                   "& .MuiOutlinedInput-root": { borderRadius: "10px" },
                   marginBottom: "16px",
                 }}
-              />
+              /> */}
               <TextField
                 label="Phone Number"
                 type="tel"

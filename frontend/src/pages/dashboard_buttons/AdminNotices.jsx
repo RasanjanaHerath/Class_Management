@@ -78,7 +78,7 @@ const AdminNotices = () => {
         .then(() => {
           setNotices((prevNotices) =>
             prevNotices.filter((n) => n.id !== noticeId)
-          )
+          )}
         )
         .catch((error) => console.error("Error deleting notice:", error));
     }

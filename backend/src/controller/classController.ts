@@ -85,11 +85,14 @@ export class classController {
       // Fetch verified classes
       const verifiedClasses = await classRepository.find({
         where: { teacher: { teacherId: teacherId }, isverify: true },
+        relations: ["institute"],
       });
+
 
       // Fetch pending classes
       const pendingClasses = await classRepository.find({
         where: { teacher: { teacherId: teacherId }, isverify: false },
+        relations: ["institute"],
       });
 
       res.status(200).json({
@@ -346,7 +349,8 @@ export class classController {
         existingClass.scheduleDay = scheduleDay;
         existingClass.feePerMonth = feePerMonth;
         existingClass.numberOfStudents = numberOfStudents;
-        //existingClass.isverify = isverify;
+        existingClass.isverify = isverify;
+     
   
         await classRepository.save(existingClass);
   

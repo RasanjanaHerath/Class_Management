@@ -31,5 +31,7 @@ export class Notice {
     @ManyToOne(() => Class, (classes) => classes.notices)
     classes: Class;
 
+    
+
 }
 

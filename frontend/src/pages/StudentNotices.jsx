@@ -12,6 +12,7 @@ const StudentMesseges = () => {
   const [selectedClass, setSelectedClass] = useState("");
   const [rating, setRating] = useState(0);
   const [messege, setMessege] = useState("");
+   const [title, setTitle] = useState("");
   const [recipientRole, setRecipientRole] = useState("");
   const [recipientName, setRecipientName] = useState("");
   const [myClasses, setMyClasses] = useState([]);
@@ -51,7 +52,7 @@ const StudentMesseges = () => {
     setShowMessegeModal(false);
   };
 
-  const cardColors = ["bg-yellow-200", "bg-blue-300", "bg-green-300", "bg-red-200", "bg-purple-300"];
+//const cardColors = ["bg-yellow-200", "bg-blue-300", "bg-green-300", "bg-red-200", "bg-purple-300"];
 
 console.log("blaa",receivedMesseges)
 
@@ -78,6 +79,7 @@ useEffect(() => {
   fetchMyClasses();
 }, []);
 
+const cardColors = ["bg-yellow-200", "bg-blue-300", "bg-green-300","bg-red-200","bg-purple-300"]; // Custom colors for cards
   return (
     <div className="bg-gray-100 min-h-screen p-8 flex md:ml-64 flex-row gap-8">
       

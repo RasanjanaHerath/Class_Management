@@ -1,139 +1,76 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
 import axios from "axios";
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+import { FaTrashAlt } from "react-icons/fa"; // Importing FontAwesome delete icon
 
 const BASE_URL = "http://localhost:3000/api/";
 
-const ResultsHistogram = () => {
-  const data = {
-    labels: ["Science", "Mathematics", "Literature", "Sinhala", "English"],
-    datasets: [
-      {
-        label: "Scores",
-        data: [85, 90, 75, 80, 95],
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
-      },
-    ],
-  };
-
-  const options = {
-    scales: {
-      x: { title: { display: true, text: "Classes" } },
-      y: { beginAtZero: true, title: { display: true, text: "Scores" } },
-    },
-  };
-
-  return (
-    <div className="bg-gray-200 rounded-lg shadow-md h-300">
-      <h2 className="text-xl font-bold mb-4 text-center">Last Exam Results</h2>
-      <Bar data={data} options={options} />
-    </div>
-  );
-};
-
 const StudentProfile = () => {
   const [showModal, setShowModal] = useState(false);
-  const [user, setUser] = useState(null);
-  
+  const user = localStorage.getItem("user");
+
   // Selection states
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedInstitute, setSelectedInstitute] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedTeacher, setSelectedTeacher] = useState("");
-  
+
   // Available options states
   const [availableCities, setAvailableCities] = useState([]);
   const [availableInstitutes, setAvailableInstitutes] = useState([]);
   const [availableClasses, setAvailableClasses] = useState([]);
   const [availableTeachers, setAvailableTeachers] = useState([]);
-  
-  // All classes data
+
   const [classes, setClasses] = useState([]);
   const [myClasses, setMyClasses] = useState([]);
 
   useEffect(() => {
-    // Fetch user data from localStorage
-    const userItem = localStorage.getItem("user");
-    const userData = userItem ? JSON.parse(userItem) : null;
-    setUser(userData);
-
-    // Fetch classes data
     const fetchClasses = async () => {
       try {
         const response = await axios.get(`${BASE_URL}class/get-all`);
-        const validClasses = response.data.filter(cls => 
-          cls && 
-          cls.institute && 
-          cls.institute.city && 
-          cls.institute.id 
+        const validClasses = response.data.filter(
+          (cls) => cls && cls.institute && cls.institute.city && cls.institute.id
         );
         setClasses(validClasses);
-        
-        // Extract unique cities from valid classes
-        const uniqueCities = [...new Set(validClasses
-          .map(cls => cls.institute?.city)
-          .filter(city => city)
-        )];
+
+        const uniqueCities = [
+          ...new Set(
+            validClasses.map((cls) => cls.institute?.city).filter((city) => city)
+          ),
+        ];
         setAvailableCities(uniqueCities);
       } catch (error) {
         console.error("Error fetching classes:", error);
-        setClasses([]);
-        setAvailableCities([]);
       }
     };
-
 
     const fetchMyClasses = async () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(`${BASE_URL}class_card/get-all-my`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          headers: { Authorization: `Bearer ${token}` },
         });
-        console.log("My classes:", response.data);
         setMyClasses(response.data);
       } catch (error) {
         console.error("Error fetching my classes:", error);
-        setMyClasses([]);
       }
     };
 
-    fetchMyClasses();
     fetchClasses();
+    fetchMyClasses();
   }, []);
 
-  // Update institutes when city is selected
   useEffect(() => {
-    if (selectedCity && classes.length > 0) {
+    if (selectedCity) {
       const filteredInstitutes = classes
-        .filter(cls => cls.institute?.city === selectedCity)
-        .map(cls => ({
+        .filter((cls) => cls.institute?.city === selectedCity)
+        .map((cls) => ({
           id: cls.institute?.id,
           name: cls.institute?.name || `Institute ${cls.institute?.id}`,
-          phoneNumber: cls.institute?.phoneNumber || 'N/A'
-        }))
-        .filter(inst => inst.id); // Only include institutes with valid IDs
-      
-      // Remove duplicates based on institute ID
+        }));
+
       const uniqueInstitutes = Array.from(
-        new Map(filteredInstitutes.map(item => [item.id, item])).values()
+        new Map(filteredInstitutes.map((item) => [item.id, item])).values()
       );
-      
       setAvailableInstitutes(uniqueInstitutes);
       setSelectedInstitute("");
       setSelectedClass("");
@@ -141,12 +78,10 @@ const StudentProfile = () => {
     }
   }, [selectedCity, classes]);
 
-
-  // Update classes when institute is selected
   useEffect(() => {
-    if (selectedInstitute && classes.length > 0) {
+    if (selectedInstitute) {
       const filteredClasses = classes.filter(
-        cls => cls.institute?.id?.toString() === selectedInstitute
+        (cls) => cls.institute?.id?.toString() === selectedInstitute
       );
       setAvailableClasses(filteredClasses);
       setSelectedClass("");
@@ -154,64 +89,65 @@ const StudentProfile = () => {
     }
   }, [selectedInstitute, classes]);
 
-  // Update teachers when class is selected
   useEffect(() => {
-    if (selectedClass && availableClasses.length > 0) {
+    if (selectedClass) {
       const selectedClassData = availableClasses.find(
-        cls => cls.id?.toString() === selectedClass
+        (cls) => cls.id?.toString() === selectedClass
       );
-      if (selectedClassData?.teacher) {
-        setAvailableTeachers([selectedClassData.teacher]);
-      } else {
-        setAvailableTeachers([]);
-      }
+      setAvailableTeachers(
+        selectedClassData?.teacher ? [selectedClassData.teacher] : []
+      );
     }
   }, [selectedClass, availableClasses]);
 
   const handleEnroll = () => {
     if (selectedCity && selectedInstitute && selectedClass && selectedTeacher) {
-    
       const token = localStorage.getItem("token");
-      // Enroll in class
-      const classId = parseInt(selectedClass);
-      const data = { classId };
+      const data = { classId: parseInt(selectedClass) };
 
-      //create a new my class type object with selected data
-      const myClass = {
-        classObject: availableClasses.find(cls => cls.id === classId),
-        teacher: availableTeachers.find(teacher => teacher.teacherId === selectedTeacher),
-        institute: availableInstitutes.find(inst => inst.id === parseInt(selectedInstitute))
-      };
-
-      
-      axios.post(`${BASE_URL}class_card/create`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-        .then(response => {
-          console.log("Enrollment response:", response.data);
+      axios
+        .post(`${BASE_URL}class_card/create`, data, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then(() => {
           alert("Enrolled successfully!");
-          setMyClasses([...myClasses, myClass]);
           setShowModal(false);
         })
-
-      
-      setSelectedCity("");
-      setSelectedInstitute("");
-      setSelectedClass("");
-      setSelectedTeacher("");
+        .catch((error) => {
+          console.error("Error enrolling in class:", error);
+        });
     } else {
       alert("Please complete all selections before enrolling.");
     }
   };
 
+  const handleDelete = (classCardId) => {
+    if (window.confirm("Are you sure you want to delete this class?")) {
+      const token = localStorage.getItem("token");
+      axios
+        .delete(`${BASE_URL}class_card/delete/${classCardId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then(() => {
+          setMyClasses((prevClasses) =>
+            prevClasses.filter((cls) => cls.id !== classCardId)
+          );
+          alert("Class deleted successfully!");
+        })
+        .catch((error) => {
+          console.error("Error deleting class:", error);
+        });
+    }
+  };
+
+  const cardColors = ["bg-yellow-200", "bg-blue-300", "bg-green-300", "bg-red-200", "bg-purple-300"];
+
   return (
-    <div className="flex min-h-screen bg-zinc-50 gap-10 p-4 md:ml-64 ml-0">
+    <div className="flex min-h-screen bg-gray-100 gap-10 p-4 md:ml-64 ml-0">
       {/* Main Section */}
-      <div className="w-3/4 bg-gray-200 p-6 rounded-lg shadow-lg">
+      <div className="w-full bg-white p-6 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold mb-6 text-center">
-          Welcome {user ? user.firstName : "Guest"}
+          Welcome {user ? JSON.parse(user).firstName : "Guest"}
         </h2>
 
         <div className="text-center mb-4">
@@ -223,23 +159,28 @@ const StudentProfile = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-3 gap-6 h-[calc(33.33%-50px)]">
-        {myClasses.map((cls) => cls && cls.classObject && cls.classObject.institute && (
-  <Link
-    to={`/institute-${cls.classObject.institute.id}-${cls.classObject.subject?.toLowerCase()}`}
-    key={cls.id}
-  >
-    <button className="w-full bg-gray-500 p-6 text-center font-bold rounded-lg shadow-lg hover:bg-gray-400">
-      {cls.classObject.institute.city} <br /> 
-       {cls.classObject.institute.name} <br />
-      {cls.classObject.subject} - Grade {cls.classObject.grade}
-    </button>
-  </Link>
-))}
-        </div>
-
-        <div className="h-2/3 bg-gray-600 p-2 mt-5 flex-grow rounded-lg">
-          <ResultsHistogram />
+        <div className="grid grid-cols-3 gap-6">
+          {myClasses.map(
+            (cls, index) =>
+              cls &&
+              cls.classObject &&
+              cls.classObject.institute && (
+                <div
+                  key={cls.id}
+                  className={`w-full ${cardColors[index % cardColors.length]} p-4 rounded-lg shadow-md hover:bg-gray-300 relative`}
+                >
+                  <button
+                    className="absolute bottom-2 right-2 text-red-400 hover:text-red-700"
+                    onClick={() => handleDelete(cls.id)}
+                  >
+                    <FaTrashAlt />
+                  </button>
+                  {cls.classObject.institute.city} <br />
+                  {cls.classObject.institute.name} <br />
+                  {cls.classObject.subject} - Grade {cls.classObject.grade}
+                </div>
+              )
+          )}
         </div>
       </div>
 
@@ -250,7 +191,9 @@ const StudentProfile = () => {
             <h2 className="text-xl font-bold mb-4">Enroll in a Course</h2>
 
             <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2">Select City:</label>
+              <label className="block text-gray-700 font-bold mb-2">
+                Select City:
+              </label>
               <select
                 value={selectedCity}
                 onChange={(e) => setSelectedCity(e.target.value)}
@@ -266,7 +209,9 @@ const StudentProfile = () => {
             </div>
 
             <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2">Select Institute:</label>
+              <label className="block text-gray-700 font-bold mb-2">
+                Select Institute:
+              </label>
               <select
                 value={selectedInstitute}
                 onChange={(e) => setSelectedInstitute(e.target.value)}
@@ -276,14 +221,16 @@ const StudentProfile = () => {
                 <option value="">Choose Institute</option>
                 {availableInstitutes.map((inst) => (
                   <option key={inst.id} value={inst.id}>
-                  {inst.name}
+                    {inst.name}
                   </option>
                 ))}
               </select>
             </div>
 
             <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2">Select Class:</label>
+              <label className="block text-gray-700 font-bold mb-2">
+                Select Class:
+              </label>
               <select
                 value={selectedClass}
                 onChange={(e) => setSelectedClass(e.target.value)}
@@ -293,14 +240,17 @@ const StudentProfile = () => {
                 <option value="">Choose Class</option>
                 {availableClasses.map((cls) => (
                   <option key={cls.id} value={cls.id}>
-                    {cls.subject} - Grade {cls.grade} ({cls.scheduleDay} {cls.startTime}-{cls.endTime})
+                    {cls.subject} - Grade {cls.grade} ({cls.scheduleDay}{" "}
+                    {cls.startTime}-{cls.endTime})
                   </option>
                 ))}
               </select>
             </div>
 
             <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2">Teacher:</label>
+              <label className="block text-gray-700 font-bold mb-2">
+                Teacher:
+              </label>
               <select
                 value={selectedTeacher}
                 onChange={(e) => setSelectedTeacher(e.target.value)}

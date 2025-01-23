@@ -112,16 +112,16 @@ static getAllMyclasses = async (req: Request, res: Response) => {
     //     }
     // };
 
-    // // Delete a Notice
-    // static deleteNotice = async (req: Request, res: Response) => {
-    //     const noticeRepository = AppDataSource.getRepository(Notice);
+    // Delete a ClassCard
+    static deleteClassCard = async (req: Request, res: Response) => {
+        const classCardRepository = AppDataSource.getRepository(ClassCard);
 
-    //     const notice = await noticeRepository.findOneBy({ id: parseInt(req.params.id) });
-    //     if (notice) {
-    //     await noticeRepository.remove(notice);
-    //     res.json({ alert : "Notice deleted" });
-    //     } else {
-    //     res.json({ alert : "Notice not found" });
-    //     }
-    // };
+        const classCard = await classCardRepository.findOneBy({ id: parseInt(req.params.id) });
+        if (classCard) {
+        await classCardRepository.remove(classCard);
+        res.json({ alert : "ClassCard deleted" });
+        } else {
+        res.json({ alert : "ClassCard not found" });
+        }
+    };
 }

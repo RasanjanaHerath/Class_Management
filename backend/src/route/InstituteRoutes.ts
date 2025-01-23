@@ -18,7 +18,8 @@ instituteRoutes.put("/update/:id", InstituteController.updateInstitute);
 
 instituteRoutes.delete("/delete/:id", InstituteController.deleteInstitute);
 
-
+//get total number of classes and institutes and teachers
+instituteRoutes.get("/institutes-stat", jwtMiddleware,InstituteController.getInstituteStatistics);
 // Fetch distinct cities
 
 instituteRoutes.get('/cities', InstituteController.getCities);
@@ -32,7 +33,12 @@ instituteRoutes.get("/institutes/:city", InstituteController.getInstitutesByCity
 // Fetch classes by institute
 instituteRoutes.get("/classes/:instituteId", classController.getClassesByInstitute);
 
+// Fetch classes by institute
+instituteRoutes.get("/classes/user/:userId", InstituteController.getClassesByUserId);
+
 // Fetch teachers by class
 instituteRoutes.get("/teachers/:classId", classController.getTeachersByClass);
+
+
 
 export default instituteRoutes;

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Notifications = () => {
+const Ins_Notifications = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-10 md:ml-64">
       <h1 className="text-2xl font-bold mb-6 text-center">Students and Teachers Requests</h1>
@@ -43,7 +43,7 @@ const Notifications = () => {
 
         {/* Teacher Requests */}
         <div className="bg-white shadow-lg rounded-lg p-4">
-          <h2 className="text-xl font-bold mb-4 text-blue-500">Teacher Requests</h2>
+          <h2 className="text-xl font-bold mb-4 text-blue-500">Class Requests</h2>
           <table className="table-auto w-full border-collapse border border-gray-300">
             <thead className="bg-gray-400 text-white">
               <tr>
@@ -83,4 +83,4 @@ const Notifications = () => {
   )
 }
 
-export default Notifications;
+export default Ins_Notifications;

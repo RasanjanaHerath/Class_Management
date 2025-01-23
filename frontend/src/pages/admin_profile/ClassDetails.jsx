@@ -4,6 +4,9 @@ import EditClass from '../../component/model/EditClass';
 import DeleteClass from '../../component/model/DeleteClass';
 import axios from 'axios';
 
+let userItem = localStorage.getItem("user");
+const user = userItem ? JSON.parse(userItem) : null;
+
 const ClassDetails = () => {
   const [classes, setClasses] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,22 +18,15 @@ const ClassDetails = () => {
 
   const fetchClasses = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/classes');
+      const response = await axios.get(`http://localhost:3000/api/institute/classes/user/${user.id}`);
+     console.log(response.data)
       setClasses(response.data); // Assuming your API sends the class list in the response
     } catch (error) {
       console.error('Error fetching class data:', error);
     }
+    console.log("tesdgbfffffffffffffff",response.data);
   };
-
-  // Add new class
-  const addNewClass = async (newClassData) => {
-    try {
-      const response = await axios.post('http://localhost:3000/api/classes', newClassData);
-      setClasses([...classes, response.data]); // Update the list with the new class
-    } catch (error) {
-      console.error('Error adding class:', error);
-    }
-  };
+  
 
   // Update class
   const updateClass = async (updatedClassData) => {
@@ -62,6 +58,7 @@ const ClassDetails = () => {
     (classItem.subject?.toLowerCase() || '').includes(searchTerm.toLowerCase())
   );
   
+  
   return (
     <div className="min-h-screen bg-gray-100 p-10 md:ml-64 ">
     <h1 className="text-2xl font-bold mb-6 text-center">Class Details</h1>
@@ -84,8 +81,10 @@ const ClassDetails = () => {
           <tr>
             <th className="px-4 py-2 border-b">ID</th>
             <th className="px-4 py-2 border-b">Subject</th>
+            <th className="px-4 py-2 border-b">Teacher Name</th>
             <th className="px-4 py-2 border-b">Batch</th>
-            <th className="px-4 py-2 border-b">Date & Time</th>
+            <th className="px-4 py-2 border-b">Day</th>
+            <th className="px-4 py-2 border-b">Start Time</th>
             <th className="px-4 py-2 border-b">Number of Students</th>
             <th className="px-4 py-2 border-b">EDIT</th>
             <th className="px-4 py-2 border-b">DELETE</th>
@@ -94,16 +93,28 @@ const ClassDetails = () => {
         <tbody>
           {filteredClasses.map((classItem) => (
             <tr key={classItem.id}>
-              <td className="px-4 py-2 border-b">{classItem.id}</td>
+              <td className="px-4 py-2 border-b ">{classItem.id}</td>
               <td className="px-4 py-2 border-b">{classItem.subject}</td>
-              <td className="px-4 py-2 border-b">{classItem.batch}</td>
-              <td className="px-4 py-2 border-b">{classItem.dateTime}</td>
+              <td className="px-4 py-2 border-b">{classItem.teacher.name}</td>
+              <td className="px-4 py-2 border-b">{classItem.grade}</td>
+              <td className="px-4 py-2 border-b">{classItem.scheduleDay}</td>
+              <td className="px-4 py-2 border-b">{classItem.startTime}</td>
               <td className="px-4 py-2 border-b">{classItem.numberOfStudents}</td>
               <td className="px-4 py-2 border-b">
-                <EditClass classData={classItem} onSubmit={updateClass} />
+                <button
+                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                onClick={() => openModal()}>
+                Edit
+                </button>
+                {/* <EditClass classData={classItem} onSubmit={updateClass} /> */}
               </td>
               <td className="px-4 py-2 border-b">
-                <DeleteClass className={classItem.subject} onDelete={() => deleteClass(classItem.id)} />
+                <button
+                className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                onClick={() => openModal()}>
+                Delete
+                </button>
+                {/* <DeleteClass className={classItem.subject} onDelete={() => deleteClass(classItem.id)} /> */}
               </td>
             </tr>
           ))}

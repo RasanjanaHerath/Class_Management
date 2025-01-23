@@ -4,13 +4,10 @@ import { Assignment } from './Assignment';
 @Entity('results')
 export class Result {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column()
-  score: string;
-
-  @Column()
-  feedback: string;
+  result: string;
 
   @OneToOne(() => Assignment, (assignment) => assignment.result)
   assignment: Assignment;

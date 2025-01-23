@@ -2,21 +2,27 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { Notice } from "../entity/Notice";
+import { Class } from "../entity/Class";
 
 
 export class NoticeController {
     // Get all notices
     static getAll = async (req: Request, res: Response) => {
         const noticeRepository = AppDataSource.getRepository(Notice);
+        const classRepository = AppDataSource.getRepository(Class);
+        const classes = await classRepository.find({ relations: ['teacher', 'institute', 'students'] });
+        if (!Array.isArray(classes)) {
+          return res.status(500).json({ message: 'Error fetching classes' });
+        }
         const notices = await noticeRepository.find();
         res.json(notices);
     };
 
     // Create a new notice
     static createNotice = async (req: Request, res: Response) => {
-        const { role,title, message } = req.body;
+        const { visibilityRole ,title, message } = req.body;
         const notice = new Notice();
-        notice.role = role;
+        notice.visibilityRole = visibilityRole;
         notice.title = title;
         notice.message = message;
     
@@ -34,7 +40,7 @@ export class NoticeController {
 
         const notice = await noticeRepository.findOneBy({ id: parseInt(req.params.id) });
         if (notice) {
-        notice.role = role;
+        notice.visibilityRole = role;
         notice.title = title;
         notice.message = message;
         

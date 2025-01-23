@@ -172,9 +172,14 @@ export class TeacherController {
   //     return res.status(500).json({ message: 'An error occurred while deleting the teacher.' });
   //   }
   // };
+
   static deleteTeacher = async (req: Request, res: Response) => {
     const teacherRepository = AppDataSource.getRepository(Teacher);
     const teacherId = parseInt(req.params.id, 10);
+
+    if (isNaN(teacherId)) {
+      return res.status(400).json({ message: 'Invalid teacher ID' });
+    }
 
     try {
       const teacher = await teacherRepository.findOne({ where: { teacherId: teacherId } });
@@ -186,7 +191,7 @@ export class TeacherController {
       return res.status(200).json({ message: 'Teacher deleted successfully' });
     } catch (error) {
       console.error('Error deleting teacher:', error);
-      return res.status(500).json({ message: 'An error occurred while deleting the teacher.' });
+      return res.status(500).json({ message: 'An error occurred while deleting the teacher.', error: error.message });
     }
   };
 

@@ -2,21 +2,22 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm"
 import { Institute } from './Institute';
 import { Teacher } from './Teacher';
 import { Student } from './Student';
+import { Class } from "./Class";
 
 @Entity()
 export class Notice {
 
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
+
+    @Column({ default: '' })
+    visibilityRole: string;
 
     @Column()
-    role: string
+    title: String;
 
-    @Column()
-    title: String
-
-    @Column()
-    message: string
+    @Column({ default: '' })
+    message: string;
 
     @ManyToOne(() => Institute, (institute) => institute.notices)
     institute: Institute;
@@ -26,6 +27,11 @@ export class Notice {
   
     @ManyToOne(() => Student, (student) => student.notices)
     student: Student;
+
+    @ManyToOne(() => Class, (classes) => classes.notices)
+    classes: Class;
+
+    
 
 }
 

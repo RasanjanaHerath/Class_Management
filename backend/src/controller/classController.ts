@@ -34,6 +34,20 @@ export class classController {
     }
   };
 
+  // get all students for a class
+  static getStudentsByClass = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+      const classEntity = await AppDataSource.getRepository(Class).findOne({
+        where: { id: parseInt(id), isverify: true },
+        relations: ["students"],
+      });
+      res.json(classEntity?.students || []);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching students", error });
+    }
+  };
+
   static getClassById = async (req: Request, res: Response) => {
 
     try {
@@ -85,11 +99,14 @@ export class classController {
       // Fetch verified classes
       const verifiedClasses = await classRepository.find({
         where: { teacher: { teacherId: teacherId }, isverify: true },
+        relations: ["institute"],
       });
+
 
       // Fetch pending classes
       const pendingClasses = await classRepository.find({
         where: { teacher: { teacherId: teacherId }, isverify: false },
+        relations: ["institute"],
       });
 
       res.status(200).json({
@@ -257,55 +274,88 @@ export class classController {
       }
     };
 
+    // static updateClass = async (req: Request, res: Response) => {
+    //   const { subject, instituteId, numberOfStudents, grade, startTime, endTime, feePerMonth, scheduleDay, isverify } = req.body;
+    //   const classRepository = AppDataSource.getRepository(Class);
+  
+    //   try {
+    //     if(!instituteId){
+    //       return res.status(404).json({ message: 'Institute is Required' });
+    //     }
+
+    //     const instituteRepository = AppDataSource.getRepository(Institute);
+    //     const institute = await instituteRepository.findOne({ where: { id: instituteId } });
+    //     const teacherRepository = AppDataSource.getRepository(Teacher);
+    //     const userRepository = AppDataSource.getRepository(User);
+        
+    //     const userId = req.user?.userId;
+
+    //     if(!userId){
+    //       return res.status(404).json({ message: 'User not found' });
+    //     }
+
+    //     const user = await userRepository.findOne({
+    //       where: { id: userId },
+    //     });
+
+    //     const userInst = await userRepository.findOne({
+    //       where: { institute },
+    //     });
+
+    //     const teacher = await teacherRepository.findOne({
+    //       where: { user },
+    //       relations: ["user"],
+    //     });
+
+    //     if (!institute) {
+    //       return res.status(404).json({ message: 'Institute not found' });
+    //     }
+  
+    //     if (!teacher) {
+    //       return res.status(404).json({ message: 'Teacher not found' });
+    //     }
+    //     // Find the class by ID from the request parameters
+    //     const existingClass = await classRepository.findOne({ where: { id: parseInt(req.params.id) } });
+  
+    //     if (!existingClass) {
+    //       return res.status(404).json({ message: 'Class not found' });
+    //     }
+  
+    //     // Update the class properties
+    //     existingClass.subject = subject;
+    //     existingClass.grade = grade;
+    //     existingClass.startTime = startTime;
+    //     existingClass.endTime = endTime;
+    //     existingClass.scheduleDay = scheduleDay;
+    //     existingClass.feePerMonth = feePerMonth;
+    //     existingClass.numberOfStudents = numberOfStudents;
+    //     //existingClass.isverify = isverify;
+    //     existingClass.institute = institute;
+    //     existingClass.teacher = teacher; // Update the teacher for the class
+  
+    //     // Save the updated class to the database
+    //     await classRepository.save(existingClass);
+  
+    //     // Respond with a success message and the updated class
+    //     res.json({ message: 'Class updated', class: existingClass });
+    //   } catch (error) {
+    //     console.error('Error updating class:', error);
+    //     res.status(500).json({ message: 'Error updating class', error: error.toString() });
+    //   }
+    // };
+
     static updateClass = async (req: Request, res: Response) => {
-      const { subject, instituteId, numberOfStudents, grade, startTime, endTime, feePerMonth, scheduleDay, isverify } = req.body;
+      const { id } = req.params;
+      const { subject, grade, startTime, endTime, scheduleDay, feePerMonth, numberOfStudents, isverify } = req.body;
       const classRepository = AppDataSource.getRepository(Class);
-      const teacherRepository = AppDataSource.getRepository(Teacher);
   
       try {
-        if(!instituteId){
-          return res.status(404).json({ message: 'Institute is Required' });
-        }
-
-        const instituteRepository = AppDataSource.getRepository(Institute);
-        const institute = await instituteRepository.findOne({ where: { id: instituteId } });
-        const teacherRepository = AppDataSource.getRepository(Teacher);
-        const userRepository = AppDataSource.getRepository(User);
-        
-        const userId = req.user?.userId;
-
-        if(!userId){
-          return res.status(404).json({ message: 'User not found' });
-        }
-
-        const user = await userRepository.findOne({
-          where: { id: userId },
-        });
-
-        const userInst = await userRepository.findOne({
-          where: { institute },
-        });
-
-        const teacher = await teacherRepository.findOne({
-          where: { user },
-          relations: ["user"],
-        });
-
-        if (!institute) {
-          return res.status(404).json({ message: 'Institute not found' });
-        }
-  
-        if (!teacher) {
-          return res.status(404).json({ message: 'Teacher not found' });
-        }
-        // Find the class by ID from the request parameters
-        const existingClass = await classRepository.findOne({ where: { id: parseInt(req.params.id) } });
+        const existingClass = await classRepository.findOneBy({ id: parseInt(id) });
   
         if (!existingClass) {
           return res.status(404).json({ message: 'Class not found' });
         }
   
-        // Update the class properties
         existingClass.subject = subject;
         existingClass.grade = grade;
         existingClass.startTime = startTime;
@@ -314,13 +364,10 @@ export class classController {
         existingClass.feePerMonth = feePerMonth;
         existingClass.numberOfStudents = numberOfStudents;
         existingClass.isverify = isverify;
-        existingClass.institute = institute;
-        existingClass.teacher = teacher; // Update the teacher for the class
+     
   
-        // Save the updated class to the database
         await classRepository.save(existingClass);
   
-        // Respond with a success message and the updated class
         res.json({ message: 'Class updated', class: existingClass });
       } catch (error) {
         console.error('Error updating class:', error);

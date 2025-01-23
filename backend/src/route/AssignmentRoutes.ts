@@ -1,5 +1,6 @@
 import {Router} from "express";
 import { AssignmentController } from '../controller/AssignmentmentController';
+import { jwtMiddleware } from "../middleware/jwtMiddleware";
 
 const assignmentRoutes = Router();
 
@@ -9,8 +10,12 @@ assignmentRoutes.get('/getAll', AssignmentController.getAll);
 // Route to assignments by ID
 assignmentRoutes.get('/getById/:id', AssignmentController.getById);
 
+// Get assignments by teacher and institute
+assignmentRoutes.get('/get-class-by-teacher', jwtMiddleware, AssignmentController.getAssignmentsByTeacherAndInstitute);
+
+
 // Route to create a new announcement
-assignmentRoutes.post('/create', AssignmentController.createAssignment);
+assignmentRoutes.post('/create',jwtMiddleware, AssignmentController.createAssignment);
 
 // Route to update an existing assignments
 assignmentRoutes.put('/update/:id', AssignmentController.updateAssignment);

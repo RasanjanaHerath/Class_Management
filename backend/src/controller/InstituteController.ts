@@ -122,6 +122,38 @@ export class InstituteController {
     }
 };
 
+    //get institute by teacher
+    static getInstitutesByTeacher = async (req: Request, res: Response, next: NextFunction) => {
+      const instituteRepository = AppDataSource.getRepository(Institute);
+      const teacherRepository = AppDataSource.getRepository(Teacher);
+      const classRepository = AppDataSource.getRepository(Class);
+  
+      try {
+
+      // Fetch the teacherId using the userId
+      const teacher = await teacherRepository.findOne({ where: { user: { id: req.user.userId } } });
+
+      if (!teacher) {
+        return res.status(404).json({ message: 'Teacher not found' });
+      }
+
+      // Fetch classes taught by the teacher
+      const classes = await classRepository.find({
+        where: { teacher: { teacherId: teacher.teacherId } },
+        relations: ['institute'],
+      });
+
+      // Extract unique institutes from the classes
+      const institutes = classes.map((classItem) => classItem.institute);
+      const uniqueInstitutes = Array.from(new Set(institutes.map((institute) => institute.id)))
+        .map((id) => institutes.find((institute) => institute.id === id));
+  
+        return res.json(uniqueInstitutes);
+      } catch (error) {
+        console.error('Error fetching institutes by teacher:', error);
+        return res.status(500).json({ message: 'An error occurred while fetching institutes by teacher.' });
+      }
+    };
 
 
     // Create a new Institute

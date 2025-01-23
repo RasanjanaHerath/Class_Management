@@ -8,6 +8,9 @@ const instituteRoutes = Router();
 // Get all users
 instituteRoutes.get("/get-all", InstituteController.getAll);
 
+//Get institute by teacher
+instituteRoutes.get("/get-by-teacher",jwtMiddleware,InstituteController.getInstitutesByTeacher)
+
 // Create a new user
 instituteRoutes.post("/create",jwtMiddleware, InstituteController.createInstitute);
 

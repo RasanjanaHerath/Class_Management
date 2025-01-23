@@ -42,6 +42,7 @@ import Create_Notice from "./pages/admin_profile/Create_Notice";
 import InstituteRegistration from "./pages/InstituteRegistration";
 import StudentMesseges from "./pages/StudentNotices";
 import MarkAttendance from "./pages/Attendance";
+import AssignmentsPage from "./pages/StudentAssignment";
 
 const router = createBrowserRouter([
   {
@@ -410,6 +411,17 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <MarkAttendance/>,
+      },
+    ],
+  },
+
+  {
+    path: "/student_assignment",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <AssignmentsPage/>,
       },
     ],
   },

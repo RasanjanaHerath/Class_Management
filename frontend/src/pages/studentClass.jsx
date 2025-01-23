@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 
 const StudentClass = () => {
   const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
+    const [user, setUser] = useState(null);
 
   return (
     <div className="bg-gray-100 min-h-screen p-6 ml-64">
       {/* Student Name */}
-      <h1 className="text-center text-2xl font-bold text-blue-800 mb-8">Welcome Rasanjana</h1>
+      <h1 className="text-center text-2xl font-bold text-blue-800 mb-8">Welcome {user ? user.firstName : "Guest"}</h1>
       
       {/* Payments Section */}
       <section className="bg-white p-6 rounded-lg shadow-md mb-8">

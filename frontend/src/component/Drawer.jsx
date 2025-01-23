@@ -276,10 +276,12 @@ const Drawer = ({ role }) => {
   // Define menu items based on roles
   const menuItems = {
     student: [
-      { path: "/student_profile", label: "Dashboard" },
-      { path: "/student_classes", label: "My Classes" },
+      { path: "/student_report", label: "Dashboard" },
+      { path: "/student_profile", label: "My Classes" },
       { path: "/student_messeges", label: "Messages" },
-      { path: "/student_report", label: "Reports" },
+      { path: "/student_assignment", label: "Home Works" },
+      { path: "/student_class", label: "Class Payments" },
+      
     ],
     teacher: [
       { path: "/teacher_profile", label: "Dashboard" },
@@ -312,7 +314,6 @@ const Drawer = ({ role }) => {
 
   const commonItems = [
     { path: "/help_support", label: "Help & Support" },
-    { path: "/settings", label: "Settings" },
     { path: "/", label: "Logout" },
   ];
 

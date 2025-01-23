@@ -90,17 +90,19 @@ const StudentProfile = () => {
   }, [selectedInstitute, classes]);
 
   useEffect(() => {
-    if (selectedClass) {
-      const selectedClassData = availableClasses.find(
-        (cls) => cls.id?.toString() === selectedClass
-      );
-      setAvailableTeachers(
-        selectedClassData?.teacher ? [selectedClassData.teacher] : []
-      );
-    }
+    const fetchTeachers = async () => {
+      if (selectedClass) {
+        console.log(selectedClass);
+        const result = await axios.get(`http://localhost:3000/api/class/get-teachers-by-class/${selectedClass}`);
+        console.log(result.data);
+        setAvailableTeachers(result.data.user.firstName);
+      }
+    };
+    fetchTeachers();
   }, [selectedClass, availableClasses]);
 
   const handleEnroll = () => {
+    setSelectedTeacher(availableTeachers);
     if (selectedCity && selectedInstitute && selectedClass && selectedTeacher) {
       const token = localStorage.getItem("token");
       const data = { classId: parseInt(selectedClass) };
@@ -258,11 +260,12 @@ const StudentProfile = () => {
                 disabled={!selectedClass}
               >
                 <option value="">Choose Teacher</option>
-                {availableTeachers.map((teacher) => (
-                  <option key={teacher.teacherId} value={teacher.teacherId}>
+                {/* {availableTeachers.map((teacher,index) => (
+                  <option key={index} value={teacher}>
                     {teacher.name}
                   </option>
-                ))}
+                ))} */}
+                <option value={availableTeachers}>{availableTeachers}</option>
               </select>
             </div>
 

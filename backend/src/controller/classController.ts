@@ -28,7 +28,11 @@ export class classController {
     try {
       const classEntity = await AppDataSource.getRepository(Class).findOne({
         where: { id: parseInt(classId) },
-        relations: ["teachers"],
+      relations: {
+        teacher: {
+          user: true,
+        },
+      },
       });
       res.json(classEntity?.teacher || []);
     } catch (error) {

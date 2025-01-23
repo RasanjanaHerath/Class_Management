@@ -23,6 +23,7 @@ static getAllMyclasses = async (req: Request, res: Response) => {
                 classObject: {
                     institute: true,
                     teacher: {
+                        
                         user: true
                     }
                 }
@@ -111,6 +112,7 @@ static getAllMyclasses = async (req: Request, res: Response) => {
 
         res.json(classCard);
     };
+
 
     // // Update a ClassCard
 

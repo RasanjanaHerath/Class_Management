@@ -37,14 +37,14 @@ const StudentClass = () => {
   return (
     <div className="bg-gray-100 min-h-screen p-6 ml-64">
       {/* Student Name */}
-      <h1 className="text-center text-2xl font-bold text-blue-800 mb-8">Welcome {user ? user.firstName : "Guest"}</h1>
+      <h1 className="text-center text-2xl font-bold text-blue-800 mb-8">Welcome {user ? user.firstName : ""}</h1>
       
       {/* Payments Section */}
       <section className="bg-white p-6 rounded-lg shadow-md mb-8">
         <h2 className="text-lg font-semibold mb-4 text-gray-700">Payments</h2>
         
         <div className="flex justify-between items-center mb-4">
-          <div className="bg-gray-200 w-3/4 p-4 rounded-lg text-gray-500">Calendar which shows payment history</div>
+          <div className="bg-gray-200 w-3/4 p-4 rounded-lg text-gray-500"></div>
           <button
             onClick={() => setPaymentModalOpen(true)}
             className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
@@ -74,7 +74,7 @@ const StudentClass = () => {
       </section>
       
       {/* Attendance Section */}
-      <section className="bg-white p-6 rounded-lg shadow-md mb-8">
+      {/* <section className="bg-white p-6 rounded-lg shadow-md mb-8">
         <h2 className="text-lg font-semibold mb-4 text-gray-700">Attendance</h2>
         
         <div className="w-full bg-gray-300 h-6 rounded-lg overflow-hidden mb-4">
@@ -82,10 +82,10 @@ const StudentClass = () => {
         </div>
         
         <div className="bg-gray-200 w-full p-4 rounded-lg text-gray-500">Attendance sheet/calendar</div>
-      </section>
+      </section> */}
       
       {/* Homework Section */}
-      <section className="bg-blue-50 p-6 rounded-lg shadow-md">
+      {/* <section className="bg-blue-50 p-6 rounded-lg shadow-md">
         <h2 className="text-lg font-semibold mb-4 text-gray-700">Home Works</h2>
         
         <div className="space-y-4">
@@ -97,8 +97,8 @@ const StudentClass = () => {
             </div>
           </div>
           {/* Repeat assignment row as needed */}
-        </div>
-      </section>
+        {/*</div>
+      </section> */}
       
       {/* Payment Modal */}
       {isPaymentModalOpen && (

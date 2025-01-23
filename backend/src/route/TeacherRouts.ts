@@ -12,6 +12,8 @@ teacherRoutes.get('/getById/:id',TeacherController.getTeacher);
 // getAll teachers
 teacherRoutes.get('/get-all',TeacherController.getAll);
 
+// teacherRoutes.get('/get-by-institute',jwtMiddleware,TeacherController.getTeacherByInstitute);
+
 // Create a new teacher with validation and jwtMiddleware
 teacherRoutes.post('/save',jwtMiddleware, TeacherController.save);
 

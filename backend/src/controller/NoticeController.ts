@@ -58,4 +58,11 @@ export class NoticeController {
         res.json({ alert : "Notice not found" });
         }
     };
+
+
+    static getNoticeForInstitute = async (req: Request, res: Response) => {
+        const noticeRepository = AppDataSource.getRepository(Notice);
+        const notices = await noticeRepository.find({ where: { role: "institute" } });
+        res.json(notices);
+    }
 }

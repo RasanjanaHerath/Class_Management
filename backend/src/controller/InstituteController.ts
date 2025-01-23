@@ -76,8 +76,9 @@ export class InstituteController {
             user: { id: parseInt(userId) }, // Assuming `institute.user` relates to the `userId`
           },
         },
-        relations: ['institute', 'institute.user'], // Include related entities if needed
+        relations: ['teacher', 'institute', 'institute.user', 'students', 'assignments'], // Include all necessary relations
       });
+      
   
       if (classes.length === 0) {
         return res.status(404).json({ message: 'No classes found for the given institute userId' });
@@ -285,35 +286,37 @@ export class InstituteController {
 
   static getInstituteStatistics = async (req: Request, res: Response) => {
     try {
-      const { instituteId } = req.params;
 
+
+      const userId = req.user.userId
       const instituteRepository = AppDataSource.getRepository(Institute);
-      const teacherRepository = AppDataSource.getRepository(Teacher);
-      const studentRepository = AppDataSource.getRepository(Student);
       const classRepository = AppDataSource.getRepository(Class);
 
-      // Find the institute by ID
+      console.log("userId", userId)
       const institute = await instituteRepository.findOne({
-        where: { id: +instituteId }, // Ensure `instituteId` is a number
+        where: { user : { id : userId} }, // Ensure `instituteId` is a number
       });
+
 
       if (!institute) {
         return res.status(404).json({ message: "Institute not found" });
       }
 
       // Fetch counts for related entities
-      const [totalClasses, totalTeachers, totalStudents] = await Promise.all([
-        classRepository.count({
-          where: { institute: { id: +instituteId } },
-        }),
-        teacherRepository.count({
-          where: { institute: { id: +instituteId } },
-        }),
-        studentRepository.count({
-          where: { institute: { id: +instituteId } },
-        }),
-      ]);
+      const classes = await classRepository.find({ where: { institute: { id: institute.id } } });
+      const totalClasses = classes.length;
+      // class has student array, get all students from all classes
+      const students = classes.map((cls) => cls.students).flat();
 
+      // class has one teacher, get all unique teachers
+      const teachers = classes.map((cls) => cls.teacher);
+
+      const totalTeachers = teachers.length;
+      const totalStudents = students.length;
+
+
+
+    
       // Respond with the statistics
       res.json({
         instituteName: institute.name,

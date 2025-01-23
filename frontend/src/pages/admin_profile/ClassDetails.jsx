@@ -19,7 +19,7 @@ const ClassDetails = () => {
   const fetchClasses = async () => {
     try {
       const response = await axios.get(`http://localhost:3000/api/institute/classes/user/${user.id}`);
-      console.log(`http://localhost:3000/api/institute/classes/user/${user.id}`)
+     console.log(response.data)
       setClasses(response.data); // Assuming your API sends the class list in the response
     } catch (error) {
       console.error('Error fetching class data:', error);
@@ -58,6 +58,7 @@ const ClassDetails = () => {
     (classItem.subject?.toLowerCase() || '').includes(searchTerm.toLowerCase())
   );
   
+  
   return (
     <div className="min-h-screen bg-gray-100 p-10 md:ml-64 ">
     <h1 className="text-2xl font-bold mb-6 text-center">Class Details</h1>
@@ -94,7 +95,7 @@ const ClassDetails = () => {
             <tr key={classItem.id}>
               <td className="px-4 py-2 border-b ">{classItem.id}</td>
               <td className="px-4 py-2 border-b">{classItem.subject}</td>
-              <td className="px-4 py-2 border-b">pakaya</td>
+              <td className="px-4 py-2 border-b">{classItem.teacher.name}</td>
               <td className="px-4 py-2 border-b">{classItem.grade}</td>
               <td className="px-4 py-2 border-b">{classItem.scheduleDay}</td>
               <td className="px-4 py-2 border-b">{classItem.startTime}</td>

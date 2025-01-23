@@ -63,45 +63,53 @@ const Header = () => {
 
           {/* Popup Window */}
           {isPopupVisible && (
-            <div
-              className="absolute right-0 mt-4 w-96 bg-white border border-gray-200 shadow-lg rounded-lg"
-              onMouseLeave={closePopup}
-            >
-              <div className="p-6 mt-6 text-center">
-                {/* Larger Profile Picture */}
-                <img
-                  src={user.profilePicture}
-                  alt="Profile"
-                  className="w-24 h-24 rounded-full border-2 border-gray-300 shadow-sm mx-auto mb-8"
-                />
-                {/* User Name and Email */}
-                <h3 className="text-xl font-bold text-gray-800">{user.name}</h3>
-                <p className="text-sm text-gray-600">{user.email}</p>
-                <hr className="my-4" />
-                {/* Action Buttons */}
-                <div className="space-y-4">
-                  {/* <button
-                    className="py-2 px-4 w-full text-white bg-blue-500 hover:bg-blue-600 transition rounded-lg"
-                    onClick={() => {
-                      console.log('View Profile clicked');
-                      closePopup();
-                    }}
-                  >
-                    View Profile
-                  </button> */}
-                  <button
-                    className="py-2 px-4 w-full text-white bg-red-500 hover:bg-red-600 transition rounded-lg"
-                    onClick={() => {
-                      console.log('Logout clicked');
-                      closePopup();
-                      // Add your logout logic here
-                    }}
-                  >
-                    Logout
-                  </button>
+            <>
+              <div
+                className="fixed inset-0 bg-black opacity-50 z-40"
+                onClick={closePopup}
+              ></div>
+              <div
+                className="absolute right-0 mt-4 w-80 bg-white border border-gray-200 shadow-lg rounded-lg z-50"
+                onMouseLeave={closePopup}
+              >
+                <div className="p-6 text-center">
+                  {/* Greeting */}
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4">Hi, {user.name}!</h3>
+                  {/* Larger Profile Picture */}
+                  <img
+                    src={user.profilePicture}
+                    alt="Profile"
+                    className="w-24 h-24 rounded-full border-4 border-gray-300 shadow-lg mx-auto mb-4"
+                  />
+                  {/* User Name and Email */}
+                  <h3 className="text-xl font-bold text-gray-800">{user.name}</h3>
+                  <p className="text-sm text-gray-600">{user.email}</p>
+                  <hr className="my-4 border-gray-300" />
+                  {/* Action Buttons */}
+                  <div className="space-y-4">
+                    {/* <button
+                      className="py-2 px-4 w-full text-white bg-blue-500 hover:bg-blue-600 transition rounded-lg"
+                      onClick={() => {
+                        console.log('View Profile clicked');
+                        closePopup();
+                      }}
+                    >
+                      View Profile
+                    </button> */}
+                    <button
+                      className="py-2 px-4 w-full text-white bg-red-500 hover:bg-red-600 transition rounded-lg"
+                      onClick={() => {
+                        console.log('Logout clicked');
+                        closePopup();
+                        // Add your logout logic here
+                      }}
+                    >
+                      Logout
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </>
           )}
         </div>
       </div>

@@ -75,7 +75,7 @@ const Home = () => {
         <div className="grid grid-cols-2 gap-8">
           <div className="mt-44">
             <h1 className="text-4xl font-bold text-gray-800 mb-4">
-              Welcome to <span className="text-pink-500">Class Master</span>
+              Welcome to <span className="text-pink-600">Class Master</span>
             </h1>
             <p className="text-gray-600 mb-8">
               Empowering Education, Connecting Communities.
@@ -83,7 +83,7 @@ const Home = () => {
             <div className="flex justify-center">
               <div className="p-4">
                 <button
-                  className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition transform hover:scale-105"
+                  className="bg-pink-600 hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition transform hover:scale-105"
                   style={{ minWidth: '140px', lineHeight: '36px', letterSpacing: '.3px' }}
                   onClick={handleSignin}
                 >
@@ -109,7 +109,7 @@ const Home = () => {
         </div>
       </main>
 
-      <section className="bg-pink-500 text-white py-20">
+      <section className="bg-pink-600 text-white py-20">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             {features.map((feature, index) => (

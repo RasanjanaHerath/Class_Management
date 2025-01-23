@@ -397,6 +397,7 @@ const AssignmentSubmission = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const formDataToSend = new FormData();
+    console.log("form data: ",formData);
     formDataToSend.append('instituteId', formData.instituteId);
     formDataToSend.append('classId', formData.classId);
     formDataToSend.append('title', formData.title);
@@ -406,7 +407,8 @@ const AssignmentSubmission = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.post(`${BASE_URL}/assignment/create`, formDataToSend, {
+      console.log(formDataToSend);
+      const response = await axios.post(`http://localhost:3000/api/assignment/create`, formDataToSend, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data',
@@ -473,8 +475,8 @@ const AssignmentSubmission = () => {
               <div className="mb-4">
                 <label className="block text-gray-700 font-semibold mb-1">Class</label>
                 <select
-                  name="AssignmentId"
-                  value={formData.AssignmentId}
+                  name="classId"
+                  value={formData.classId}
                   onChange={handleFormChange}
                   className="w-full p-2 border rounded-md focus:outline-blue-500"
                 >
@@ -485,6 +487,7 @@ const AssignmentSubmission = () => {
                     </option>
                   ))}
                 </select>
+               \
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Assignment Title:</label>

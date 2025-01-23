@@ -43,24 +43,10 @@ const TeacherTable = () => {
     alert(`${name} deleted.`);
   };
 
-  useEffect(() => {
-    const fetchTeachers = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3000/api/teacher/get-all`
-        );
-        setTeachers(response.data);
-      } catch (error) {
-        console.error("Error fetching teachers:", error);
-      }
-    };
-
-    fetchTeachers();
-  }, []);
-
   const [approvedInstitutes, setApprovedInstitutes] = useState([]);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
   const [selectedInstitute, setSelectedInstitute] = useState(null);
+  const [reaload, setReaload] = useState(false);
 
   const [openDetailsModal, setOpenDetailsModal] = useState(false);
 
@@ -103,12 +89,15 @@ const TeacherTable = () => {
     setDeleteIndex(null);
   };
 
-  const handleDeleteInstitute = async () => {
+  const handleDeleteTeacher = async () => {
     const token = localStorage.getItem("token");
 
     try {
+      // Make API ca
+      // ll to delete the teacher
+
       await axios.delete(
-        `http://localhost:3000/api/institute/delete/${approvedInstitutes[deleteIndex].id}`,
+        `http://localhost:3000/api/teacher/delete/${deleteIndex.teacherId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -116,48 +105,77 @@ const TeacherTable = () => {
         }
       );
 
-      const updatedInstitutes = approvedInstitutes.filter(
-        (_, i) => i !== deleteIndex
-      );
-      setApprovedInstitutes(updatedInstitutes);
-      setSnackbarMessage("Institute deleted successfully!");
+      // Update the teacher list after successful deletion
+      const updatedTeachers = teachers.filter((_, i) => i !== deleteIndex);
+      setTeachers(updatedTeachers);
+      // setSnackbarMessage("Teacher deleted successfully!");
+      reloadTeachers();
       setOpenSnackbar(true);
       handleCloseDeleteModal();
     } catch (error) {
-      console.error("Error deleting institute:", error);
-      setSnackbarMessage("Failed to delete institute.");
+      console.error("Error deleting teacher:", error);
+      // setSnackbarMessage("Failed to delete teacher.");
       setOpenSnackbar(true);
     }
   };
 
-  const handleUpdateInstitute = async (event) => {
+  const handleUpdateTeacher = async (event) => {
     event.preventDefault();
     const token = localStorage.getItem("token");
 
-    const updatedInstitute = {
-      firstName: selectedInstitute.firstName,
-      phoneNumber: selectedInstitute.phoneNumber,
-      city: selectedInstitute.city,
+    // Prepare the updated teacher data payload
+    const updatedTeacher = {
+      firstName: selectedInstitute?.user?.firstName,
+      lastName: selectedInstitute?.user?.lastName,
+      subjects: selectedInstitute?.subjects,
+      nic: selectedInstitute?.nic,
+      phoneNumber: selectedInstitute?.phoneNumber,
     };
 
-    console.log("fname :", selectedInstitute.id);
+    console.log(selectedInstitute);
 
     try {
+      // Make API call to update the teacher
       const response = await axios.put(
-        `http://localhost:3000/api/institute/update/${selectedInstitute.id}`,
-        updatedInstitute
+        `http://localhost:3000/api/teacher/update/${selectedInstitute.teacherId}`,
+        updatedTeacher,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      console.log(response);
-      setSnackbarMessage("Institute updated successfully!");
-      setOpenSnackbar(true);
-      handleCloseUpdateModal();
+
       window.location.reload();
+      // setSnackbarMessage("Teacher updated successfully!");
+      // setOpenSnackbar(true);
+      reloadTeachers();
+      handleCloseUpdateModal();
     } catch (error) {
-      console.error("Error updating institute:", error);
-      setSnackbarMessage("Failed to update institute.");
+      console.error("Error updating teacher:", error);
+      // setSnackbarMessage("Failed to update teacher.");
       setOpenSnackbar(true);
     }
   };
+
+  const reloadTeachers = () => {
+    setReaload(!reaload);
+  };
+
+  useEffect(() => {
+    const fetchTeachers = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/teacher/get-all`
+        );
+        setTeachers(response.data);
+      } catch (error) {
+        console.error("Error fetching teachers:", error);
+      }
+    };
+
+    fetchTeachers();
+  }, [reaload]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 md:ml-64 mr-8">
@@ -331,7 +349,7 @@ const TeacherTable = () => {
           <Typography variant="h6" component="h2">
             Update Teacher
           </Typography>
-          <form onSubmit={handleUpdateInstitute}>
+          <form onSubmit={handleUpdateTeacher}>
             <TextField
               label="First Name"
               fullWidth
@@ -535,7 +553,7 @@ const TeacherTable = () => {
               className="hover:shadow-lg transform hover:scale-105"
               variant="contained"
               color="error"
-              onClick={handleDeleteInstitute}
+              onClick={handleDeleteTeacher}
             >
               <FaCheck style={{ marginRight: "8px" }} />
               OK

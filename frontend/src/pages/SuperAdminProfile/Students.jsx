@@ -5,6 +5,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  Typography,
   TableRow,
   Button,
   Paper,
@@ -31,6 +32,14 @@ const InstituteTable = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 md:ml-64 mr-8">
+    <div className="text-center mb-12">
+        <Typography variant="h4" className="text-gray-700">
+          Student Management
+        </Typography>
+        <p>
+     
+    </p>
+      </div>
       <TableContainer component={Paper} sx={{ margin: "20px", borderRadius: "10px" }}>
       <Table>
         <TableHead>

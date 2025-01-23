@@ -23,4 +23,6 @@ teacherRoutes.put('/update/:id', TeacherController.updateTeacher);
 // delete teacher
 teacherRoutes.delete('/delete/:id',TeacherController.deleteTeacher);
 
+teacherRoutes.get("/get-stats",jwtMiddleware,TeacherController.getStat);
+
 export default teacherRoutes;

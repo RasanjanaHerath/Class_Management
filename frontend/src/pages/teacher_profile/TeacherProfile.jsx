@@ -190,10 +190,11 @@ import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LineChart, Line } from 'recharts';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css'; // Import the calendar styles
+import axios from 'axios';
 
 const Dashboard = () => {
-  const [totalStudents, setTotalStudents] = useState(3500);
-  const [totalClasses, setTotalClasses] = useState(120);
+  const [totalStudents, setTotalStudents] = useState();
+  const [totalClasses, setTotalClasses] = useState();
   const [monthlyIncome, setMonthlyIncome] = useState(50000);
   const [attendanceData, setAttendanceData] = useState([
     { className: 'Math', attendance: 85 },
@@ -222,9 +223,23 @@ const Dashboard = () => {
   ]);
 
   useEffect(() => {
-    // Simulate fetching data from an API if needed
-  }, []);
 
+    const token = localStorage.getItem("token");
+    axios
+      .get(`http://localhost:3000/api/teacher/get-stats`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      })
+      .then((response) => {
+      console.log(response.data);
+      setTotalClasses(response.data.totalClasses);
+      setTotalStudents(response.data.totalStudents);
+      })
+      .catch((error) => {
+      console.error("Error fetching institute statistics:", error);
+      });
+  }, []);
   return (
     <div className="flex flex-col lg:flex-row min-h-screen p-6 bg-gray-100 md:ml-64 ml-0 h-full">
       {/* Main Content */}

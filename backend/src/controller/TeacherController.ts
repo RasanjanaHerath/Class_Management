@@ -3,6 +3,7 @@ import { AppDataSource } from '../data-source';
 import { Teacher } from '../entity/Teacher';
 import { User } from '../entity/User';
 import { Institute } from '../entity/Institute';
+import { Class } from '../entity/Class';
 
 export class TeacherController {
   // Get teacher details by ID
@@ -196,6 +197,29 @@ export class TeacherController {
       return res.status(500).json({ message: 'An error occurred while deleting the teacher.', error: error.message });
     }
   };
+
+
+  static getStat = async (req: Request, res: Response) => {
+    const userId = req.user?.userId;
+    const classRepository = AppDataSource.getRepository(Class);
+    const teacherRepository = AppDataSource.getRepository(Teacher);
+
+    const teacher = await teacherRepository.findOne({ where: { user: { id: userId } } });
+    
+
+    
+    const totalClasses = await classRepository.count({ where: { teacher: {teacherId : teacher.teacherId} } });
+    const classes = await classRepository.find({ where: { teacher: {teacherId : teacher.teacherId} } });
+
+    let totalStudents = 0;
+    classes.forEach((c) => {
+      totalStudents += c.students?.length;
+    });
+
+
+
+    return res.json({ totalClasses, totalStudents });
+  }
 
 }
 

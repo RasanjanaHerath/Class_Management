@@ -487,7 +487,7 @@ const AssignmentSubmission = () => {
                     </option>
                   ))}
                 </select>
-               \
+          
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Assignment Title:</label>

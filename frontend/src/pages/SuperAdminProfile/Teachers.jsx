@@ -178,16 +178,13 @@ const TeacherTable = () => {
   }, [reaload]);
 
   return (
-    
     <div className="min-h-screen bg-gray-50 p-6 md:ml-64 mr-8">
-    <div className="text-center mb-12">
-            <Typography variant="h4" className="text-gray-700">
-              Teacher Management
-            </Typography>
-            <p>
-         
-        </p>
-          </div>
+      <div className="text-center mb-12">
+        <Typography variant="h4" className="text-gray-700">
+          Teacher Management
+        </Typography>
+        <p></p>
+      </div>
       <TableContainer
         component={Paper}
         sx={{ margin: "20px", borderRadius: "10px" }}
@@ -269,27 +266,27 @@ const TeacherTable = () => {
                 <TableCell
                   sx={{ textAlign: "center", borderBottom: "1px solid #eee" }}
                 >
-                  {row.user.firstName}
+                  {row.user?.firstName || "N/A"}{" "}
                 </TableCell>
                 <TableCell
                   sx={{ textAlign: "center", borderBottom: "1px solid #eee" }}
                 >
-                  {row.user.lastName}
+                  {row.user?.lastName || "N/A"}
                 </TableCell>
                 <TableCell
                   sx={{ textAlign: "center", borderBottom: "1px solid #eee" }}
                 >
-                  {row.subjects[0]}
+                  {row.subjects?.[0] || "N/A"}
                 </TableCell>
                 <TableCell
                   sx={{ textAlign: "center", borderBottom: "1px solid #eee" }}
                 >
-                  {row.nic}
+                  {row.nic || "N/A"}
                 </TableCell>
                 <TableCell
                   sx={{ textAlign: "center", borderBottom: "1px solid #eee" }}
                 >
-                  {row.phoneNumber}
+                  {row.phoneNumber || "N/A"}
                 </TableCell>
                 <TableCell
                   sx={{ textAlign: "center", borderBottom: "1px solid #eee" }}

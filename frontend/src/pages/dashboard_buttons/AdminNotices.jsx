@@ -47,10 +47,16 @@ const AdminNotices = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const newNotice = { role, title, message };
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
     if (isUpdateMode && noticeIdToUpdate) {
       axios
-        .put(`${BASE_URL}/update/${noticeIdToUpdate}`, newNotice)
+        .put(`${BASE_URL}/update/${noticeIdToUpdate}`, newNotice, config)
         .then((response) => {
           setNotices((prevNotices) =>
             prevNotices.map((n) =>
@@ -58,14 +64,16 @@ const AdminNotices = () => {
             )
           );
           closeModal();
+          window.location.reload();
         })
         .catch((error) => console.error("Error updating notice:", error));
     } else {
       axios
-        .post(`${BASE_URL}/create`, newNotice)
+        .post(`${BASE_URL}/create`, newNotice, config)
         .then((response) => {
           setNotices((prevNotices) => [...prevNotices, response.data]);
           closeModal();
+          window.location.reload();
         })
         .catch((error) => console.error("Error adding notice:", error));
     }
@@ -78,8 +86,8 @@ const AdminNotices = () => {
         .then(() => {
           setNotices((prevNotices) =>
             prevNotices.filter((n) => n.id !== noticeId)
-          )}
-        )
+          );
+        })
         .catch((error) => console.error("Error deleting notice:", error));
     }
   };
@@ -106,7 +114,9 @@ const AdminNotices = () => {
               <h3 className="text-xl font-bold text-gray-600 mb-2 text-center">
                 {notice.title}
               </h3>
-              <p className="text-sm text-gray-500 italic font-bold">Role: {notice.role}</p>
+              <p className="text-sm text-gray-500 italic font-bold">
+                Role: {notice.role}
+              </p>
               <p className="text-gray-600 mb-2">{notice.message}</p>
               <div className="flex justify-end gap-4 mt-4">
                 <button

@@ -222,6 +222,18 @@ const router = createBrowserRouter([
       },
     ],
   },
+
+  {
+    path: "/t_class_details",
+    element: <DrawerLayout/>,
+    children: [
+      {
+        index: true,
+        element: <TClassDetailsPage/>,
+      },
+    ],
+  },
+
   {
     path: "/reports",
     element: <DrawerLayout/>,

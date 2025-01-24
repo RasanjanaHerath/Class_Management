@@ -90,7 +90,7 @@ const Header = () => {
                     alt="Profile"
                     className="w-24 h-24 rounded-full border-4 border-gray-300 shadow-lg mx-auto mb-4"
                   /> */}
-                    <div className="w-24 h-24 bg-gray-300 flex justify-center items-center p-4 rounded-full text-4xl mb-4 mx-auto">{user.name[0]}</div>
+                    <div className="w-24 h-24 bg-gray-300 flex justify-center items-center p-4 rounded-full text-4xl mb-4 mx-auto">{user?.name[0]}</div>
                   {/* User Name and Email */}
                   <h3 className="text-xl font-bold text-gray-800">
                     {user.name}

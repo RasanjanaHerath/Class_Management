@@ -19,9 +19,9 @@ export class Institute {
   @Column()
   city: string;
 
-  @Column()
-  name: string
-
+  @Column({ nullable: true, default: 'Unknown Institute' })
+  name: string;
+  
   @OneToMany(() => Teacher, (teacher) => teacher.institute)
   teachers: Teacher[];
 
